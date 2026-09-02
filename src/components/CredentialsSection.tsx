@@ -1,5 +1,5 @@
 import React from 'react';
-import { NOTARY_PROFILE, CLIENT_PORTFOLIO } from '../data/notaryData';
+import { useData } from '../context/DataContext';
 import { Language } from '../types';
 
 interface CredentialsSectionProps {
@@ -7,6 +7,7 @@ interface CredentialsSectionProps {
 }
 
 export const CredentialsSection: React.FC<CredentialsSectionProps> = ({ lang }) => {
+  const { notaryProfile, clientPortfolio } = useData();
   return (
     <section className="py-16 bg-white border-b border-slate-200">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -42,12 +43,12 @@ export const CredentialsSection: React.FC<CredentialsSectionProps> = ({ lang }) 
               Kemenkumham RI
             </h3>
             <div className="p-2.5 rounded-lg bg-white border border-blue-100 text-xs font-mono font-semibold text-blue-900 mb-2">
-              {NOTARY_PROFILE.skMenkumham}
+              {notaryProfile.skMenkumham}
             </div>
             <p className="text-xs text-slate-600 leading-relaxed">
               {lang === 'id'
-                ? `Tmt. ${NOTARY_PROFILE.skDate}. Berita Acara Sumpah: ${NOTARY_PROFILE.baSumpah}.`
-                : `Effective ${NOTARY_PROFILE.skDate}. Oath Protocol: ${NOTARY_PROFILE.baSumpah}.`}
+                ? `Tmt. ${notaryProfile.skDate}. Berita Acara Sumpah: ${notaryProfile.baSumpah}.`
+                : `Effective ${notaryProfile.skDate}. Oath Protocol: ${notaryProfile.baSumpah}.`}
             </p>
           </div>
 
@@ -63,7 +64,7 @@ export const CredentialsSection: React.FC<CredentialsSectionProps> = ({ lang }) 
               Kemenkop & UKM RI
             </h3>
             <div className="p-2.5 rounded-lg bg-white border border-emerald-100 text-xs font-mono font-semibold text-emerald-900 mb-2">
-              {NOTARY_PROFILE.skNpak}
+              {notaryProfile.skNpak}
             </div>
             <p className="text-xs text-slate-600 leading-relaxed">
               {lang === 'id'
@@ -84,7 +85,7 @@ export const CredentialsSection: React.FC<CredentialsSectionProps> = ({ lang }) 
               C.L.A. dari ASAHI
             </h3>
             <div className="p-2.5 rounded-lg bg-white border border-amber-100 text-xs font-semibold text-amber-900 mb-2">
-              {NOTARY_PROFILE.certifications[0]}
+              {notaryProfile.certifications[0]}
             </div>
             <p className="text-xs text-slate-600 leading-relaxed">
               {lang === 'id'
@@ -139,7 +140,7 @@ export const CredentialsSection: React.FC<CredentialsSectionProps> = ({ lang }) 
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
-            {CLIENT_PORTFOLIO.map((client, idx) => (
+            {clientPortfolio.map((client, idx) => (
               <div
                 key={idx}
                 className="p-3.5 rounded-xl bg-slate-800/90 border border-slate-700/80 flex items-center gap-3 hover:border-amber-400/50 transition-colors"

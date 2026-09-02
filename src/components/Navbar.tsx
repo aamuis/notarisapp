@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { NOTARY_PROFILE } from '../data/notaryData';
+import { useData } from '../context/DataContext';
 import { Language } from '../types';
 
 interface NavbarProps {
@@ -10,9 +10,28 @@ interface NavbarProps {
 }
 
 export const Navbar: React.FC<NavbarProps> = ({ lang, setLang, activeSection, onNavigate }) => {
+  const { notaryProfile, websiteSettings, setCurrentView, isAdminLoggedIn } = useData();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [servicesDropdownOpen, setServicesDropdownOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
+  const logoClickRef = useRef<{ count: number; lastTime: number }>({ count: 0, lastTime: 0 });
+
+  const handleLogoClick = () => {
+    const now = Date.now();
+    if (now - logoClickRef.current.lastTime < 800) {
+      logoClickRef.current.count += 1;
+    } else {
+      logoClickRef.current.count = 1;
+    }
+    logoClickRef.current.lastTime = now;
+
+    if (logoClickRef.current.count >= 3) {
+      logoClickRef.current.count = 0;
+      setCurrentView('admin');
+    } else {
+      handleLinkClick('beranda');
+    }
+  };
 
   // Close dropdown on click outside
   useEffect(() => {
@@ -81,32 +100,32 @@ export const Navbar: React.FC<NavbarProps> = ({ lang, setLang, activeSection, on
           <div className="flex items-center space-x-3">
             <span className="inline-flex items-center gap-1.5 text-amber-300 font-semibold">
               <i className="fa-solid fa-scale-balanced text-amber-400"></i>
-              SK Menkumham: {NOTARY_PROFILE.skMenkumham}
+              SK Menkumham: {notaryProfile.skMenkumham}
             </span>
             <span className="text-white/20">•</span>
             <span className="inline-flex items-center gap-1.5 text-emerald-300 font-medium">
               <i className="fa-solid fa-certificate text-emerald-400"></i>
-              SK NPAK Kemenkop: {NOTARY_PROFILE.skNpak}
+              SK NPAK Kemenkop: {notaryProfile.skNpak}
             </span>
             <span className="text-white/20">•</span>
             <span className="inline-flex items-center gap-1.5 text-sky-300">
               <i className="fa-solid fa-location-dot text-sky-400"></i>
-              Kota Serang, Banten
+              {websiteSettings.cityTag || 'Kota Serang, Banten'}
             </span>
           </div>
           
           <div className="flex items-center space-x-4">
             <span className="text-slate-300 text-[11px]">
-              <i className="fa-regular fa-clock mr-1 text-amber-400"></i> Sen - Jum 08:30 - 17:00 WIB
+              <i className="fa-regular fa-clock mr-1 text-amber-400"></i> {notaryProfile.operatingHours.weekdays}
             </span>
             <span className="text-white/20">•</span>
             <a 
-              href={`https://wa.me/${NOTARY_PROFILE.whatsapp}?text=Halo%20Notaris%20Syarifah%20Nurul%20Aziizi,%20saya%20ingin%20konsultasi%20akta.`}
+              href={`https://wa.me/${notaryProfile.whatsapp}?text=Halo%20Notaris%20Syarifah%20Nurul%20Aziizi,%20saya%20ingin%20konsultasi%20akta.`}
               target="_blank"
               rel="noopener noreferrer"
               className="text-emerald-300 hover:text-emerald-200 font-bold flex items-center gap-1 transition-colors"
             >
-              <i className="fa-brands fa-whatsapp text-emerald-400"></i> {NOTARY_PROFILE.whatsappFormatted}
+              <i className="fa-brands fa-whatsapp text-emerald-400"></i> {notaryProfile.whatsappFormatted}
             </a>
           </div>
         </div>
@@ -118,33 +137,44 @@ export const Navbar: React.FC<NavbarProps> = ({ lang, setLang, activeSection, on
           
           {/* Logo & Identity: strictly SINGLE LINE Notary name WITHOUT C.L.A. in main title */}
           <button 
-            onClick={() => handleLinkClick('beranda')}
+            onClick={handleLogoClick}
             className="flex items-center space-x-2.5 sm:space-x-3 text-left group focus:outline-none shrink-0"
           >
             <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-gradient-to-tr from-amber-400 via-amber-500 to-amber-200 p-0.5 shadow-lg shadow-amber-900/30 flex items-center justify-center shrink-0">
-              <div className="w-full h-full bg-[#0b1d42] rounded-[10px] flex items-center justify-center text-amber-300 group-hover:scale-105 transition-transform">
-                <i className="fa-solid fa-scale-unbalanced-flip text-lg sm:text-2xl"></i>
+              <div className="w-full h-full bg-[#0b1d42] rounded-[10px] flex items-center justify-center text-amber-300 group-hover:scale-105 transition-transform overflow-hidden">
+                {websiteSettings.faviconUrl && websiteSettings.faviconUrl.startsWith('http') ? (
+                  <img
+                    src={websiteSettings.faviconUrl}
+                    alt="Logo"
+                    className="w-6 h-6 object-contain"
+                    onError={(e) => {
+                      (e.target as HTMLElement).style.display = 'none';
+                    }}
+                  />
+                ) : (
+                  <i className="fa-solid fa-scale-unbalanced-flip text-lg sm:text-2xl"></i>
+                )}
               </div>
             </div>
             
             <div className="min-w-0">
               <div className="flex items-center gap-1.5">
                 <span className="font-crest font-bold text-amber-300 text-[10px] sm:text-xs tracking-wider uppercase">
-                  NOTARIS & NPAK
+                  {websiteSettings.logoText || 'NOTARIS & NPAK'}
                 </span>
                 <span className="hidden md:inline-block text-[9px] font-bold bg-amber-400/20 text-amber-200 px-1.5 py-0.2 rounded border border-amber-400/40">
-                  KOTA SERANG
+                  {websiteSettings.cityTag || 'KOTA SERANG'}
                 </span>
               </div>
               
               {/* Responsive Single-line Notary Name (NO C.L.A.) */}
               <h1 className="font-serif font-bold text-white text-xs sm:text-base md:text-lg tracking-tight whitespace-nowrap overflow-hidden text-ellipsis drop-shadow-sm group-hover:text-amber-200 transition-colors">
-                Syarifah Nurul Aziizi, S.H., M.Kn.
+                {notaryProfile.name}
               </h1>
               
               <p className="text-[10px] sm:text-[11px] text-sky-200 flex items-center gap-1 font-medium truncate">
                 <i className="fa-solid fa-landmark text-amber-400 text-[9px]"></i>
-                <span>{lang === 'id' ? 'Pejabat Pembuat Akta Otentik' : 'Official Notary Public'}</span>
+                <span>{lang === 'id' ? (websiteSettings.siteSubtitleId || 'Pejabat Pembuat Akta Otentik') : (websiteSettings.siteSubtitleEn || 'Official Notary Public')}</span>
               </p>
             </div>
           </button>
@@ -265,7 +295,7 @@ export const Navbar: React.FC<NavbarProps> = ({ lang, setLang, activeSection, on
 
             {/* Direct WhatsApp CTA Button */}
             <a
-              href={`https://wa.me/${NOTARY_PROFILE.whatsapp}?text=Halo%20Notaris%20Syarifah%20Nurul%20Aziizi,%20saya%20ingin%20konsultasi%20pembuatan%20akta.`}
+              href={`https://wa.me/${notaryProfile.whatsapp}?text=Halo%20Notaris%20Syarifah%20Nurul%20Aziizi,%20saya%20ingin%20konsultasi%20pembuatan%20akta.`}
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center gap-1.5 bg-gradient-to-r from-emerald-500 to-emerald-600 hover:from-emerald-400 hover:to-emerald-500 text-white font-bold text-xs sm:text-sm px-2.5 sm:px-4 py-2 sm:py-2.5 rounded-xl shadow-lg shadow-emerald-950/40 border border-emerald-400/40 transition-all hover:scale-105 active:scale-95 shrink-0"
@@ -401,10 +431,10 @@ export const Navbar: React.FC<NavbarProps> = ({ lang, setLang, activeSection, on
                 <i className="fa-brands fa-whatsapp text-sm text-emerald-400"></i>
                 WhatsApp Resmi Kantor Notaris
               </div>
-              <div className="text-slate-300 text-[11px]">{NOTARY_PROFILE.whatsappFormatted}</div>
+              <div className="text-slate-300 text-[11px]">{notaryProfile.whatsappFormatted}</div>
             </div>
             <a
-              href={`https://wa.me/${NOTARY_PROFILE.whatsapp}?text=Halo%20Notaris%20Syarifah%20Nurul%20Aziizi,%20saya%20ingin%20konsultasi.`}
+              href={`https://wa.me/${notaryProfile.whatsapp}?text=Halo%20Notaris%20Syarifah%20Nurul%20Aziizi,%20saya%20ingin%20konsultasi.`}
               target="_blank"
               rel="noopener noreferrer"
               className="px-3 py-1.5 bg-emerald-500 hover:bg-emerald-400 text-white font-bold rounded-lg transition-colors shadow"

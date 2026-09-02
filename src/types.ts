@@ -1,5 +1,32 @@
 export type Language = 'id' | 'en';
 
+export interface WebsiteSettings {
+  siteTitle: string;
+  siteSubtitleId: string;
+  siteSubtitleEn: string;
+  heroHeadlineId: string;
+  heroHeadlineEn: string;
+  metaDescription: string;
+  faviconUrl: string;
+  logoText: string;
+  cityTag: string;
+  bannerNoticeId: string;
+  bannerNoticeEn: string;
+  adminPassword?: string;
+  mapEmbedUrl?: string;
+}
+
+export interface AppointmentLog {
+  id: string;
+  date: string;
+  fullName: string;
+  phone: string;
+  serviceType: string;
+  preferredDate: string;
+  notes: string;
+  status: 'baru' | 'dihubungi' | 'selesai' | 'dibatalkan';
+}
+
 export interface NotaryProfile {
   name: string;
   title: string;
@@ -29,6 +56,7 @@ export interface NotaryProfile {
   whatsapp: string;
   whatsappFormatted: string;
   email: string;
+  jurisdiction?: string;
   operatingHours: {
     weekdays: string;
     saturday: string;

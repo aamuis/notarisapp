@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { NOTARY_PROFILE } from '../data/notaryData';
+import { useData } from '../context/DataContext';
 import { Language } from '../types';
 
 interface AppointmentSectionProps {
@@ -8,6 +8,7 @@ interface AppointmentSectionProps {
 }
 
 export const AppointmentSection: React.FC<AppointmentSectionProps> = ({ lang, prefilledService }) => {
+  const { notaryProfile, addAppointmentLog } = useData();
   const [clientName, setClientName] = useState('');
   const [whatsappNumber, setWhatsappNumber] = useState('');
   const [appointmentDate, setAppointmentDate] = useState('');
@@ -30,11 +31,21 @@ export const AppointmentSection: React.FC<AppointmentSectionProps> = ({ lang, pr
       return;
     }
 
+    // Save appointment log in context & localStorage
+    addAppointmentLog({
+      clientName,
+      whatsappNumber,
+      appointmentDate,
+      appointmentTime,
+      serviceType,
+      notes,
+    });
+
     // Build structured WhatsApp message
     const waText = 
 `*FORMULIR RESERVASI KONSULTASI HUKUM / NOTARIS*
-*Kantor Notaris Syarifah Nurul Aziizi, S.H., M.Kn., C.L.A.*
-Kota Serang, Banten
+*Kantor Notaris ${notaryProfile.name}*
+${notaryProfile.address}
 
 👤 *Nama Pemohon:* ${clientName}
 📱 *No. WhatsApp:* ${whatsappNumber}
@@ -45,7 +56,7 @@ Kota Serang, Banten
 
 _Mohon konfirmasi ketersediaan jadwal temu di kantor Notaris. Terima kasih._`;
 
-    const encodedUrl = `https://wa.me/${NOTARY_PROFILE.whatsapp}?text=${encodeURIComponent(waText)}`;
+    const encodedUrl = `https://wa.me/${notaryProfile.whatsapp}?text=${encodeURIComponent(waText)}`;
     window.open(encodedUrl, '_blank', 'noopener,noreferrer');
   };
 

@@ -1,7 +1,7 @@
 import React, { useState, useMemo } from 'react';
-import { POPULAR_KBLI_LIST, KBLI_PRESETS, SPOUSE_CONSENT_RULES, RUPS_QUORUM_RULES } from '../data/kbliData';
+import { useData } from '../context/DataContext';
+import { KBLI_PRESETS, SPOUSE_CONSENT_RULES, RUPS_QUORUM_RULES } from '../data/kbliData';
 import { KbliItem, Language } from '../types';
-import { NOTARY_PROFILE } from '../data/notaryData';
 
 interface KbliDiagnosticEngineProps {
   lang: Language;
@@ -12,6 +12,7 @@ export const KbliDiagnosticEngine: React.FC<KbliDiagnosticEngineProps> = ({
   lang,
   onOpenChecklistModal,
 }) => {
+  const { kbliList, notaryProfile } = useData();
   const [activeTab, setActiveTab] = useState<'kbli' | 'spouse' | 'rups'>('kbli');
   
   // Multi-select KBLI state
@@ -31,13 +32,13 @@ export const KbliDiagnosticEngine: React.FC<KbliDiagnosticEngineProps> = ({
 
   // Extract unique sectors for filtering
   const allSectors = useMemo(() => {
-    const sectors = Array.from(new Set(POPULAR_KBLI_LIST.map((k) => k.sector)));
+    const sectors = Array.from(new Set(kbliList.map((k) => k.sector)));
     return ['all', ...sectors];
-  }, []);
+  }, [kbliList]);
 
   // Filter KBLI list by search query and sector
   const filteredKbliList = useMemo(() => {
-    return POPULAR_KBLI_LIST.filter((item) => {
+    return kbliList.filter((item) => {
       const matchQuery =
         item.code.toLowerCase().includes(searchQuery.toLowerCase()) ||
         item.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -46,14 +47,14 @@ export const KbliDiagnosticEngine: React.FC<KbliDiagnosticEngineProps> = ({
       const matchSector = sectorFilter === 'all' || item.sector === sectorFilter;
       return matchQuery && matchSector;
     });
-  }, [searchQuery, sectorFilter]);
+  }, [kbliList, searchQuery, sectorFilter]);
 
   // Selected KBLI objects
   const selectedKbliObjects = useMemo(() => {
     return selectedCodes
-      .map((code) => POPULAR_KBLI_LIST.find((k) => k.code === code))
+      .map((code) => kbliList.find((k) => k.code === code))
       .filter((k): k is KbliItem => Boolean(k));
-  }, [selectedCodes]);
+  }, [selectedCodes, kbliList]);
 
   // Multi-KBLI Conflict & Single-Purpose Analysis
   const singlePurposeItems = useMemo(() => {
@@ -475,7 +476,7 @@ export const KbliDiagnosticEngine: React.FC<KbliDiagnosticEngineProps> = ({
                 {/* Bottom Actions */}
                 <div className="pt-3 border-t border-slate-200 flex flex-col sm:flex-row items-center justify-between gap-3">
                   <a
-                    href={`https://wa.me/${NOTARY_PROFILE.whatsapp}?text=${waKbliMessage}`}
+                    href={`https://wa.me/${notaryProfile.whatsapp}?text=${waKbliMessage}`}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="w-full sm:w-auto inline-flex items-center justify-center gap-1.5 px-4 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs shadow-md transition-all"

@@ -34,6 +34,7 @@ export const NOTARY_PROFILE: NotaryProfile = {
   whatsapp: "6281519555391",
   whatsappFormatted: "+62 815-1955-5391",
   email: "notaris.syarifahnurulaziizi@gmail.com",
+  jurisdiction: "Kota Serang",
   operatingHours: {
     weekdays: "Senin – Jumat: 08.30 – 17.00 WIB",
     saturday: "Sabtu: 09.00 – 14.00 WIB (Dengan Janji Temu)",

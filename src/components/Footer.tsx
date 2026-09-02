@@ -1,5 +1,5 @@
 import React from 'react';
-import { NOTARY_PROFILE } from '../data/notaryData';
+import { useData } from '../context/DataContext';
 import { Language } from '../types';
 
 interface FooterProps {
@@ -8,6 +8,11 @@ interface FooterProps {
 }
 
 export const Footer: React.FC<FooterProps> = ({ lang, onNavigate }) => {
+  const { notaryProfile, setCurrentView } = useData();
+  const addressText = typeof notaryProfile.address === 'string' 
+    ? notaryProfile.address 
+    : (notaryProfile.address as { full: string }).full;
+
   return (
     <footer className="bg-gradient-to-b from-[#0a1e4a] to-[#061433] text-slate-300 text-xs border-t border-amber-500/30 pt-16 pb-24 md:pb-12">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -24,7 +29,7 @@ export const Footer: React.FC<FooterProps> = ({ lang, onNavigate }) => {
               </div>
               <div className="min-w-0">
                 <span className="font-crest font-bold text-amber-300 text-[11px] uppercase tracking-wider block">KANTOR NOTARIS & NPAK</span>
-                <span className="font-serif font-bold text-white text-sm whitespace-nowrap block">Syarifah Nurul Aziizi, S.H., M.Kn.</span>
+                <span className="font-serif font-bold text-white text-sm whitespace-nowrap block">{notaryProfile.name}</span>
               </div>
             </div>
 
@@ -35,9 +40,9 @@ export const Footer: React.FC<FooterProps> = ({ lang, onNavigate }) => {
             </p>
 
             <div className="space-y-1.5 text-[11px] text-slate-300 bg-white/5 p-3 rounded-xl border border-white/10">
-              <div><strong className="text-amber-300">SK Menkumham:</strong> {NOTARY_PROFILE.skMenkumham}</div>
-              <div><strong className="text-emerald-300">SK NPAK Kemenkop:</strong> {NOTARY_PROFILE.skNpak}</div>
-              <div><strong className="text-sky-300">BA Sumpah:</strong> {NOTARY_PROFILE.baSumpah}</div>
+              <div><strong className="text-amber-300">SK Menkumham:</strong> {notaryProfile.skMenkumham}</div>
+              <div><strong className="text-emerald-300">SK NPAK Kemenkop:</strong> {notaryProfile.skNpak}</div>
+              <div><strong className="text-sky-300">BA Sumpah:</strong> {notaryProfile.baSumpah}</div>
             </div>
           </div>
 
@@ -111,23 +116,23 @@ export const Footer: React.FC<FooterProps> = ({ lang, onNavigate }) => {
             </h4>
             <div className="space-y-3 text-[11px]">
               <p className="text-slate-300 leading-relaxed">
-                {NOTARY_PROFILE.address.full}
+                {addressText}
               </p>
               <div>
                 <span className="text-slate-400 block">{lang === 'id' ? 'WhatsApp Resmi:' : 'WhatsApp:'}</span>
                 <a
-                  href={`https://wa.me/${NOTARY_PROFILE.whatsapp}?text=Halo%20Notaris%20Syarifah%20Nurul%20Aziizi.`}
+                  href={`https://wa.me/${notaryProfile.whatsapp}?text=Halo%20Notaris%20Syarifah%20Nurul%20Aziizi.`}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-emerald-300 hover:text-emerald-200 font-bold text-xs flex items-center gap-1 mt-0.5"
                 >
                   <i className="fa-brands fa-whatsapp text-emerald-400 text-sm"></i>
-                  {NOTARY_PROFILE.whatsappFormatted}
+                  {notaryProfile.whatsappFormatted}
                 </a>
               </div>
               <div>
                 <span className="text-slate-400 block">{lang === 'id' ? 'Jam Buka:' : 'Hours:'}</span>
-                <span className="text-slate-200 font-semibold">Senin - Jumat 08.30 - 17.00 WIB</span>
+                <span className="text-slate-200 font-semibold">Senin - Jumat {notaryProfile.operatingHours.weekdays}</span>
               </div>
             </div>
           </div>
@@ -136,13 +141,16 @@ export const Footer: React.FC<FooterProps> = ({ lang, onNavigate }) => {
 
         {/* Bottom Disclaimer & Copyright */}
         <div className="pt-8 border-t border-white/10 flex flex-col md:flex-row items-center justify-between gap-4 text-[11px] text-slate-400">
-          <p className="text-center md:text-left">
-            © {new Date().getFullYear()} Kantor Notaris Syarifah Nurul Aziizi, S.H., M.Kn. Hak Cipta Dilindungi.
+          <p 
+            onDoubleClick={() => setCurrentView('admin')}
+            className="text-center md:text-left select-none cursor-default"
+          >
+            © {new Date().getFullYear()} Kantor Notaris {notaryProfile.name}. Hak Cipta Dilindungi.
           </p>
           <div className="flex items-center gap-4 text-slate-400">
             <span>Kode Etik Ikatan Notaris Indonesia (INI)</span>
             <span>•</span>
-            <span>Wilayah Jabatan Kota Serang</span>
+            <span>Wilayah Jabatan {notaryProfile.jurisdiction}</span>
           </div>
         </div>
 

@@ -1,5 +1,5 @@
 import React from 'react';
-import { NOTARY_PROFILE } from '../data/notaryData';
+import { useData } from '../context/DataContext';
 import { Language } from '../types';
 
 interface HeroProps {
@@ -8,6 +8,8 @@ interface HeroProps {
 }
 
 export const Hero: React.FC<HeroProps> = ({ lang, onNavigate }) => {
+  const { notaryProfile, websiteSettings } = useData();
+
   return (
     <section className="relative overflow-hidden pt-8 pb-16 md:py-20 bg-gradient-to-b from-[#0e2558] via-[#13377d] to-[#18449c] text-white">
       {/* Background Decorative Mesh & Colorful Glows */}
@@ -23,11 +25,11 @@ export const Hero: React.FC<HeroProps> = ({ lang, onNavigate }) => {
         <div className="flex flex-wrap items-center justify-center gap-2 sm:gap-3 mb-6">
           <span className="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full text-xs font-bold bg-amber-400 text-slate-950 shadow-md shadow-amber-900/30">
             <i className="fa-solid fa-stamp text-slate-950"></i>
-            SK Menkumham RI: {NOTARY_PROFILE.skMenkumham}
+            SK Menkumham RI: {notaryProfile.skMenkumham}
           </span>
           <span className="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full text-xs font-bold bg-emerald-400 text-slate-950 shadow-md shadow-emerald-950/30">
             <i className="fa-solid fa-users-gear text-slate-950"></i>
-            SK NPAK Kemenkop UKM No. 146/2023
+            SK NPAK Kemenkop UKM: {notaryProfile.skNpak}
           </span>
           <span className="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full text-xs font-bold bg-sky-300 text-slate-950 shadow-md shadow-sky-950/30">
             <i className="fa-solid fa-certificate text-slate-950"></i>
@@ -40,28 +42,26 @@ export const Hero: React.FC<HeroProps> = ({ lang, onNavigate }) => {
           
           <div className="inline-block mb-3">
             <span className="font-crest text-xs sm:text-sm tracking-widest text-amber-300 uppercase font-bold px-3 py-1 rounded-full bg-black/25 border border-amber-300/30">
-              {lang === 'id' ? 'KANTOR NOTARIS & PEJABAT PEMBUAT AKTA KOPERASI' : 'OFFICE OF NOTARY PUBLIC & CONVEYANCER'}
+              {lang === 'id' ? (websiteSettings.siteSubtitleId || 'KANTOR NOTARIS & PEJABAT PEMBUAT AKTA KOPERASI') : (websiteSettings.siteSubtitleEn || 'OFFICE OF NOTARY PUBLIC & CONVEYANCER')}
             </span>
           </div>
 
           {/* SINGLE LINE NOTARY NAME WITHOUT C.L.A. */}
           <div className="mb-4 overflow-x-auto no-scrollbar py-1">
             <h2 className="font-serif text-xl sm:text-3xl md:text-4xl lg:text-5xl font-extrabold text-amber-300 tracking-tight whitespace-nowrap drop-shadow-md">
-              Syarifah Nurul Aziizi, S.H., M.Kn.
+              {notaryProfile.name}
             </h2>
           </div>
 
           <h1 className="font-serif text-base sm:text-xl md:text-2xl lg:text-3xl font-bold text-white tracking-tight leading-snug sm:leading-relaxed mb-4 max-w-3xl mx-auto">
-            {lang === 'id' ? 'Kepastian Hukum Otentik & Cepat untuk' : 'Authentic & Expeditious Legal Deeds for'}{' '}
+            {lang === 'id' ? websiteSettings.heroHeadlineId : websiteSettings.heroHeadlineEn}{' '}
             <span className="text-amber-300 underline decoration-amber-400/50 decoration-wavy underline-offset-4">
-              {lang === 'id' ? 'Bisnis, Korporasi & Aset Anda' : 'Your Business, Corporate & Assets'}
+              {lang === 'id' ? websiteSettings.heroSubheadlineId : websiteSettings.heroSubheadlineEn}
             </span>
           </h1>
 
           <p className="text-sm sm:text-lg text-slate-100 max-w-3xl mx-auto leading-relaxed font-normal drop-shadow">
-            {lang === 'id'
-              ? 'Pejabat Umum Berwenang dengan rekam jejak 350+ akta legalitas perusahaan multinasional, BUMN/BUMD, Koperasi NPAK, hingga perbuatan hukum pertanahan di Kota Serang, Provinsi Banten.'
-              : 'Authorized Notary Public (UI Master of Notary, UNTIRTA Law). Over 350+ authentic deeds issued for multinational corporations, state enterprises, and cooperatives.'}
+            {lang === 'id' ? notaryProfile.bio : notaryProfile.bioEn}
           </p>
         </div>
 

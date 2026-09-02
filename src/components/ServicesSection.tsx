@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { LEGAL_SERVICES } from '../data/notaryData';
+import { useData } from '../context/DataContext';
 import { Language, LegalService } from '../types';
 
 interface ServicesSectionProps {
@@ -13,6 +13,7 @@ export const ServicesSection: React.FC<ServicesSectionProps> = ({
   onSelectServiceForChecklist,
   onNavigateToBooking,
 }) => {
+  const { services } = useData();
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
   const [searchQuery, setSearchQuery] = useState<string>('');
 
@@ -24,7 +25,7 @@ export const ServicesSection: React.FC<ServicesSectionProps> = ({
     { id: 'perdata', labelId: 'Perdata, Wasiat & Waris', labelEn: 'Civil & Wills', icon: 'fa-solid fa-user-shield', color: 'bg-purple-600 text-white' },
   ];
 
-  const filteredServices = LEGAL_SERVICES.filter((service) => {
+  const filteredServices = services.filter((service) => {
     const matchesCategory = selectedCategory === 'all' || service.category === selectedCategory;
     const title = lang === 'id' ? service.titleId : service.titleEn;
     const description = lang === 'id' ? service.descriptionId : service.descriptionEn;

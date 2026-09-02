@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { SAMPLE_CASES } from '../data/trackingData';
+import { useData } from '../context/DataContext';
 import { TRACKING_STAGES } from '../data/notaryData';
 import { ClientCase, Language } from '../types';
 
@@ -8,17 +8,18 @@ interface CaseTrackingPortalProps {
 }
 
 export const CaseTrackingPortal: React.FC<CaseTrackingPortalProps> = ({ lang }) => {
+  const { clientCases } = useData();
   const [searchId, setSearchId] = useState<string>('NOT-2025-0891');
-  const [currentCase, setCurrentCase] = useState<ClientCase | null>(SAMPLE_CASES['NOT-2025-0891']);
+  const [currentCase, setCurrentCase] = useState<ClientCase | null>(() => clientCases['NOT-2025-0891'] || Object.values(clientCases)[0] || null);
   const [hasSearched, setHasSearched] = useState<boolean>(true);
 
-  const sampleIds = ['NOT-2025-0891', 'PT-PDX-2024', 'KOP-BTN-77', 'AJB-SRG-404'];
+  const sampleIds = Object.keys(clientCases).slice(0, 4);
 
   const handleSearch = (e?: React.FormEvent) => {
     if (e) e.preventDefault();
     const cleanId = searchId.trim().toUpperCase();
-    if (SAMPLE_CASES[cleanId]) {
-      setCurrentCase(SAMPLE_CASES[cleanId]);
+    if (clientCases[cleanId]) {
+      setCurrentCase(clientCases[cleanId]);
     } else {
       setCurrentCase(null);
     }
@@ -27,7 +28,7 @@ export const CaseTrackingPortal: React.FC<CaseTrackingPortalProps> = ({ lang }) 
 
   const selectSample = (id: string) => {
     setSearchId(id);
-    setCurrentCase(SAMPLE_CASES[id]);
+    setCurrentCase(clientCases[id]);
     setHasSearched(true);
   };
 
