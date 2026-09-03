@@ -1,0 +1,319 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 1600" width="1200" height="1600">
+  <defs>
+    <!-- Background Gradient: Bright, luminous pastel studio lighting -->
+    <radialGradient id="bgGrad" cx="50%" cy="35%" r="65%">
+      <stop offset="0%" stop-color="#ffffff" />
+      <stop offset="50%" stop-color="#fdfaf7" />
+      <stop offset="80%" stop-color="#f5f0eb" />
+      <stop offset="100%" stop-color="#eae2d8" />
+    </radialGradient>
+    
+    <!-- Soft Studio Halo -->
+    <radialGradient id="haloGrad" cx="50%" cy="30%" r="40%">
+      <stop offset="0%" stop-color="#fff5eb" stop-opacity="0.8" />
+      <stop offset="100%" stop-color="#fff5eb" stop-opacity="0" />
+    </radialGradient>
+
+    <!-- Hijab Shading Gradients (Dusty Rose / Mauve / Blush) -->
+    <linearGradient id="hijabMain" x1="25%" y1="10%" x2="75%" y2="90%">
+      <stop offset="0%" stop-color="#f0d5ce" />
+      <stop offset="30%" stop-color="#e0beb5" />
+      <stop offset="70%" stop-color="#cfaba1" />
+      <stop offset="100%" stop-color="#b89288" />
+    </linearGradient>
+
+    <linearGradient id="hijabFold" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#dfbdb4" />
+      <stop offset="100%" stop-color="#ab8479" />
+    </linearGradient>
+
+    <linearGradient id="hijabFront" x1="50%" y1="0%" x2="50%" y2="100%">
+      <stop offset="0%" stop-color="#ecd0c8" />
+      <stop offset="50%" stop-color="#d8b3aa" />
+      <stop offset="100%" stop-color="#ba948b" />
+    </linearGradient>
+
+    <!-- Face & Skin Tone Gradients -->
+    <linearGradient id="skinFace" x1="45%" y1="15%" x2="55%" y2="90%">
+      <stop offset="0%" stop-color="#fae0d4" />
+      <stop offset="40%" stop-color="#f5d3c4" />
+      <stop offset="75%" stop-color="#ecc3b2" />
+      <stop offset="100%" stop-color="#dbaea0" />
+    </linearGradient>
+
+    <radialGradient id="blush" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#f48c82" stop-opacity="0.35" />
+      <stop offset="100%" stop-color="#f48c82" stop-opacity="0" />
+    </radialGradient>
+
+    <linearGradient id="lips" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#d46a6a" />
+      <stop offset="60%" stop-color="#c95555" />
+      <stop offset="100%" stop-color="#9e3a3a" />
+    </linearGradient>
+
+    <!-- White Kebaya Gradients -->
+    <linearGradient id="kebayaBody" x1="30%" y1="0%" x2="70%" y2="100%">
+      <stop offset="0%" stop-color="#ffffff" />
+      <stop offset="50%" stop-color="#faf9f7" />
+      <stop offset="85%" stop-color="#f0eee9" />
+      <stop offset="100%" stop-color="#e4dfd7" />
+    </linearGradient>
+
+    <!-- Batik Sash (Selendang) - Deep Charcoal/Black with Silk Lustre -->
+    <linearGradient id="selendang" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#2a2928" />
+      <stop offset="40%" stop-color="#1c1b1a" />
+      <stop offset="70%" stop-color="#111110" />
+      <stop offset="100%" stop-color="#080808" />
+    </linearGradient>
+
+    <!-- Golden Brooch Gradients -->
+    <linearGradient id="goldBrooch" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#fde089" />
+      <stop offset="30%" stop-color="#d8a245" />
+      <stop offset="70%" stop-color="#996515" />
+      <stop offset="100%" stop-color="#6d4306" />
+    </linearGradient>
+
+    <filter id="softShadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="12" stdDeviation="16" flood-color="#2e2520" flood-opacity="0.18" />
+    </filter>
+  </defs>
+
+  <!-- Canvas Background -->
+  <rect width="1200" height="1600" fill="url(#bgGrad)" />
+  <circle cx="600" cy="500" r="480" fill="url(#haloGrad)" />
+
+  <!-- Body Silhouette / Torso Base -->
+  <g filter="url(#softShadow)">
+    <!-- Inner White Kebaya Base -->
+    <path d="M 320 680 Q 240 760 190 1020 Q 170 1140 160 1600 L 1040 1600 Q 1030 1140 1010 1020 Q 960 760 880 680 Q 760 620 600 620 Q 440 620 320 680 Z" fill="url(#kebayaBody)" />
+
+    <!-- Kebaya Lace Texture Details (Delicate geometric & floral tracery) -->
+    <g opacity="0.45" stroke="#d8d3cb" stroke-width="1.5" fill="none">
+      <!-- Floral lace motifs on white blouse -->
+      <path d="M 260 820 Q 300 840 340 820 T 420 820 T 500 820" />
+      <path d="M 240 900 Q 280 920 320 900 T 400 900 T 480 900" />
+      <path d="M 220 980 Q 260 1000 300 980 T 380 980 T 460 980" />
+      <path d="M 210 1060 Q 250 1080 290 1060 T 370 1060 T 450 1060" />
+      <path d="M 200 1140 Q 240 1160 280 1140 T 360 1140 T 440 1140" />
+      <path d="M 190 1220 Q 230 1240 270 1220 T 350 1220 T 430 1220" />
+
+      <!-- Lace scallops on right arm / torso -->
+      <circle cx="320" cy="860" r="14" />
+      <circle cx="380" cy="860" r="14" />
+      <circle cx="440" cy="860" r="14" />
+      <circle cx="300" cy="940" r="16" />
+      <circle cx="360" cy="940" r="16" />
+      <circle cx="420" cy="940" r="16" />
+      <circle cx="280" cy="1020" r="16" />
+      <circle cx="340" cy="1020" r="16" />
+      <circle cx="400" cy="1020" r="16" />
+      <circle cx="270" cy="1100" r="16" />
+      <circle cx="330" cy="1100" r="16" />
+      <circle cx="390" cy="1100" r="16" />
+    </g>
+
+    <!-- Right Arm in White Kebaya (Holding in front) -->
+    <path d="M 220 740 Q 180 860 170 1000 Q 160 1120 220 1200 Q 300 1280 430 1280 Q 480 1240 500 1180 Q 440 1160 380 1100 Q 320 1020 280 880 Q 250 780 220 740 Z" fill="url(#kebayaBody)" />
+    <path d="M 220 1200 Q 300 1280 430 1280 Q 480 1240 500 1180" stroke="#d3cbc2" stroke-width="3" fill="none" />
+
+    <!-- Left Hand & Right Hand Clasped Elegantly at Waist (Wedding Ring & Ring on finger) -->
+    <g>
+      <!-- Arms clasped in front -->
+      <!-- Right hand wrist & cuff with lace -->
+      <path d="M 420 1260 Q 450 1270 480 1250 Q 520 1230 540 1180" stroke="#d5cdbf" stroke-width="4" fill="none" />
+      <!-- Hands in warm skin tone -->
+      <path d="M 440 1210 Q 510 1220 540 1260 Q 580 1310 590 1340 Q 560 1370 520 1350 Q 480 1330 450 1280 Q 430 1240 440 1210 Z" fill="url(#skinFace)" />
+      <path d="M 510 1240 Q 560 1260 610 1290 Q 640 1320 630 1350 Q 600 1370 560 1340 Q 520 1300 500 1260 Z" fill="url(#skinFace)" />
+      <!-- Fingers with delicate rings (Silver / Platinum rings on fingers) -->
+      <ellipse cx="518" cy="1275" rx="5" ry="10" transform="rotate(35 518 1275)" fill="#f5f5f5" stroke="#c0c0c0" stroke-width="2" />
+      <ellipse cx="575" cy="1315" rx="4" ry="8" transform="rotate(30 575 1315)" fill="#f5f5f5" stroke="#c0c0c0" stroke-width="2" />
+    </g>
+
+    <!-- Traditional Black Batik Selendang (Draped gracefully over her left shoulder and torso) -->
+    <!-- Authentic Indonesian Batik Motif: Geometric Tumpal & Paisley in Rich Red & Gold on Black -->
+    <path d="M 670 650 Q 860 680 940 760 Q 1020 860 1020 1100 Q 1000 1300 960 1480 Q 940 1560 920 1600 L 480 1600 Q 510 1420 540 1260 Q 570 1050 560 900 Q 550 780 620 680 Q 640 660 670 650 Z" fill="url(#selendang)" />
+
+    <!-- Selendang Edge Embroidery: Intricate Red, Gold & Bronze Geometric Border (Batik Tumpal Pasundan/Bantenese) -->
+    <g stroke="#d4a34b" stroke-width="3" fill="none">
+      <!-- Main edge running diagonally from shoulder to waist/hip -->
+      <path d="M 640 660 Q 580 780 570 940 Q 560 1100 540 1260 Q 520 1440 480 1600" />
+      <path d="M 655 660 Q 595 780 585 940 Q 575 1100 555 1260 Q 535 1440 495 1600" stroke="#c4302b" stroke-width="5" />
+      <path d="M 670 660 Q 610 780 600 940 Q 590 1100 570 1260 Q 550 1440 510 1600" stroke="#ffd700" stroke-width="2" />
+    </g>
+
+    <!-- Repeated Triangular Tumpal Embroidery along the sash edge -->
+    <g fill="#b82e28" stroke="#e5b045" stroke-width="2">
+      <!-- Series of embroidered decorative pointed motifs -->
+      <polygon points="635,700 605,730 635,740" />
+      <polygon points="620,740 590,770 620,780" />
+      <polygon points="605,780 575,810 605,820" />
+      <polygon points="595,820 565,850 595,860" />
+      <polygon points="588,860 558,890 588,900" />
+      <polygon points="582,900 552,930 582,940" />
+      <polygon points="578,940 548,970 578,980" />
+      <polygon points="574,980 544,1010 574,1020" />
+      <polygon points="570,1020 540,1050 570,1060" />
+      <polygon points="565,1060 535,1090 565,1100" />
+      <polygon points="560,1100 530,1130 560,1140" />
+      <polygon points="555,1140 525,1170 555,1180" />
+      <polygon points="550,1180 520,1210 550,1220" />
+      <polygon points="545,1220 515,1250 545,1260" />
+      <polygon points="540,1260 508,1295 538,1305" />
+      <polygon points="532,1305 498,1340 528,1350" />
+      <polygon points="522,1350 488,1385 518,1395" />
+      <polygon points="510,1395 478,1430 508,1440" />
+      <polygon points="498,1440 465,1475 495,1485" />
+      <polygon points="485,1485 450,1520 480,1530" />
+      <polygon points="470,1530 435,1565 465,1575" />
+    </g>
+
+    <!-- Large Intricate Central Batik Floral/Paisley Motif on the Black Selendang -->
+    <g transform="translate(640, 1020) rotate(-15) scale(1.15)">
+      <!-- Outer Flame / Leaf Crest in Red, Gold & Dark Green -->
+      <path d="M 0 0 Q 60 -180 0 -320 Q -60 -180 0 0 Z" fill="#1c1c1c" stroke="#e5b045" stroke-width="4" />
+      <path d="M 0 -20 Q 45 -170 0 -290 Q -45 -170 0 -20 Z" fill="#a82622" stroke="#ffd700" stroke-width="3" />
+      <path d="M 0 -40 Q 30 -160 0 -260 Q -30 -160 0 -40 Z" fill="#2f593b" stroke="#e5b045" stroke-width="2" />
+      <circle cx="0" cy="-160" r="22" fill="#ffd700" stroke="#8a1a16" stroke-width="3" />
+      <circle cx="0" cy="-160" r="12" fill="#a82622" />
+      <!-- Radiating serrated spines -->
+      <g stroke="#ffd700" stroke-width="2" fill="none">
+        <line x1="0" y1="-100" x2="50" y2="-120" />
+        <line x1="0" y1="-100" x2="-50" y2="-120" />
+        <line x1="0" y1="-130" x2="55" y2="-155" />
+        <line x1="0" y1="-130" x2="-55" y2="-155" />
+        <line x1="0" y1="-190" x2="45" y2="-210" />
+        <line x1="0" y1="-190" x2="-45" y2="-210" />
+        <line x1="0" y1="-220" x2="35" y2="-235" />
+        <line x1="0" y1="-220" x2="-35" y2="-235" />
+      </g>
+    </g>
+
+    <!-- Additional Batik Accent Pattern on Left Shoulder -->
+    <g transform="translate(820, 680) scale(0.65)">
+      <path d="M 0 0 Q 40 -80 0 -150 Q -40 -80 0 0 Z" fill="#a82622" stroke="#ffd700" stroke-width="3" />
+      <circle cx="0" cy="-75" r="12" fill="#ffd700" />
+    </g>
+
+    <!-- Ornate Traditional Indonesian Bronze-Gold Brooch / Kerongsang Necklace at Chest -->
+    <g transform="translate(520, 650)" filter="url(#softShadow)">
+      <!-- Upper Tier Brooch -->
+      <ellipse cx="0" cy="0" rx="55" ry="28" fill="url(#goldBrooch)" stroke="#4a2c04" stroke-width="2" />
+      <ellipse cx="0" cy="0" rx="40" ry="18" fill="#7a4c10" stroke="#ffd700" stroke-width="2" />
+      <circle cx="0" cy="0" r="8" fill="#8a1a16" stroke="#ffe082" stroke-width="2" />
+      <circle cx="-25" cy="0" r="5" fill="#8a1a16" />
+      <circle cx="25" cy="0" r="5" fill="#8a1a16" />
+      
+      <!-- Connective links -->
+      <line x1="-15" y1="15" x2="-20" y2="38" stroke="#ffd700" stroke-width="3" />
+      <line x1="0" y1="18" x2="0" y2="38" stroke="#ffd700" stroke-width="3" />
+      <line x1="15" y1="15" x2="20" y2="38" stroke="#ffd700" stroke-width="3" />
+
+      <!-- Middle Tier Brooch -->
+      <ellipse cx="0" cy="52" rx="45" ry="22" fill="url(#goldBrooch)" stroke="#4a2c04" stroke-width="2" />
+      <circle cx="0" cy="52" r="7" fill="#8a1a16" stroke="#ffe082" stroke-width="1.5" />
+
+      <!-- Hanging Filigree Droplets (Jurai Kerongsang) -->
+      <g stroke="#ffd700" stroke-width="2" fill="#996515">
+        <path d="M -30 65 L -35 105 A 4 4 0 0 0 -27 105 Z" />
+        <path d="M -15 68 L -18 115 A 4 4 0 0 0 -10 115 Z" />
+        <path d="M 0 70 L 0 125 A 5 5 0 0 0 8 125 Z" fill="#8a1a16" />
+        <path d="M 15 68 L 12 115 A 4 4 0 0 0 20 115 Z" />
+        <path d="M 30 65 L 27 105 A 4 4 0 0 0 35 105 Z" />
+      </g>
+    </g>
+
+    <!-- HIJAB (Dusty Rose / Mauve Pink): Drapes over neck, shoulders, and chest -->
+    <!-- Back & Neck drape -->
+    <path d="M 420 480 Q 340 550 320 680 Q 420 720 540 690 Q 640 680 720 650 Q 750 560 700 480 Z" fill="url(#hijabFold)" />
+    <path d="M 440 540 Q 520 620 580 620 Q 660 620 710 560" stroke="#a67e74" stroke-width="4" fill="none" />
+
+    <!-- HEAD & HIJAB HOOD (Soft Dusty Rose/Mauve framing the face) -->
+    <!-- Outer Hijab Dome -->
+    <path d="M 360 380 C 340 220 440 90 600 90 C 760 90 860 220 840 380 C 830 480 810 560 760 620 C 700 680 620 690 560 690 C 470 690 410 650 370 580 C 350 510 350 430 360 380 Z" fill="url(#hijabMain)" />
+
+    <!-- Subtle Hijab Crown Shading & Fabric Folds -->
+    <path d="M 380 280 Q 600 130 820 280" stroke="#edd5cf" stroke-width="3" fill="none" opacity="0.6" />
+    <path d="M 370 340 Q 590 180 830 330" stroke="#caa49a" stroke-width="4" fill="none" opacity="0.4" />
+    <path d="M 360 410 Q 580 280 840 400" stroke="#ba9389" stroke-width="4" fill="none" opacity="0.5" />
+
+    <!-- Hijab Face Inner Frame / Opening: Oval framing her face -->
+    <path d="M 420 320 C 430 190 570 170 600 170 C 630 170 770 190 780 320 C 790 440 760 520 700 550 C 640 580 560 580 500 550 C 440 520 410 440 420 320 Z" fill="url(#hijabFold)" opacity="0.65" />
+
+    <!-- Inner Hijab Underscarf (Ciput in soft warm cream/nude) -->
+    <path d="M 450 240 Q 600 205 750 240 Q 730 220 600 200 Q 470 220 450 240 Z" fill="#f3ddd5" />
+
+    <!-- THE FACE: Beautiful, gentle, friendly Indonesian female features -->
+    <path d="M 455 255 C 455 255 435 370 450 440 C 465 500 520 545 600 545 C 680 545 735 500 750 440 C 765 370 745 255 745 255 C 700 230 600 220 600 220 C 600 220 500 230 455 255 Z" fill="url(#skinFace)" />
+
+    <!-- Soft Rosy Cheeks (Blush) -->
+    <circle cx="500" cy="415" r="48" fill="url(#blush)" />
+    <circle cx="700" cy="415" r="48" fill="url(#blush)" />
+
+    <!-- Eyebrows: Neatly shaped, soft arch, dark brown/charcoal -->
+    <g stroke="#3b2a26" stroke-width="4.5" stroke-linecap="round" fill="none">
+      <!-- Right Eyebrow -->
+      <path d="M 485 305 Q 525 292 560 305" />
+      <!-- Left Eyebrow -->
+      <path d="M 640 305 Q 675 292 715 305" />
+    </g>
+
+    <!-- Eyes: Warm, smiling, intelligent, clear almond eyes -->
+    <g>
+      <!-- Eye whites & subtle shadow -->
+      <ellipse cx="525" cy="335" rx="26" ry="14" fill="#ffffff" />
+      <ellipse cx="675" cy="335" rx="26" ry="14" fill="#ffffff" />
+
+      <!-- Iris: Rich Warm Dark Brown / Hazel -->
+      <circle cx="526" cy="335" r="12" fill="#30201d" />
+      <circle cx="526" cy="335" r="6" fill="#120a08" />
+      <circle cx="674" cy="335" r="12" fill="#30201d" />
+      <circle cx="674" cy="335" r="6" fill="#120a08" />
+
+      <!-- Catchlights (Eye sparkle reflection) -->
+      <circle cx="529" cy="331" r="3.5" fill="#ffffff" />
+      <circle cx="523" cy="337" r="1.8" fill="#ffffff" />
+      <circle cx="677" cy="331" r="3.5" fill="#ffffff" />
+      <circle cx="671" cy="337" r="1.8" fill="#ffffff" />
+
+      <!-- Eyeliner & Lashes: Refined and elegant -->
+      <path d="M 495 336 Q 525 320 555 334" stroke="#261916" stroke-width="3.5" fill="none" stroke-linecap="round" />
+      <path d="M 645 334 Q 675 320 705 336" stroke="#261916" stroke-width="3.5" fill="none" stroke-linecap="round" />
+      <path d="M 502 339 Q 525 348 550 338" stroke="#69473f" stroke-width="1.5" fill="none" />
+      <path d="M 650 338 Q 675 348 698 339" stroke="#69473f" stroke-width="1.5" fill="none" />
+      <!-- Subtle lower eye crease / aegyo sal (Smiling eye fold) -->
+      <path d="M 508 355 Q 526 360 545 355" stroke="#d3aba0" stroke-width="1.5" fill="none" />
+      <path d="M 655 355 Q 674 360 692 355" stroke="#d3aba0" stroke-width="1.5" fill="none" />
+    </g>
+
+    <!-- Nose: Delicate bridge with soft shading and natural tip -->
+    <g stroke="#cfa094" stroke-width="2" fill="none">
+      <path d="M 593 330 Q 590 380 585 410 Q 592 416 600 416 Q 608 416 615 410" />
+      <path d="M 576 405 Q 582 414 590 412" stroke="#ba8b7f" />
+      <path d="M 624 405 Q 618 414 610 412" stroke="#ba8b7f" />
+    </g>
+
+    <!-- Lips: Warm, genuine, polite, friendly smile -->
+    <g>
+      <!-- Upper Lip -->
+      <path d="M 552 460 Q 580 452 600 456 Q 620 452 648 460 Q 625 468 600 467 Q 575 468 552 460 Z" fill="url(#lips)" />
+      <!-- Warm Smile Smile line with pearlescent teeth showing gently -->
+      <path d="M 556 462 Q 600 475 644 462 Q 600 464 556 462 Z" fill="#ffffff" opacity="0.95" />
+      <!-- Lower Lip -->
+      <path d="M 556 462 Q 600 475 644 462 Q 630 492 600 493 Q 570 492 556 462 Z" fill="url(#lips)" />
+      <!-- Lip Gloss / Light highlight -->
+      <ellipse cx="600" cy="480" rx="16" ry="4" fill="#ffffff" opacity="0.35" />
+      <!-- Dimple / Smile Corner Accents -->
+      <path d="M 548 458 Q 544 464 547 470" stroke="#b37568" stroke-width="2" fill="none" />
+      <path d="M 652 458 Q 656 464 653 470" stroke="#b37568" stroke-width="2" fill="none" />
+      <!-- Soft Chin Shadow -->
+      <path d="M 580 518 Q 600 523 620 518" stroke="#caa094" stroke-width="2.5" fill="none" />
+    </g>
+
+    <!-- Hijab draping close below the chin -->
+    <path d="M 480 540 Q 600 595 720 540 Q 660 620 600 620 Q 540 620 480 540 Z" fill="url(#hijabFold)" />
+    <path d="M 500 550 Q 600 600 700 550" stroke="#ecd0c8" stroke-width="3" fill="none" />
+  </g>
+</svg>

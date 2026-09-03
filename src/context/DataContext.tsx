@@ -15,16 +15,16 @@ import { SAMPLE_CASES as INITIAL_CASES_RECORD } from '../data/trackingData';
 
 export const DEFAULT_WEBSITE_SETTINGS: WebsiteSettings = {
   siteTitle: "Kantor Notaris Syarifah Nurul Aziizi, S.H., M.Kn. - Kota Serang",
-  siteSubtitleId: "Notaris & Pejabat Pembuat Akta Koperasi (NPAK) - Legal Auditor",
-  siteSubtitleEn: "Notary & Authorized Cooperative Deed Officer (NPAK) - Legal Auditor",
+  siteSubtitleId: "Notaris & Pejabat Pembuat Akta",
+  siteSubtitleEn: "Notary & Conveyancer",
   heroHeadlineId: "Kepastian Hukum Otentik & Cepat untuk Bisnis, Korporasi & Aset Anda",
   heroHeadlineEn: "Authentic & Expeditious Legal Deeds for Your Business, Corporate & Assets",
-  metaDescription: "Website & Web App Interaktif Kantor Notaris & PPAT Kota Serang - Syarifah Nurul Aziizi, S.H., M.Kn. Lengkap dengan Smart KBLI Diagnostic, Kalkulator Pajak & Biaya Akta UUJN, Tracking Berkas, dan Reservasi.",
+  metaDescription: "Website Resmi Kantor Notaris Syarifah Nurul Aziizi, S.H., M.Kn. Kota Serang. Layanan Akta Otentik, Korporasi, Pertanahan dan Konsultasi Hukum.",
   faviconUrl: "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/svgs/solid/scale-balanced.svg",
-  logoText: "NOTARIS & NPAK",
+  logoText: "NOTARIS & PEJABAT PEMBUAT AKTA",
   cityTag: "KOTA SERANG",
-  bannerNoticeId: "Layanan Akta Notaris, Pendirian PT, NPAK Koperasi & Audit Hukum Resmi Berizin Menkumham RI",
-  bannerNoticeEn: "Official Notarial Deeds, PT Incorporation, Cooperatives & Certified Legal Audit",
+  bannerNoticeId: "Layanan Akta Notaris & Konsultasi Hukum Resmi Berizin Menkumham RI",
+  bannerNoticeEn: "Official Notarial Deeds & Legal Consultation Authorized by Menkumham RI",
   adminPassword: "admin",
   mapEmbedUrl: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3967.142491176082!2d106.18241437474937!3d-6.111516993875153!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e418b32e01dfd6d%3A0xc0c766e4a287c88b!2sTaman%20Banten%20Lestari!5e0!3m2!1sid!2sid!4v1700000000000!5m2!1sid!2sid"
 };
@@ -136,7 +136,17 @@ export const DataProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   const [websiteSettings, setWebsiteSettings] = useState<WebsiteSettings>(() => {
     const saved = localStorage.getItem(STORAGE_KEYS.SETTINGS);
     if (saved) {
-      try { return { ...DEFAULT_WEBSITE_SETTINGS, ...JSON.parse(saved) }; } catch (e) { console.error(e); }
+      try {
+        const parsed = JSON.parse(saved);
+        if (parsed.siteSubtitleId?.includes('NPAK') || parsed.siteSubtitleId?.includes('Legal Auditor')) {
+          parsed.siteSubtitleId = "Notaris & Pejabat Pembuat Akta";
+          parsed.siteSubtitleEn = "Notary & Conveyancer";
+        }
+        if (parsed.logoText?.includes('NPAK')) {
+          parsed.logoText = "NOTARIS & PEJABAT PEMBUAT AKTA";
+        }
+        return { ...DEFAULT_WEBSITE_SETTINGS, ...parsed };
+      } catch (e) { console.error(e); }
     }
     return DEFAULT_WEBSITE_SETTINGS;
   });
@@ -145,7 +155,16 @@ export const DataProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   const [notaryProfile, setNotaryProfile] = useState<NotaryProfile>(() => {
     const saved = localStorage.getItem(STORAGE_KEYS.PROFILE);
     if (saved) {
-      try { return { ...INITIAL_PROFILE, ...JSON.parse(saved) }; } catch (e) { console.error(e); }
+      try {
+        const parsed = JSON.parse(saved);
+        if (parsed.title?.includes('NPAK') || parsed.title?.includes('Legal Auditor')) {
+          parsed.title = "Notaris & Pejabat Pembuat Akta";
+        }
+        if (parsed.degrees?.includes('C.L.A.')) {
+          parsed.degrees = "S.H. (Universitas Sultan Ageng Tirtayasa) | M.Kn. (Universitas Indonesia)";
+        }
+        return { ...INITIAL_PROFILE, ...parsed };
+      } catch (e) { console.error(e); }
     }
     return INITIAL_PROFILE;
   });

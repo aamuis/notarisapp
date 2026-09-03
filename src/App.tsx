@@ -7,18 +7,13 @@ import React, { useState, useEffect } from 'react';
 import { DataProvider, useData } from './context/DataContext';
 import { Navbar } from './components/Navbar';
 import { Hero } from './components/Hero';
-import { CredentialsSection } from './components/CredentialsSection';
-import { ServicesSection } from './components/ServicesSection';
-import { KbliDiagnosticEngine } from './components/KbliDiagnosticEngine';
-import { TaxCalculator } from './components/TaxCalculator';
-import { CaseTrackingPortal } from './components/CaseTrackingPortal';
+import { ProfileSection } from './components/ProfileSection';
 import { AppointmentSection } from './components/AppointmentSection';
 import { OfficeLocation } from './components/OfficeLocation';
 import { Footer } from './components/Footer';
 import { MobileBottomNav } from './components/MobileBottomNav';
-import { DocumentModal } from './components/DocumentModal';
 import { AdminDashboard } from './components/admin/AdminDashboard';
-import { LegalService, Language } from './types';
+import { Language } from './types';
 
 function AppContent() {
   const { currentView, setCurrentView, isAdminLoggedIn, logoutAdmin } = useData();
@@ -57,15 +52,6 @@ function AppContent() {
       window.removeEventListener('hashchange', checkHashOrQuery);
     };
   }, [currentView, setCurrentView]);
-  
-  // Modal State
-  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
-  const [modalTitle, setModalTitle] = useState<string>('');
-  const [modalItems, setModalItems] = useState<string[]>([]);
-  const [modalLegalBasis, setModalLegalBasis] = useState<string[]>([]);
-  
-  // Booking Form Prefill
-  const [prefilledService, setPrefilledService] = useState<string>('');
 
   const handleNavigate = (sectionId: string) => {
     setActiveSection(sectionId);
@@ -85,30 +71,12 @@ function AppContent() {
     }
   };
 
-  const handleOpenChecklistModal = (title: string, items: string[], legalBasis: string[]) => {
-    setModalTitle(title);
-    setModalItems(items);
-    setModalLegalBasis(legalBasis);
-    setIsModalOpen(true);
-  };
-
-  const handleSelectServiceForChecklist = (service: LegalService) => {
-    const title = lang === 'id' ? service.titleId : service.titleEn;
-    const items = service.requirements.flatMap((r) => r.items);
-    handleOpenChecklistModal(title, items, service.legalBasis);
-  };
-
-  const handleNavigateToBooking = (serviceTitle: string) => {
-    setPrefilledService(serviceTitle);
-    handleNavigate('kontak');
-  };
-
   if (currentView === 'admin') {
     return <AdminDashboard lang={lang} />;
   }
 
   return (
-    <div className="min-h-screen bg-slate-50 text-slate-900 flex flex-col selection:bg-amber-400 selection:text-slate-900">
+    <div className="min-h-screen bg-gradient-to-b from-[#f0fdf4] via-[#f8fafc] to-[#f0fdf4] text-[#0f291e] flex flex-col selection:bg-[#a7f3d0] selection:text-[#064e3b]">
       
       {/* Desktop & Mobile Header */}
       <Navbar
@@ -121,43 +89,18 @@ function AppContent() {
       {/* Main Content Areas (with mobile bottom nav padding safe zone) */}
       <main className="flex-1 pb-24 md:pb-0">
         
-        {/* Section 1: Hero Banner & Trust Badges */}
+        {/* Section 1: Hero Banner */}
         <div id="beranda">
           <Hero lang={lang} onNavigate={handleNavigate} />
         </div>
 
-        {/* Section 2: Verified SK Menkumham, SK NPAK, Education & Corporate Portfolios */}
-        <CredentialsSection lang={lang} />
+        {/* Section 2: Profile Section */}
+        <ProfileSection lang={lang} onNavigate={handleNavigate} />
 
-        {/* Section 3: Legal Services Catalog with Requirements & Download simulation */}
-        <ServicesSection
-          lang={lang}
-          onSelectServiceForChecklist={handleSelectServiceForChecklist}
-          onNavigateToBooking={handleNavigateToBooking}
-        />
+        {/* Section 3: Online Appointment Reservation Form to WhatsApp */}
+        <AppointmentSection lang={lang} />
 
-        {/* Section 4: Smart KBLI & Legal Diagnostic Engine (Single-purpose, Spouse consent, RUPS) */}
-        <KbliDiagnosticEngine
-          lang={lang}
-          onOpenChecklistModal={handleOpenChecklistModal}
-        />
-
-        {/* Section 5: Transaction Tax & UUJN Notary Fee Cap Calculator */}
-        <TaxCalculator
-          lang={lang}
-          onNavigateToBooking={handleNavigateToBooking}
-        />
-
-        {/* Section 6: Client Case Tracking Portal (5-Stage Visualizer) */}
-        <CaseTrackingPortal lang={lang} />
-
-        {/* Section 7: Online Appointment Reservation Form to WhatsApp */}
-        <AppointmentSection
-          lang={lang}
-          prefilledService={prefilledService}
-        />
-
-        {/* Section 8: Responsive Google Maps Office Location & Hours */}
+        {/* Section 4: Responsive Google Maps Office Location & Hours */}
         <OfficeLocation lang={lang} />
 
       </main>
@@ -165,37 +108,27 @@ function AppContent() {
       {/* Footer */}
       <Footer lang={lang} onNavigate={handleNavigate} />
 
-      {/* Mobile SuperApp Fixed Bottom Navigation Bar */}
+      {/* Mobile Fixed Bottom Navigation Bar */}
       <MobileBottomNav
         lang={lang}
         activeSection={activeSection}
         onNavigate={handleNavigate}
       />
 
-      {/* Document Checklist & Print Modal */}
-      <DocumentModal
-        isOpen={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
-        title={modalTitle}
-        items={modalItems}
-        legalBasis={modalLegalBasis}
-        lang={lang}
-      />
-
       {/* Discreet floating bar ONLY when already authenticated as Admin */}
       {isAdminLoggedIn && (
-        <div className="fixed bottom-20 lg:bottom-5 right-4 z-50 bg-slate-950/90 text-amber-300 border border-amber-500/40 rounded-2xl px-3 py-2 shadow-2xl backdrop-blur-md flex items-center gap-2.5 text-xs font-bold">
-          <div className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></div>
-          <span className="text-slate-200">Mode Admin</span>
+        <div className="fixed bottom-20 lg:bottom-5 right-4 z-50 bg-[#064e3b]/95 text-white border border-[#34d399] rounded-2xl px-3 py-2 shadow-xl backdrop-blur-md flex items-center gap-2.5 text-xs font-bold">
+          <div className="w-2 h-2 rounded-full bg-[#10b981] animate-pulse"></div>
+          <span className="text-white">Mode Admin</span>
           <button
             onClick={() => setCurrentView('admin')}
-            className="px-2.5 py-1 bg-amber-500 hover:bg-amber-400 text-slate-950 rounded-lg transition-all"
+            className="px-2.5 py-1 bg-[#10b981] hover:bg-[#059669] text-white rounded-lg transition-all cursor-pointer"
           >
             Buka CMS
           </button>
           <button
             onClick={logoutAdmin}
-            className="text-slate-400 hover:text-rose-400 p-1 transition-colors"
+            className="text-[#a7f3d0] hover:text-white p-1 transition-colors cursor-pointer"
             title="Keluar Admin"
           >
             <i className="fa-solid fa-power-off"></i>

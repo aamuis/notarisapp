@@ -37,19 +37,19 @@ export const ServicesSection: React.FC<ServicesSectionProps> = ({
   });
 
   return (
-    <section id="layanan" className="py-16 bg-slate-100/70 border-b border-slate-200">
+    <section id="layanan" className="py-16 bg-gradient-to-b from-white via-[#f0fdf4]/60 to-white border-b border-[#a7f3d0]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Section Header */}
         <div className="text-center max-w-3xl mx-auto mb-10">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full text-xs font-bold bg-blue-100 text-blue-900 border border-blue-300 mb-3">
-            <i className="fa-solid fa-file-signature text-blue-700"></i>
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-bold bg-[#ecfdf5] text-[#065f46] border border-[#86efac] mb-3 shadow-xs">
+            <i className="fa-solid fa-file-signature text-[#059669]"></i>
             {lang === 'id' ? 'KATALOG LAYANAN AKTA OTENTIK NOTARIIL' : 'AUTHENTIC NOTARIAL SERVICES CATALOG'}
           </div>
-          <h2 className="font-serif text-2xl sm:text-4xl font-extrabold text-slate-900 mb-3">
+          <h2 className="font-serif text-2xl sm:text-4xl font-extrabold text-[#0f291e] mb-3">
             {lang === 'id' ? 'Layanan Akta Notaris & NPAK Lengkap' : 'Complete Notary & Conveyancing Services'}
           </h2>
-          <p className="text-slate-600 text-sm sm:text-base">
+          <p className="text-[#166534] text-sm sm:text-base">
             {lang === 'id'
               ? 'Penyusunan akta berlandaskan regulasi terbaru (UU Perseroan Terbatas, UU Cipta Kerja, Permenkumham & Peraturan Kemenkop UKM) dengan jaminan kepastian hukum.'
               : 'Drafting notarial deeds in full adherence with corporate laws, agrarian acts, and statutory requirements.'}
@@ -61,18 +61,18 @@ export const ServicesSection: React.FC<ServicesSectionProps> = ({
           
           {/* Search Box */}
           <div className="max-w-md mx-auto relative">
-            <i className="fa-solid fa-magnifying-glass absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 text-sm"></i>
+            <i className="fa-solid fa-magnifying-glass absolute left-4 top-1/2 -translate-y-1/2 text-[#059669] text-sm"></i>
             <input
               type="text"
               placeholder={lang === 'id' ? 'Cari layanan akta (contoh: PT, Koperasi, AJB, Audit)...' : 'Search deeds (e.g., PT, Cooperative, Mortgage)...'}
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full bg-white border border-slate-300 rounded-2xl pl-11 pr-4 py-3 text-sm text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-amber-500 shadow-sm font-medium"
+              className="w-full bg-white border border-[#a7f3d0] rounded-2xl pl-11 pr-4 py-3 text-sm text-[#0f291e] placeholder-[#6ee7b7] focus:outline-none focus:ring-2 focus:ring-[#059669] focus:border-[#059669] shadow-sm font-medium"
             />
             {searchQuery && (
               <button
                 onClick={() => setSearchQuery('')}
-                className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 text-xs px-2 py-1"
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-[#059669] hover:text-[#065f46] text-xs px-2 py-1"
               >
                 <i className="fa-solid fa-xmark"></i>
               </button>
@@ -87,8 +87,8 @@ export const ServicesSection: React.FC<ServicesSectionProps> = ({
                 onClick={() => setSelectedCategory(cat.id)}
                 className={`flex items-center gap-2 px-4 py-2 rounded-xl text-xs sm:text-sm font-bold transition-all shadow-sm ${
                   selectedCategory === cat.id
-                    ? `${cat.color} shadow-md scale-105`
-                    : 'bg-white text-slate-700 hover:bg-slate-200 border border-slate-300'
+                    ? `${cat.color} shadow-md scale-105 ring-2 ring-emerald-300`
+                    : 'bg-[#ecfdf5] text-[#065f46] hover:bg-[#d1fae5] border border-[#a7f3d0]'
                 }`}
               >
                 <i className={cat.icon}></i>
@@ -108,45 +108,45 @@ export const ServicesSection: React.FC<ServicesSectionProps> = ({
             return (
               <div
                 key={service.id}
-                className="bg-white rounded-3xl border border-slate-200 p-6 shadow-md hover:shadow-xl transition-all flex flex-col justify-between group hover:-translate-y-1"
+                className="bg-white rounded-3xl border border-[#a7f3d0] hover:border-[#34d399] p-6 shadow-md hover:shadow-xl transition-all flex flex-col justify-between group hover:-translate-y-1"
               >
                 <div>
                   
                   {/* Header Icon & Tag */}
                   <div className="flex items-center justify-between gap-2 mb-4">
-                    <div className="w-12 h-12 rounded-2xl bg-amber-50 text-amber-600 border border-amber-200 flex items-center justify-center text-xl group-hover:scale-110 group-hover:bg-amber-500 group-hover:text-slate-950 transition-all shadow-sm">
+                    <div className="w-12 h-12 rounded-2xl bg-[#ecfdf5] text-[#059669] border border-[#86efac] flex items-center justify-center text-xl group-hover:scale-110 group-hover:bg-[#059669] group-hover:text-white transition-all shadow-xs">
                       <i className={service.iconClass}></i>
                     </div>
-                    <span className="text-[11px] font-bold px-3 py-1 rounded-full bg-slate-100 text-slate-700 border border-slate-200">
+                    <span className="text-[11px] font-bold px-3 py-1 rounded-full bg-[#ecfdf5] text-[#065f46] border border-[#86efac]">
                       {service.tag}
                     </span>
                   </div>
 
                   {/* Title */}
-                  <h3 className="font-serif text-lg font-bold text-slate-900 mb-2 group-hover:text-blue-700 transition-colors">
+                  <h3 className="font-serif text-lg font-bold text-[#0f291e] mb-2 group-hover:text-[#059669] transition-colors">
                     {title}
                   </h3>
 
                   {/* Description */}
-                  <p className="text-xs text-slate-600 mb-4 leading-relaxed line-clamp-3">
+                  <p className="text-xs text-[#1e3a2b] mb-4 leading-relaxed line-clamp-3">
                     {description}
                   </p>
 
                   {/* Requirements Bullet list */}
                   <div className="mb-4">
-                    <div className="text-[11px] font-bold text-slate-500 uppercase tracking-wider mb-2 flex items-center gap-1.5">
-                      <i className="fa-solid fa-list-check text-amber-500"></i>
+                    <div className="text-[11px] font-bold text-[#059669] uppercase tracking-wider mb-2 flex items-center gap-1.5">
+                      <i className="fa-solid fa-list-check text-[#059669]"></i>
                       {lang === 'id' ? 'Syarat Utama Dokumen:' : 'Key Requirements:'}
                     </div>
-                    <ul className="space-y-1.5 text-xs text-slate-700">
+                    <ul className="space-y-1.5 text-xs text-[#1e3a2b]">
                       {allReqs.slice(0, 3).map((req, rIdx) => (
                         <li key={rIdx} className="flex items-start gap-2">
-                          <i className="fa-solid fa-circle-check text-emerald-500 text-[10px] mt-1 shrink-0"></i>
+                          <i className="fa-solid fa-circle-check text-[#16a34a] text-[10px] mt-1 shrink-0"></i>
                           <span className="line-clamp-1">{req}</span>
                         </li>
                       ))}
                       {allReqs.length > 3 && (
-                        <li className="text-[11px] text-blue-600 font-semibold pl-4">
+                        <li className="text-[11px] text-[#059669] font-bold pl-4">
                           +{allReqs.length - 3} {lang === 'id' ? 'syarat lainnya...' : 'more requirements...'}
                         </li>
                       )}
@@ -155,28 +155,28 @@ export const ServicesSection: React.FC<ServicesSectionProps> = ({
 
                   {/* Legal Basis Tag */}
                   {service.legalBasis && service.legalBasis.length > 0 && (
-                    <div className="p-2.5 rounded-xl bg-slate-50 border border-slate-200 text-[10px] text-slate-600 mb-4 flex items-center gap-1.5">
-                      <i className="fa-solid fa-gavel text-amber-600 shrink-0"></i>
+                    <div className="p-2.5 rounded-xl bg-[#ecfdf5] border border-[#a7f3d0] text-[10px] text-[#065f46] mb-4 flex items-center gap-1.5">
+                      <i className="fa-solid fa-gavel text-[#059669] shrink-0"></i>
                       <span className="truncate"><strong>Dasar:</strong> {service.legalBasis[0]}</span>
                     </div>
                   )}
 
                 </div>
 
-                {/* Action Buttons */}
-                <div className="pt-4 border-t border-slate-100 flex items-center gap-2">
+                {/* Action Buttons: VIBRANT COLORED BUTTONS */}
+                <div className="pt-4 border-t border-[#ecfdf5] flex items-center gap-2">
                   <button
                     onClick={() => onSelectServiceForChecklist(service)}
-                    className="flex-1 py-2.5 px-3 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-800 text-xs font-bold transition-all flex items-center justify-center gap-1.5 border border-slate-300"
+                    className="flex-1 py-2.5 px-3 rounded-xl bg-[#059669] hover:bg-[#047857] text-white text-xs font-bold transition-all flex items-center justify-center gap-1.5 shadow-sm hover:scale-105 active:scale-95 cursor-pointer"
                   >
-                    <i className="fa-solid fa-file-lines text-amber-600"></i>
+                    <i className="fa-solid fa-file-lines text-white"></i>
                     <span>{lang === 'id' ? 'Checklist Dokumen' : 'Checklist'}</span>
                   </button>
                   <button
                     onClick={() => onNavigateToBooking(title)}
-                    className="flex-1 py-2.5 px-3 rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-slate-950 text-xs font-extrabold transition-all shadow-md flex items-center justify-center gap-1.5"
+                    className="flex-1 py-2.5 px-3 rounded-xl bg-[#25D366] hover:bg-[#20bd5a] text-white text-xs font-extrabold transition-all shadow-md flex items-center justify-center gap-1.5 hover:scale-105 active:scale-95 cursor-pointer border border-[#1ea952]"
                   >
-                    <i className="fa-brands fa-whatsapp"></i>
+                    <i className="fa-brands fa-whatsapp text-white text-sm"></i>
                     <span>{lang === 'id' ? 'Pesan Akta' : 'Order Deed'}</span>
                   </button>
                 </div>

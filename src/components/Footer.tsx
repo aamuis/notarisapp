@@ -14,7 +14,7 @@ export const Footer: React.FC<FooterProps> = ({ lang, onNavigate }) => {
     : (notaryProfile.address as { full: string }).full;
 
   return (
-    <footer className="bg-gradient-to-b from-[#0a1e4a] to-[#061433] text-slate-300 text-xs border-t border-amber-500/30 pt-16 pb-24 md:pb-12">
+    <footer className="bg-white text-[#1e3a2b] text-xs border-t border-[#a7f3d0] pt-16 pb-24 md:pb-12">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
@@ -22,135 +22,137 @@ export const Footer: React.FC<FooterProps> = ({ lang, onNavigate }) => {
           {/* Col 1: Identity & Credentials */}
           <div className="space-y-4">
             <div className="flex items-center space-x-3">
-              <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-amber-400 to-amber-600 p-0.5 flex items-center justify-center shrink-0 shadow-md">
-                <div className="w-full h-full bg-[#0a1e4a] rounded-[9px] flex items-center justify-center text-amber-300">
-                  <i className="fa-solid fa-scale-balanced text-lg"></i>
-                </div>
+              <div className="w-10 h-10 rounded-2xl bg-[#ecfdf5] border border-[#86efac] flex items-center justify-center shrink-0 shadow-xs">
+                <i className="fa-solid fa-scale-balanced text-[#059669] text-lg"></i>
               </div>
               <div className="min-w-0">
-                <span className="font-crest font-bold text-amber-300 text-[11px] uppercase tracking-wider block">KANTOR NOTARIS & NPAK</span>
-                <span className="font-serif font-bold text-white text-sm whitespace-nowrap block">{notaryProfile.name}</span>
+                <span className="font-crest font-bold text-[#059669] text-[11px] uppercase tracking-wider block">KANTOR NOTARIS & PEJABAT PEMBUAT AKTA</span>
+                <span className="font-serif font-bold text-[#0f291e] text-sm whitespace-nowrap block">{notaryProfile.name}</span>
               </div>
             </div>
 
-            <p className="text-slate-300 text-xs leading-relaxed">
+            <p className="text-[#166534] text-xs leading-relaxed">
               {lang === 'id'
-                ? 'Pejabat Umum berwenang membuat akta otentik, akta pendirian korporasi, legal audit ASAHI, dan akta perkoperasian (NPAK) di Kota Serang, Banten.'
-                : 'Authorized Notary Public, Corporate Conveyancer, and Certified Legal Auditor serving Banten Province.'}
+                ? 'Pejabat Umum berwenang membuat akta otentik, akta pendirian korporasi, perjanjian perdata, dan pendaftaran legalitas di Kota Serang, Banten.'
+                : 'Authorized Notary Public and Conveyancer providing authentic legal deeds and corporate contracts in Serang City, Banten.'}
             </p>
 
-            <div className="space-y-1.5 text-[11px] text-slate-300 bg-white/5 p-3 rounded-xl border border-white/10">
-              <div><strong className="text-amber-300">SK Menkumham:</strong> {notaryProfile.skMenkumham}</div>
-              <div><strong className="text-emerald-300">SK NPAK Kemenkop:</strong> {notaryProfile.skNpak}</div>
-              <div><strong className="text-sky-300">BA Sumpah:</strong> {notaryProfile.baSumpah}</div>
+            <div className="space-y-1.5 text-[11px] text-[#0f291e] bg-[#ecfdf5] p-3 rounded-2xl border border-[#a7f3d0]">
+              <div><strong className="text-[#059669]">SK Menkumham RI:</strong> {notaryProfile.skMenkumham}</div>
+              <div><strong className="text-[#059669]">Wilayah Jabatan:</strong> {notaryProfile.jurisdiction || 'Kota Serang'}</div>
+              <div><strong className="text-[#059669]">BA Sumpah:</strong> {notaryProfile.baSumpah}</div>
             </div>
           </div>
 
           {/* Col 2: Navigation Links */}
           <div>
-            <h4 className="font-serif font-bold text-white text-sm mb-4 flex items-center gap-2">
-              <i className="fa-solid fa-compass text-amber-400"></i>
-              {lang === 'id' ? 'Navigasi Cepat' : 'Quick Navigation'}
+            <h4 className="font-serif font-bold text-[#0f291e] text-sm mb-4 flex items-center gap-2">
+              <i className="fa-solid fa-compass text-[#059669]"></i>
+              {lang === 'id' ? 'Navigasi' : 'Navigation'}
             </h4>
             <ul className="space-y-2.5">
               <li>
-                <button onClick={() => onNavigate('beranda')} className="hover:text-amber-300 transition-colors flex items-center gap-2 text-left">
-                  <i className="fa-solid fa-angle-right text-[10px] text-amber-400"></i>
-                  <span>{lang === 'id' ? 'Beranda Utama' : 'Home'}</span>
+                <button onClick={() => onNavigate('beranda')} className="hover:text-[#059669] transition-colors flex items-center gap-2 text-left cursor-pointer text-[#1e3a2b]">
+                  <i className="fa-solid fa-angle-right text-[10px] text-[#059669]"></i>
+                  <span>{lang === 'id' ? 'Beranda' : 'Home'}</span>
                 </button>
               </li>
               <li>
-                <button onClick={() => onNavigate('layanan')} className="hover:text-amber-300 transition-colors flex items-center gap-2 text-left">
-                  <i className="fa-solid fa-angle-right text-[10px] text-amber-400"></i>
-                  <span>{lang === 'id' ? 'Katalog Layanan & Syarat Akta' : 'Services & Requirements'}</span>
+                <button onClick={() => onNavigate('profil')} className="hover:text-[#059669] transition-colors flex items-center gap-2 text-left cursor-pointer text-[#1e3a2b]">
+                  <i className="fa-solid fa-angle-right text-[10px] text-[#059669]"></i>
+                  <span>{lang === 'id' ? 'Profil Notaris' : 'Notary Profile'}</span>
                 </button>
               </li>
               <li>
-                <button onClick={() => onNavigate('kbli-engine')} className="hover:text-amber-300 transition-colors flex items-center gap-2 text-left">
-                  <i className="fa-solid fa-angle-right text-[10px] text-amber-400"></i>
-                  <span>{lang === 'id' ? 'Smart KBLI & Legal Engine' : 'Smart KBLI Diagnostic'}</span>
+                <button onClick={() => onNavigate('kontak')} className="hover:text-[#059669] transition-colors flex items-center gap-2 text-left cursor-pointer text-[#1e3a2b]">
+                  <i className="fa-solid fa-angle-right text-[10px] text-[#059669]"></i>
+                  <span>{lang === 'id' ? 'Janji Temu Konsultasi' : 'Book Consultation'}</span>
                 </button>
               </li>
               <li>
-                <button onClick={() => onNavigate('kalkulator')} className="hover:text-amber-300 transition-colors flex items-center gap-2 text-left">
-                  <i className="fa-solid fa-angle-right text-[10px] text-amber-400"></i>
-                  <span>{lang === 'id' ? 'Kalkulator Pajak BPHTB / PPh & UUJN' : 'Tax & Notary Fee Calculator'}</span>
+                <button onClick={() => onNavigate('lokasi')} className="hover:text-[#059669] transition-colors flex items-center gap-2 text-left cursor-pointer text-[#1e3a2b]">
+                  <i className="fa-solid fa-angle-right text-[10px] text-[#059669]"></i>
+                  <span>{lang === 'id' ? 'Lokasi Kantor & Jam Buka' : 'Office Location & Hours'}</span>
                 </button>
               </li>
               <li>
-                <button onClick={() => onNavigate('lacak-berkas')} className="hover:text-amber-300 transition-colors flex items-center gap-2 text-left">
-                  <i className="fa-solid fa-angle-right text-[10px] text-amber-400"></i>
-                  <span>{lang === 'id' ? 'Portal Klien (Lacak Berkas)' : 'Client Portal Tracking'}</span>
-                </button>
-              </li>
-              <li>
-                <button onClick={() => onNavigate('kontak')} className="hover:text-amber-300 transition-colors flex items-center gap-2 text-left">
-                  <i className="fa-solid fa-angle-right text-[10px] text-amber-400"></i>
-                  <span>{lang === 'id' ? 'Reservasi Jadwal Konsultasi' : 'Book Consultation'}</span>
-                </button>
+                <a
+                  href={`https://wa.me/${notaryProfile.whatsapp}?text=Halo%20Notaris%20Syarifah%20Nurul%20Aziizi,%20saya%20ingin%20konsultasi.`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="hover:text-[#047857] transition-colors flex items-center gap-2 text-left text-[#059669] font-bold"
+                >
+                  <i className="fa-brands fa-whatsapp text-xs text-[#25D366]"></i>
+                  <span>{lang === 'id' ? 'WhatsApp Konsultasi' : 'WhatsApp Chat'}</span>
+                </a>
               </li>
             </ul>
           </div>
 
-          {/* Col 3: Services Summary */}
+          {/* Col 3: Practice Areas */}
           <div>
-            <h4 className="font-serif font-bold text-white text-sm mb-4 flex items-center gap-2">
-              <i className="fa-solid fa-file-contract text-amber-400"></i>
-              {lang === 'id' ? 'Bidang Keahlian Akta' : 'Practice Areas'}
+            <h4 className="font-serif font-bold text-[#0f291e] text-sm mb-4 flex items-center gap-2">
+              <i className="fa-solid fa-file-contract text-[#059669]"></i>
+              {lang === 'id' ? 'Bidang Layanan Akta' : 'Practice Areas'}
             </h4>
-            <ul className="space-y-2 text-[11px] text-slate-300">
-              <li className="flex items-center gap-1.5"><i className="fa-solid fa-check text-emerald-400 text-[10px]"></i> Pendirian PT Biasa, PMA, PT Perorangan</li>
-              <li className="flex items-center gap-1.5"><i className="fa-solid fa-check text-emerald-400 text-[10px]"></i> RUPS & Perubahan Anggaran Dasar AHU</li>
-              <li className="flex items-center gap-1.5"><i className="fa-solid fa-check text-emerald-400 text-[10px]"></i> Akta Koperasi (SK NPAK No. 146/2023)</li>
-              <li className="flex items-center gap-1.5"><i className="fa-solid fa-check text-emerald-400 text-[10px]"></i> Legal Audit & Due Diligence C.L.A. ASAHI</li>
-              <li className="flex items-center gap-1.5"><i className="fa-solid fa-check text-emerald-400 text-[10px]"></i> Perjanjian Perkawinan (Putusan MK 69/2015)</li>
-              <li className="flex items-center gap-1.5"><i className="fa-solid fa-check text-emerald-400 text-[10px]"></i> Akta Jual Beli (AJB) & Layanan PPAT BPN</li>
+            <ul className="space-y-2 text-[11px] text-[#1e3a2b]">
+              <li className="flex items-center gap-1.5"><i className="fa-solid fa-check text-[#16a34a] text-[10px]"></i> Pendirian PT (Lokal / PMA / Perorangan) & OSS</li>
+              <li className="flex items-center gap-1.5"><i className="fa-solid fa-check text-[#16a34a] text-[10px]"></i> RUPS & Perubahan Anggaran Dasar PT</li>
+              <li className="flex items-center gap-1.5"><i className="fa-solid fa-check text-[#16a34a] text-[10px]"></i> Akta Jual Beli Tanah (AJB) & PPAT</li>
+              <li className="flex items-center gap-1.5"><i className="fa-solid fa-check text-[#16a34a] text-[10px]"></i> Perjanjian Perkawinan (Prenup/Postnup)</li>
+              <li className="flex items-center gap-1.5"><i className="fa-solid fa-check text-[#16a34a] text-[10px]"></i> Surat Keterangan Waris & Wasiat</li>
+              <li className="flex items-center gap-1.5"><i className="fa-solid fa-check text-[#16a34a] text-[10px]"></i> Legalisasi & Waarmerking Dokumen</li>
             </ul>
           </div>
 
           {/* Col 4: Office Info & Contacts */}
           <div>
-            <h4 className="font-serif font-bold text-white text-sm mb-4 flex items-center gap-2">
-              <i className="fa-solid fa-map-pin text-amber-400"></i>
+            <h4 className="font-serif font-bold text-[#0f291e] text-sm mb-4 flex items-center gap-2">
+              <i className="fa-solid fa-map-pin text-[#059669]"></i>
               {lang === 'id' ? 'Kontak Kantor' : 'Office Contacts'}
             </h4>
             <div className="space-y-3 text-[11px]">
-              <p className="text-slate-300 leading-relaxed">
+              <p className="text-[#166534] leading-relaxed">
                 {addressText}
               </p>
-              <div>
-                <span className="text-slate-400 block">{lang === 'id' ? 'WhatsApp Resmi:' : 'WhatsApp:'}</span>
-                <a
-                  href={`https://wa.me/${notaryProfile.whatsapp}?text=Halo%20Notaris%20Syarifah%20Nurul%20Aziizi.`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-emerald-300 hover:text-emerald-200 font-bold text-xs flex items-center gap-1 mt-0.5"
-                >
-                  <i className="fa-brands fa-whatsapp text-emerald-400 text-sm"></i>
-                  {notaryProfile.whatsappFormatted}
-                </a>
+
+              <div className="space-y-1 text-[#1e3a2b]">
+                <div className="flex items-center gap-2">
+                  <i className="fa-solid fa-phone text-[#059669]"></i>
+                  <span>{notaryProfile.phone}</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <i className="fa-brands fa-whatsapp text-[#25D366]"></i>
+                  <span>{notaryProfile.whatsappFormatted}</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <i className="fa-regular fa-envelope text-[#059669]"></i>
+                  <span className="truncate">{notaryProfile.email}</span>
+                </div>
               </div>
-              <div>
-                <span className="text-slate-400 block">{lang === 'id' ? 'Jam Buka:' : 'Hours:'}</span>
-                <span className="text-slate-200 font-semibold">Senin - Jumat {notaryProfile.operatingHours.weekdays}</span>
+
+              <div className="pt-1">
+                <span className="inline-block px-2.5 py-1 rounded-xl bg-[#ecfdf5] text-[#065f46] text-[10px] font-bold border border-[#86efac]">
+                  {notaryProfile.operatingHours.weekdays}
+                </span>
               </div>
             </div>
           </div>
 
         </div>
 
-        {/* Bottom Disclaimer & Copyright */}
-        <div className="pt-8 border-t border-white/10 flex flex-col md:flex-row items-center justify-between gap-4 text-[11px] text-slate-400">
+        {/* Bottom Bar */}
+        <div className="border-t border-[#a7f3d0] pt-8 flex flex-col sm:flex-row items-center justify-between text-[11px] text-[#047857] gap-3">
           <p 
             onDoubleClick={() => setCurrentView('admin')}
-            className="text-center md:text-left select-none cursor-default"
+            title={lang === 'id' ? 'Hak Cipta Kantor Notaris Kota Serang' : 'Copyright'}
+            className="cursor-default select-none text-center sm:text-left"
           >
-            © {new Date().getFullYear()} Kantor Notaris {notaryProfile.name}. Hak Cipta Dilindungi.
+            &copy; {new Date().getFullYear()} Kantor Notaris & Pejabat Pembuat Akta {notaryProfile.name}.
           </p>
-          <div className="flex items-center gap-4 text-slate-400">
-            <span>Kode Etik Ikatan Notaris Indonesia (INI)</span>
-            <span>•</span>
-            <span>Wilayah Jabatan {notaryProfile.jurisdiction}</span>
+          
+          <div className="flex items-center space-x-4 text-xs text-[#047857]">
+            <span>Wilayah Jabatan Kota Serang, Banten</span>
           </div>
         </div>
 

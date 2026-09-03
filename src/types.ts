@@ -62,6 +62,7 @@ export interface NotaryProfile {
     saturday: string;
     sunday: string;
   };
+  photoUrl?: string;
 }
 
 export interface ClientPortfolio {

@@ -1,6 +1,6 @@
 {
   "name": "Kantor Notaris Syarifah Nurul Aziizi, S.H., M.Kn.",
-  "description": "Website & Web App Interaktif Kantor Notaris & PPAT Kota Serang - Syarifah Nurul Aziizi, S.H., M.Kn. Lengkap dengan Smart KBLI Diagnostic, Kalkulator Pajak & Biaya Akta UUJN, Tracking Berkas, dan Reservasi.",
+  "description": "Website Resmi Kantor Notaris & Pejabat Pembuat Akta Kota Serang - Syarifah Nurul Aziizi, S.H., M.Kn. Layanan akta otentik, legalitas badan usaha, dan reservasi janji temu konsultasi hukum.",
   "requestFramePermissions": [],
   "majorCapabilities": [
     "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"

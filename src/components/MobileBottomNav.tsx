@@ -1,5 +1,5 @@
 import React from 'react';
-import { NOTARY_PROFILE } from '../data/notaryData';
+import { useData } from '../context/DataContext';
 import { Language } from '../types';
 
 interface MobileBottomNavProps {
@@ -13,75 +13,103 @@ export const MobileBottomNav: React.FC<MobileBottomNavProps> = ({
   activeSection,
   onNavigate,
 }) => {
+  const { notaryProfile } = useData();
+
   return (
-    <div className="lg:hidden fixed bottom-0 left-0 right-0 z-50 bg-[#0a1e4a]/95 backdrop-blur-xl border-t border-amber-500/30 px-2 py-1.5 shadow-[0_-10px_25px_rgba(0,0,0,0.3)]">
-      <div className="max-w-md mx-auto flex items-center justify-around relative">
+    <div className="lg:hidden fixed bottom-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-xl border-t border-[#a7f3d0] px-2 py-1.5 shadow-[0_-8px_25px_rgba(5,150,105,0.12)]">
+      <div className="max-w-md mx-auto flex items-center justify-between relative px-2">
         
         {/* Tab 1: Beranda */}
         <button
           onClick={() => onNavigate('beranda')}
-          className={`flex flex-col items-center justify-center py-1 px-2.5 rounded-xl transition-all ${
-            activeSection === 'beranda' ? 'text-amber-300 font-bold' : 'text-slate-300 hover:text-white'
+          className={`flex flex-col items-center justify-center py-1 px-2.5 rounded-xl transition-all cursor-pointer ${
+            activeSection === 'beranda' ? 'text-[#065f46] font-bold' : 'text-[#047857] hover:text-[#065f46]'
           }`}
         >
-          <i className="fa-solid fa-house-chimney text-base mb-1"></i>
+          <div className={`w-8 h-8 rounded-xl flex items-center justify-center mb-0.5 ${
+            activeSection === 'beranda' ? 'bg-[#059669] text-white shadow-sm' : 'bg-[#ecfdf5] text-[#059669]'
+          }`}>
+            <i className="fa-solid fa-house-chimney text-xs"></i>
+          </div>
           <span className="text-[10px] tracking-tight">
             {lang === 'id' ? 'Beranda' : 'Home'}
           </span>
         </button>
 
-        {/* Tab 2: Layanan */}
+        {/* Tab 2: Profil (Notary Photo or Icon) */}
         <button
-          onClick={() => onNavigate('layanan')}
-          className={`flex flex-col items-center justify-center py-1 px-2.5 rounded-xl transition-all ${
-            activeSection === 'layanan' ? 'text-amber-300 font-bold' : 'text-slate-300 hover:text-white'
+          onClick={() => onNavigate('profil')}
+          className={`flex flex-col items-center justify-center py-1 px-2.5 rounded-xl transition-all cursor-pointer ${
+            activeSection === 'profil' ? 'text-[#065f46] font-bold' : 'text-[#047857] hover:text-[#065f46]'
           }`}
         >
-          <i className="fa-solid fa-file-contract text-base mb-1"></i>
+          <div className={`w-8 h-8 rounded-xl overflow-hidden flex items-center justify-center mb-0.5 ${
+            activeSection === 'profil' ? 'ring-2 ring-[#059669] shadow-sm' : 'bg-[#ecfdf5]'
+          }`}>
+            <img 
+              src={notaryProfile.photoUrl || '/SYARIFAH NURUL.png'} 
+              alt="Profil" 
+              className="w-full h-full object-cover object-top"
+              onError={(e) => {
+                const target = e.currentTarget as HTMLImageElement;
+                if (target.src.includes('SYARIFAH%20NURUL') || target.src.includes('SYARIFAH_NURUL')) {
+                  target.src = '/syarifah_portrait.svg';
+                }
+              }}
+            />
+          </div>
           <span className="text-[10px] tracking-tight">
-            {lang === 'id' ? 'Layanan' : 'Services'}
+            {lang === 'id' ? 'Profil' : 'Profile'}
           </span>
         </button>
 
-        {/* Tab Tengah: Elevated Center Floating WhatsApp Button */}
-        <div className="relative -top-5 flex flex-col items-center">
+        {/* Center Tab: Elevated Vibrant WhatsApp Colored Button */}
+        <div className="relative -top-4 flex flex-col items-center">
           <a
-            href={`https://wa.me/${NOTARY_PROFILE.whatsapp}?text=Halo%20Notaris%20Syarifah%20Nurul%20Aziizi,%20saya%20ingin%20konsultasi%20akta.`}
+            href={`https://wa.me/${notaryProfile.whatsapp}?text=Halo%20Notaris%20Syarifah%20Nurul%20Aziizi,%20saya%20ingin%20konsultasi%20akta.`}
             target="_blank"
             rel="noopener noreferrer"
             aria-label="Direct WhatsApp Consultation"
-            className="w-14 h-14 rounded-full bg-gradient-to-tr from-emerald-500 via-emerald-400 to-teal-300 text-slate-950 flex items-center justify-center text-2xl shadow-xl shadow-emerald-950/60 border-4 border-[#0a1e4a] hover:scale-110 active:scale-95 transition-transform"
+            className="w-13 h-13 rounded-full bg-[#25D366] text-white flex items-center justify-center text-2xl shadow-xl border-4 border-white hover:scale-105 active:scale-95 transition-transform"
           >
-            <i className="fa-brands fa-whatsapp text-white"></i>
+            <i className="fa-brands fa-whatsapp"></i>
           </a>
-          <span className="text-[9px] font-extrabold text-emerald-300 mt-0.5 tracking-tight">
-            WA Notaris
+          <span className="text-[9px] font-extrabold text-[#065f46] mt-0.5 tracking-tight">
+            WA
           </span>
         </div>
 
-        {/* Tab 3: Kalkulator Pajak */}
+        {/* Tab 3: Janji Temu */}
         <button
-          onClick={() => onNavigate('kalkulator')}
-          className={`flex flex-col items-center justify-center py-1 px-2.5 rounded-xl transition-all ${
-            activeSection === 'kalkulator' || activeSection === 'kbli-engine' ? 'text-amber-300 font-bold' : 'text-slate-300 hover:text-white'
+          onClick={() => onNavigate('kontak')}
+          className={`flex flex-col items-center justify-center py-1 px-2.5 rounded-xl transition-all cursor-pointer ${
+            activeSection === 'kontak' ? 'text-[#065f46] font-bold' : 'text-[#047857] hover:text-[#065f46]'
           }`}
         >
-          <i className="fa-solid fa-calculator text-base mb-1"></i>
+          <div className={`w-8 h-8 rounded-xl flex items-center justify-center mb-0.5 ${
+            activeSection === 'kontak' ? 'bg-[#16a34a] text-white shadow-sm' : 'bg-[#ecfdf5] text-[#059669]'
+          }`}>
+            <i className="fa-solid fa-calendar-check text-xs"></i>
+          </div>
           <span className="text-[10px] tracking-tight">
-            {lang === 'id' ? 'Kalkulator' : 'Calculator'}
+            {lang === 'id' ? 'Janji Temu' : 'Booking'}
           </span>
         </button>
 
-        {/* Tab 4: Lacak Berkas */}
+        {/* Tab 4: Lokasi */}
         <button
-          onClick={() => onNavigate('lacak-berkas')}
-          className={`flex flex-col items-center justify-center py-1 px-2.5 rounded-xl transition-all ${
-            activeSection === 'lacak-berkas' ? 'text-amber-300 font-bold' : 'text-slate-300 hover:text-white'
+          onClick={() => onNavigate('lokasi')}
+          className={`flex flex-col items-center justify-center py-1 px-2.5 rounded-xl transition-all cursor-pointer ${
+            activeSection === 'lokasi' ? 'text-[#065f46] font-bold' : 'text-[#047857] hover:text-[#065f46]'
           }`}
         >
-          <i className="fa-solid fa-magnifying-glass-chart text-base mb-1"></i>
+          <div className={`w-8 h-8 rounded-xl flex items-center justify-center mb-0.5 ${
+            activeSection === 'lokasi' ? 'bg-[#0284c7] text-white shadow-sm' : 'bg-[#ecfdf5] text-[#059669]'
+          }`}>
+            <i className="fa-solid fa-map-location-dot text-xs"></i>
+          </div>
           <span className="text-[10px] tracking-tight">
-            {lang === 'id' ? 'Lacak' : 'Track'}
+            {lang === 'id' ? 'Lokasi' : 'Location'}
           </span>
         </button>
 

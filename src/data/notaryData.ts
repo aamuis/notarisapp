@@ -2,11 +2,9 @@ import { NotaryProfile, ClientPortfolio, LegalService, TrackingStage } from '../
 
 export const NOTARY_PROFILE: NotaryProfile = {
   name: "Syarifah Nurul Aziizi, S.H., M.Kn.",
-  title: "Notaris & Pejabat Pembuat Akta Koperasi (NPAK) - Legal Auditor",
-  degrees: "S.H. (Universitas Sultan Ageng Tirtayasa) | M.Kn. (Universitas Indonesia) | C.L.A. (ASAHI)",
+  title: "Notaris & Pejabat Pembuat Akta",
+  degrees: "S.H. (Universitas Sultan Ageng Tirtayasa) | M.Kn. (Universitas Indonesia)",
   certifications: [
-    "Certified Legal Auditor (C.L.A.) - ASAHI (Asosiasi Auditor Hukum Indonesia)",
-    "Pejabat Pembuat Akta Koperasi (NPAK) - Kemenkop UKM RI",
     "Akreditasi Notaris Pasar Modal & Korporasi",
     "Sertifikasi Hukum Kontrak & Hukum Pertanahan Terintegrasi"
   ],
@@ -39,7 +37,8 @@ export const NOTARY_PROFILE: NotaryProfile = {
     weekdays: "Senin – Jumat: 08.30 – 17.00 WIB",
     saturday: "Sabtu: 09.00 – 14.00 WIB (Dengan Janji Temu)",
     sunday: "Minggu & Hari Libur Nasional: Tutup (Konsultasi Darurat via WhatsApp)"
-  }
+  },
+  photoUrl: "/SYARIFAH_NURUL.png"
 };
 
 export const CLIENT_PORTFOLIO: ClientPortfolio[] = [

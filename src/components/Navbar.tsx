@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useData } from '../context/DataContext';
 import { Language } from '../types';
 
@@ -9,123 +9,61 @@ interface NavbarProps {
   onNavigate: (sectionId: string) => void;
 }
 
-export const Navbar: React.FC<NavbarProps> = ({ lang, setLang, activeSection, onNavigate }) => {
-  const { notaryProfile, websiteSettings, setCurrentView, isAdminLoggedIn } = useData();
+export const Navbar: React.FC<NavbarProps> = ({
+  lang,
+  setLang,
+  activeSection,
+  onNavigate,
+}) => {
+  const { notaryProfile, websiteSettings, setCurrentView } = useData();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [servicesDropdownOpen, setServicesDropdownOpen] = useState(false);
-  const dropdownRef = useRef<HTMLDivElement>(null);
-  const logoClickRef = useRef<{ count: number; lastTime: number }>({ count: 0, lastTime: 0 });
+  const [logoClickCount, setLogoClickCount] = useState(0);
 
+  // Easter egg: 5 fast clicks on the emblem opens the secret CMS Admin
   const handleLogoClick = () => {
-    const now = Date.now();
-    if (now - logoClickRef.current.lastTime < 800) {
-      logoClickRef.current.count += 1;
-    } else {
-      logoClickRef.current.count = 1;
-    }
-    logoClickRef.current.lastTime = now;
-
-    if (logoClickRef.current.count >= 3) {
-      logoClickRef.current.count = 0;
+    const newCount = logoClickCount + 1;
+    setLogoClickCount(newCount);
+    if (newCount >= 5) {
+      setLogoClickCount(0);
       setCurrentView('admin');
-    } else {
-      handleLinkClick('beranda');
     }
   };
-
-  // Close dropdown on click outside
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
-        setServicesDropdownOpen(false);
-      }
-    };
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
-  }, []);
-
-  const serviceSubLinks = [
-    {
-      id: 'layanan',
-      titleId: 'Katalog Layanan Akta',
-      titleEn: 'Deed Services Catalog',
-      descId: 'Pendirian PT, RUPS, NPAK Koperasi, AJB PPAT & Perdata',
-      descEn: 'PT Incorporation, GMS, Cooperatives, Conveyancing & Civil Deeds',
-      icon: 'fa-solid fa-file-signature',
-      color: 'bg-blue-600 text-white',
-    },
-    {
-      id: 'kbli-engine',
-      titleId: 'Smart KBLI Diagnostic',
-      titleEn: 'Smart KBLI Engine',
-      descId: 'Analisis KBLI Tunggal, Kuorum RUPS & Persetujuan Pasangan',
-      descEn: 'Single-Purpose KBLI, GMS Quorum & Spousal Consent Checks',
-      icon: 'fa-solid fa-microchip',
-      color: 'bg-amber-500 text-slate-950',
-    },
-    {
-      id: 'kalkulator',
-      titleId: 'Kalkulator Pajak & Biaya UUJN',
-      titleEn: 'Tax & UUJN Fee Calculator',
-      descId: 'Simulasi BPHTB, PPh Final & Batas Tarif Honorarium Notaris',
-      descEn: 'Simulate BPHTB, Final PPh & Statutory Fee Ceiling (UUJN)',
-      icon: 'fa-solid fa-calculator',
-      color: 'bg-purple-600 text-white',
-    },
-    {
-      id: 'lacak-berkas',
-      titleId: 'Portal Lacak Berkas',
-      titleEn: 'Case Tracking Portal',
-      descId: 'Cek 5 tahapan pengerjaan akta & pengesahan Ditjen AHU',
-      descEn: 'Track 5-stage notarial progress & AHU online ratification',
-      icon: 'fa-solid fa-magnifying-glass-chart',
-      color: 'bg-emerald-600 text-white',
-    },
-  ];
 
   const handleLinkClick = (id: string) => {
     setMobileMenuOpen(false);
-    setServicesDropdownOpen(false);
     onNavigate(id);
   };
 
-  const isAnyServiceActive = serviceSubLinks.some((item) => activeSection === item.id);
-
   return (
-    <header className="sticky top-0 z-50 bg-gradient-to-r from-[#0b1d42] via-[#102a6b] to-[#0d2252] text-white shadow-xl border-b border-amber-500/30">
+    <header className="sticky top-0 z-50 bg-white/95 backdrop-blur-md text-[#14261a] shadow-xs border-b border-[#a7f3d0]">
       
-      {/* Top Notice Bar - Informative & Verified */}
-      <div className="hidden lg:block bg-[#07132c]/90 border-b border-white/10 px-4 py-1.5 text-xs">
+      {/* Top Notice Bar in Bright Pastel Green */}
+      <div className="hidden lg:block bg-gradient-to-r from-[#ecfdf5] via-[#f0fdf4] to-[#ecfdf5] border-b border-[#a7f3d0] px-4 py-1.5 text-xs text-[#065f46]">
         <div className="max-w-7xl mx-auto flex justify-between items-center">
           <div className="flex items-center space-x-3">
-            <span className="inline-flex items-center gap-1.5 text-amber-300 font-semibold">
-              <i className="fa-solid fa-scale-balanced text-amber-400"></i>
+            <span className="inline-flex items-center gap-1.5 font-bold text-[#065f46]">
+              <i className="fa-solid fa-scale-balanced text-[#059669]"></i>
               SK Menkumham: {notaryProfile.skMenkumham}
             </span>
-            <span className="text-white/20">•</span>
-            <span className="inline-flex items-center gap-1.5 text-emerald-300 font-medium">
-              <i className="fa-solid fa-certificate text-emerald-400"></i>
-              SK NPAK Kemenkop: {notaryProfile.skNpak}
-            </span>
-            <span className="text-white/20">•</span>
-            <span className="inline-flex items-center gap-1.5 text-sky-300">
-              <i className="fa-solid fa-location-dot text-sky-400"></i>
+            <span className="text-[#a7f3d0]">•</span>
+            <span className="inline-flex items-center gap-1.5 text-[#047857]">
+              <i className="fa-solid fa-location-dot text-[#059669]"></i>
               {websiteSettings.cityTag || 'Kota Serang, Banten'}
             </span>
           </div>
           
-          <div className="flex items-center space-x-4">
-            <span className="text-slate-300 text-[11px]">
-              <i className="fa-regular fa-clock mr-1 text-amber-400"></i> {notaryProfile.operatingHours.weekdays}
+          <div className="flex items-center space-x-4 text-[11px] text-[#047857]">
+            <span>
+              <i className="fa-regular fa-clock mr-1 text-[#059669]"></i> {notaryProfile.operatingHours.weekdays}
             </span>
-            <span className="text-white/20">•</span>
+            <span className="text-[#a7f3d0]">•</span>
             <a 
               href={`https://wa.me/${notaryProfile.whatsapp}?text=Halo%20Notaris%20Syarifah%20Nurul%20Aziizi,%20saya%20ingin%20konsultasi%20akta.`}
               target="_blank"
               rel="noopener noreferrer"
-              className="text-emerald-300 hover:text-emerald-200 font-bold flex items-center gap-1 transition-colors"
+              className="text-[#065f46] hover:text-[#059669] font-bold flex items-center gap-1 transition-colors"
             >
-              <i className="fa-brands fa-whatsapp text-emerald-400"></i> {notaryProfile.whatsappFormatted}
+              <i className="fa-brands fa-whatsapp text-[#25D366]"></i> {notaryProfile.whatsappFormatted}
             </a>
           </div>
         </div>
@@ -135,135 +73,104 @@ export const Navbar: React.FC<NavbarProps> = ({ lang, setLang, activeSection, on
       <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16 sm:h-20">
           
-          {/* Logo & Identity: strictly SINGLE LINE Notary name WITHOUT C.L.A. in main title */}
+          {/* Logo & Identity */}
           <button 
             onClick={handleLogoClick}
-            className="flex items-center space-x-2.5 sm:space-x-3 text-left group focus:outline-none shrink-0"
+            className="flex items-center space-x-2.5 sm:space-x-3 text-left group focus:outline-none shrink-0 cursor-pointer"
           >
-            <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-gradient-to-tr from-amber-400 via-amber-500 to-amber-200 p-0.5 shadow-lg shadow-amber-900/30 flex items-center justify-center shrink-0">
-              <div className="w-full h-full bg-[#0b1d42] rounded-[10px] flex items-center justify-center text-amber-300 group-hover:scale-105 transition-transform overflow-hidden">
-                {websiteSettings.faviconUrl && websiteSettings.faviconUrl.startsWith('http') ? (
-                  <img
-                    src={websiteSettings.faviconUrl}
-                    alt="Logo"
-                    className="w-6 h-6 object-contain"
-                    onError={(e) => {
-                      (e.target as HTMLElement).style.display = 'none';
-                    }}
-                  />
-                ) : (
-                  <i className="fa-solid fa-scale-unbalanced-flip text-lg sm:text-2xl"></i>
-                )}
+            <div className="relative">
+              <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-2xl overflow-hidden bg-[#ecfdf5] border-2 border-[#86efac] flex items-center justify-center shadow-xs shrink-0 group-hover:scale-105 transition-transform">
+                <img 
+                  src={notaryProfile.photoUrl || '/SYARIFAH NURUL.png'} 
+                  alt="Syarifah Nurul Aziizi" 
+                  className="w-full h-full object-cover object-top"
+                  onError={(e) => {
+                    const target = e.currentTarget as HTMLImageElement;
+                    if (target.src.includes('SYARIFAH%20NURUL') || target.src.includes('SYARIFAH_NURUL')) {
+                      target.src = '/syarifah_portrait.svg';
+                    }
+                  }}
+                />
               </div>
+              <span className="absolute -bottom-1 -right-1 w-3.5 h-3.5 bg-[#25D366] border-2 border-white rounded-full flex items-center justify-center text-[7px] text-white">
+                <i className="fa-solid fa-check"></i>
+              </span>
             </div>
             
             <div className="min-w-0">
               <div className="flex items-center gap-1.5">
-                <span className="font-crest font-bold text-amber-300 text-[10px] sm:text-xs tracking-wider uppercase">
-                  {websiteSettings.logoText || 'NOTARIS & NPAK'}
+                <span className="font-crest font-bold text-[#059669] text-[10px] sm:text-xs tracking-wider uppercase">
+                  {websiteSettings.logoText || 'NOTARIS & PEJABAT PEMBUAT AKTA'}
                 </span>
-                <span className="hidden md:inline-block text-[9px] font-bold bg-amber-400/20 text-amber-200 px-1.5 py-0.2 rounded border border-amber-400/40">
+                <span className="hidden md:inline-block text-[9px] font-bold bg-[#ecfdf5] text-[#065f46] px-1.5 py-0.2 rounded border border-[#86efac]">
                   {websiteSettings.cityTag || 'KOTA SERANG'}
                 </span>
               </div>
               
-              {/* Responsive Single-line Notary Name (NO C.L.A.) */}
-              <h1 className="font-serif font-bold text-white text-xs sm:text-base md:text-lg tracking-tight whitespace-nowrap overflow-hidden text-ellipsis drop-shadow-sm group-hover:text-amber-200 transition-colors">
+              <h1 className="font-serif font-bold text-[#0f291e] text-xs sm:text-base md:text-lg tracking-tight whitespace-nowrap overflow-hidden text-ellipsis drop-shadow-none group-hover:text-[#059669] transition-colors">
                 {notaryProfile.name}
               </h1>
               
-              <p className="text-[10px] sm:text-[11px] text-sky-200 flex items-center gap-1 font-medium truncate">
-                <i className="fa-solid fa-landmark text-amber-400 text-[9px]"></i>
-                <span>{lang === 'id' ? (websiteSettings.siteSubtitleId || 'Pejabat Pembuat Akta Otentik') : (websiteSettings.siteSubtitleEn || 'Official Notary Public')}</span>
+              <p className="text-[10px] sm:text-[11px] text-[#047857] flex items-center gap-1 font-medium truncate">
+                <i className="fa-solid fa-landmark text-[#059669] text-[9px]"></i>
+                <span>{lang === 'id' ? (websiteSettings.siteSubtitleId || 'Notaris & Pejabat Pembuat Akta') : (websiteSettings.siteSubtitleEn || 'Official Notary Public')}</span>
               </p>
             </div>
           </button>
 
-          {/* Desktop Navigation Links with Clean Dropdown Menu */}
+          {/* Desktop Navigation Links */}
           <nav className="hidden lg:flex items-center space-x-1.5 font-semibold text-sm">
             
-            {/* Beranda Link */}
+            {/* Beranda */}
             <button
               onClick={() => handleLinkClick('beranda')}
-              className={`px-3.5 py-2 rounded-xl transition-all flex items-center gap-1.5 ${
+              className={`px-3.5 py-2 rounded-xl transition-all flex items-center gap-1.5 cursor-pointer ${
                 activeSection === 'beranda'
-                  ? 'bg-amber-400 text-slate-950 font-bold shadow-md shadow-amber-500/20'
-                  : 'text-slate-100 hover:text-white hover:bg-white/10'
+                  ? 'bg-[#059669] text-white font-bold shadow-sm'
+                  : 'text-[#1e3a2b] hover:bg-[#ecfdf5]'
               }`}
             >
-              <i className={`fa-solid fa-house-chimney text-xs ${activeSection === 'beranda' ? 'text-slate-950' : 'text-amber-300'}`}></i>
+              <i className="fa-solid fa-house-chimney text-xs"></i>
               <span>{lang === 'id' ? 'Beranda' : 'Home'}</span>
             </button>
 
-            {/* Dropdown Menu: Layanan & Fitur Hukum */}
-            <div className="relative" ref={dropdownRef}>
-              <button
-                onClick={() => setServicesDropdownOpen(!servicesDropdownOpen)}
-                onMouseEnter={() => setServicesDropdownOpen(true)}
-                className={`px-3.5 py-2 rounded-xl transition-all flex items-center gap-1.5 ${
-                  isAnyServiceActive || servicesDropdownOpen
-                    ? 'bg-white/15 text-white border border-white/20'
-                    : 'text-slate-100 hover:text-white hover:bg-white/10'
-                }`}
-                aria-expanded={servicesDropdownOpen}
-              >
-                <i className="fa-solid fa-layer-group text-xs text-amber-300"></i>
-                <span>{lang === 'id' ? 'Layanan & Fitur Hukum' : 'Services & Tools'}</span>
-                <i className={`fa-solid fa-chevron-down text-[10px] ml-0.5 transition-transform duration-200 ${servicesDropdownOpen ? 'rotate-180 text-amber-400' : 'text-slate-300'}`}></i>
-              </button>
-
-              {/* Dropdown Panel */}
-              {servicesDropdownOpen && (
-                <div 
-                  onMouseLeave={() => setServicesDropdownOpen(false)}
-                  className="absolute left-0 mt-2 w-84 bg-white text-slate-900 rounded-2xl shadow-2xl border border-slate-200 p-2 z-50 animate-in fade-in slide-in-from-top-2 duration-150"
-                >
-                  <div className="px-3 py-1.5 text-[10px] font-bold uppercase tracking-wider text-slate-500 border-b border-slate-100 mb-1">
-                    {lang === 'id' ? 'Katalog Akta & Instrumen Interaktif' : 'Deed Catalog & Legal Tools'}
-                  </div>
-
-                  {serviceSubLinks.map((item) => {
-                    const isActive = activeSection === item.id;
-                    return (
-                      <button
-                        key={item.id}
-                        onClick={() => handleLinkClick(item.id)}
-                        className={`w-full text-left p-2.5 rounded-xl transition-all flex items-start gap-3 group ${
-                          isActive
-                            ? 'bg-amber-50 text-slate-950 border border-amber-300 shadow-sm'
-                            : 'hover:bg-slate-100 text-slate-800'
-                        }`}
-                      >
-                        <div className={`w-8 h-8 rounded-lg flex items-center justify-center text-xs shrink-0 mt-0.5 shadow-sm ${item.color}`}>
-                          <i className={item.icon}></i>
-                        </div>
-                        <div className="min-w-0 flex-1">
-                          <div className={`text-xs font-bold flex items-center justify-between ${isActive ? 'text-amber-950' : 'group-hover:text-blue-700'}`}>
-                            <span>{lang === 'id' ? item.titleId : item.titleEn}</span>
-                            <i className="fa-solid fa-arrow-right text-[10px] text-slate-400 group-hover:text-blue-600 transition-transform group-hover:translate-x-0.5"></i>
-                          </div>
-                          <div className="text-[11px] text-slate-500 leading-tight line-clamp-1 mt-0.5">
-                            {lang === 'id' ? item.descId : item.descEn}
-                          </div>
-                        </div>
-                      </button>
-                    );
-                  })}
-                </div>
-              )}
-            </div>
+            {/* Profil Notaris */}
+            <button
+              onClick={() => handleLinkClick('profil')}
+              className={`px-3.5 py-2 rounded-xl transition-all flex items-center gap-1.5 cursor-pointer ${
+                activeSection === 'profil'
+                  ? 'bg-[#059669] text-white font-bold shadow-sm'
+                  : 'text-[#1e3a2b] hover:bg-[#ecfdf5]'
+              }`}
+            >
+              <i className="fa-solid fa-user-tie text-xs"></i>
+              <span>{lang === 'id' ? 'Profil Notaris' : 'Profile'}</span>
+            </button>
 
             {/* Janji Temu */}
             <button
               onClick={() => handleLinkClick('kontak')}
-              className={`px-3.5 py-2 rounded-xl transition-all flex items-center gap-1.5 ${
+              className={`px-3.5 py-2 rounded-xl transition-all flex items-center gap-1.5 cursor-pointer ${
                 activeSection === 'kontak'
-                  ? 'bg-amber-400 text-slate-950 font-bold shadow-md shadow-amber-500/20'
-                  : 'text-slate-100 hover:text-white hover:bg-white/10'
+                  ? 'bg-[#059669] text-white font-bold shadow-sm'
+                  : 'text-[#1e3a2b] hover:bg-[#ecfdf5]'
               }`}
             >
-              <i className={`fa-solid fa-calendar-check text-xs ${activeSection === 'kontak' ? 'text-slate-950' : 'text-amber-300'}`}></i>
-              <span>{lang === 'id' ? 'Janji Temu' : 'Appointment'}</span>
+              <i className="fa-solid fa-calendar-check text-xs"></i>
+              <span>{lang === 'id' ? 'Janji Temu Konsultasi' : 'Appointment'}</span>
+            </button>
+
+            {/* Lokasi Kantor */}
+            <button
+              onClick={() => handleLinkClick('lokasi')}
+              className={`px-3.5 py-2 rounded-xl transition-all flex items-center gap-1.5 cursor-pointer ${
+                activeSection === 'lokasi'
+                  ? 'bg-[#059669] text-white font-bold shadow-sm'
+                  : 'text-[#1e3a2b] hover:bg-[#ecfdf5]'
+              }`}
+            >
+              <i className="fa-solid fa-map-location-dot text-xs"></i>
+              <span>{lang === 'id' ? 'Lokasi Kantor' : 'Location'}</span>
             </button>
 
           </nav>
@@ -272,11 +179,11 @@ export const Navbar: React.FC<NavbarProps> = ({ lang, setLang, activeSection, on
           <div className="flex items-center space-x-1.5 sm:space-x-3">
             
             {/* Language Switch Button */}
-            <div className="bg-[#081735] p-0.5 sm:p-1 rounded-xl border border-white/15 flex items-center text-xs shadow-inner">
+            <div className="bg-[#ecfdf5] p-0.5 sm:p-1 rounded-xl border border-[#a7f3d0] flex items-center text-xs">
               <button
                 onClick={() => setLang('id')}
-                className={`px-2 sm:px-2.5 py-1 rounded-lg font-bold transition-all text-[11px] sm:text-xs ${
-                  lang === 'id' ? 'bg-gradient-to-r from-amber-400 to-amber-500 text-slate-950 shadow-sm' : 'text-slate-300 hover:text-white'
+                className={`px-2 sm:px-2.5 py-1 rounded-lg font-bold transition-all text-[11px] sm:text-xs cursor-pointer ${
+                  lang === 'id' ? 'bg-[#059669] text-white shadow-sm' : 'text-[#065f46] hover:text-[#059669]'
                 }`}
                 title="Bahasa Indonesia"
               >
@@ -284,8 +191,8 @@ export const Navbar: React.FC<NavbarProps> = ({ lang, setLang, activeSection, on
               </button>
               <button
                 onClick={() => setLang('en')}
-                className={`px-2 sm:px-2.5 py-1 rounded-lg font-bold transition-all text-[11px] sm:text-xs ${
-                  lang === 'en' ? 'bg-gradient-to-r from-amber-400 to-amber-500 text-slate-950 shadow-sm' : 'text-slate-300 hover:text-white'
+                className={`px-2 sm:px-2.5 py-1 rounded-lg font-bold transition-all text-[11px] sm:text-xs cursor-pointer ${
+                  lang === 'en' ? 'bg-[#059669] text-white shadow-sm' : 'text-[#065f46] hover:text-[#059669]'
                 }`}
                 title="English"
               >
@@ -293,12 +200,12 @@ export const Navbar: React.FC<NavbarProps> = ({ lang, setLang, activeSection, on
               </button>
             </div>
 
-            {/* Direct WhatsApp CTA Button */}
+            {/* Direct WhatsApp CTA Button in Vibrant Emerald Green */}
             <a
               href={`https://wa.me/${notaryProfile.whatsapp}?text=Halo%20Notaris%20Syarifah%20Nurul%20Aziizi,%20saya%20ingin%20konsultasi%20pembuatan%20akta.`}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-1.5 bg-gradient-to-r from-emerald-500 to-emerald-600 hover:from-emerald-400 hover:to-emerald-500 text-white font-bold text-xs sm:text-sm px-2.5 sm:px-4 py-2 sm:py-2.5 rounded-xl shadow-lg shadow-emerald-950/40 border border-emerald-400/40 transition-all hover:scale-105 active:scale-95 shrink-0"
+              className="inline-flex items-center gap-1.5 bg-[#25D366] hover:bg-[#20bd5a] text-white font-extrabold text-xs sm:text-sm px-2.5 sm:px-4 py-2 sm:py-2.5 rounded-xl shadow-md border border-[#1ea952] transition-all hover:scale-105 active:scale-95 shrink-0"
             >
               <i className="fa-brands fa-whatsapp text-sm sm:text-base text-white"></i>
               <span className="hidden sm:inline">{lang === 'id' ? 'Konsultasi WA' : 'Chat WA'}</span>
@@ -308,10 +215,10 @@ export const Navbar: React.FC<NavbarProps> = ({ lang, setLang, activeSection, on
             {/* Mobile Menu Hamburger Button */}
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="lg:hidden w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-white/10 hover:bg-white/20 border border-white/15 text-white flex items-center justify-center transition-colors focus:outline-none shrink-0"
+              className="lg:hidden w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-[#ecfdf5] hover:bg-[#d1fae5] border border-[#a7f3d0] text-[#065f46] flex items-center justify-center transition-colors focus:outline-none shrink-0 cursor-pointer"
               aria-label="Toggle Navigation Menu"
             >
-              <i className={`fa-solid ${mobileMenuOpen ? 'fa-xmark text-base text-amber-300' : 'fa-bars text-base'}`}></i>
+              <i className={`fa-solid ${mobileMenuOpen ? 'fa-xmark text-base text-[#059669]' : 'fa-bars text-base'}`}></i>
             </button>
 
           </div>
@@ -319,25 +226,25 @@ export const Navbar: React.FC<NavbarProps> = ({ lang, setLang, activeSection, on
         </div>
       </div>
 
-      {/* Mobile Slide-down Full Drawer Menu */}
+      {/* Mobile Slide-down Drawer Menu in Bright Pastel Green */}
       {mobileMenuOpen && (
-        <div className="lg:hidden bg-[#0a1838] border-t border-amber-500/20 px-3 py-4 shadow-2xl animate-in fade-in slide-in-from-top-4 duration-200">
+        <div className="lg:hidden bg-white/98 border-t border-[#a7f3d0] px-3 py-4 shadow-xl animate-in fade-in slide-in-from-top-4 duration-200">
           
-          <div className="text-[10px] uppercase font-bold tracking-wider text-amber-300/80 px-1 mb-2">
-            {lang === 'id' ? 'NAVIGASI UTAMA & FITUR INTERAKTIF' : 'MAIN NAVIGATION & TOOLS'}
+          <div className="text-[10px] uppercase font-bold tracking-wider text-[#059669] px-1 mb-2">
+            {lang === 'id' ? 'MENU UTAMA KANTOR NOTARIS' : 'MAIN NAVIGATION'}
           </div>
 
           <div className="grid grid-cols-2 gap-2 mb-3">
             <button
               onClick={() => handleLinkClick('beranda')}
-              className={`p-2.5 rounded-xl text-left flex items-center gap-2 transition-all ${
+              className={`p-2.5 rounded-xl text-left flex items-center gap-2 transition-all cursor-pointer ${
                 activeSection === 'beranda'
-                  ? 'bg-amber-400 text-slate-950 font-bold shadow-md'
-                  : 'bg-white/5 hover:bg-white/10 text-slate-100 border border-white/10'
+                  ? 'bg-[#059669] text-white font-bold shadow-sm'
+                  : 'bg-[#ecfdf5] text-[#065f46] border border-[#a7f3d0]'
               }`}
             >
-              <div className={`w-6 h-6 rounded-lg flex items-center justify-center text-xs ${
-                activeSection === 'beranda' ? 'bg-slate-950 text-amber-400' : 'bg-white/10 text-amber-300'
+              <div className={`w-7 h-7 rounded-lg flex items-center justify-center text-xs ${
+                activeSection === 'beranda' ? 'bg-white text-[#059669]' : 'bg-white text-[#059669]'
               }`}>
                 <i className="fa-solid fa-house-chimney"></i>
               </div>
@@ -345,99 +252,67 @@ export const Navbar: React.FC<NavbarProps> = ({ lang, setLang, activeSection, on
             </button>
 
             <button
-              onClick={() => handleLinkClick('layanan')}
-              className={`p-2.5 rounded-xl text-left flex items-center gap-2 transition-all ${
-                activeSection === 'layanan'
-                  ? 'bg-amber-400 text-slate-950 font-bold shadow-md'
-                  : 'bg-white/5 hover:bg-white/10 text-slate-100 border border-white/10'
+              onClick={() => handleLinkClick('profil')}
+              className={`p-2.5 rounded-xl text-left flex items-center gap-2 transition-all cursor-pointer ${
+                activeSection === 'profil'
+                  ? 'bg-[#059669] text-white font-bold shadow-sm'
+                  : 'bg-[#ecfdf5] text-[#065f46] border border-[#a7f3d0]'
               }`}
             >
-              <div className={`w-6 h-6 rounded-lg flex items-center justify-center text-xs ${
-                activeSection === 'layanan' ? 'bg-slate-950 text-amber-400' : 'bg-white/10 text-blue-300'
+              <div className={`w-7 h-7 rounded-lg flex items-center justify-center text-xs ${
+                activeSection === 'profil' ? 'bg-white text-[#059669]' : 'bg-white text-[#059669]'
               }`}>
-                <i className="fa-solid fa-file-contract"></i>
+                <i className="fa-solid fa-user-tie"></i>
               </div>
-              <span className="text-xs font-semibold">{lang === 'id' ? 'Layanan Akta' : 'Services'}</span>
-            </button>
-
-            <button
-              onClick={() => handleLinkClick('kbli-engine')}
-              className={`p-2.5 rounded-xl text-left flex items-center gap-2 transition-all ${
-                activeSection === 'kbli-engine'
-                  ? 'bg-amber-400 text-slate-950 font-bold shadow-md'
-                  : 'bg-white/5 hover:bg-white/10 text-slate-100 border border-white/10'
-              }`}
-            >
-              <div className={`w-6 h-6 rounded-lg flex items-center justify-center text-xs ${
-                activeSection === 'kbli-engine' ? 'bg-slate-950 text-amber-400' : 'bg-white/10 text-amber-300'
-              }`}>
-                <i className="fa-solid fa-microchip"></i>
-              </div>
-              <span className="text-xs font-semibold">{lang === 'id' ? 'Smart KBLI' : 'KBLI Engine'}</span>
-            </button>
-
-            <button
-              onClick={() => handleLinkClick('kalkulator')}
-              className={`p-2.5 rounded-xl text-left flex items-center gap-2 transition-all ${
-                activeSection === 'kalkulator'
-                  ? 'bg-amber-400 text-slate-950 font-bold shadow-md'
-                  : 'bg-white/5 hover:bg-white/10 text-slate-100 border border-white/10'
-              }`}
-            >
-              <div className={`w-6 h-6 rounded-lg flex items-center justify-center text-xs ${
-                activeSection === 'kalkulator' ? 'bg-slate-950 text-amber-400' : 'bg-white/10 text-purple-300'
-              }`}>
-                <i className="fa-solid fa-calculator"></i>
-              </div>
-              <span className="text-xs font-semibold">{lang === 'id' ? 'Kalkulator Pajak' : 'Tax Calc'}</span>
-            </button>
-
-            <button
-              onClick={() => handleLinkClick('lacak-berkas')}
-              className={`p-2.5 rounded-xl text-left flex items-center gap-2 transition-all ${
-                activeSection === 'lacak-berkas'
-                  ? 'bg-amber-400 text-slate-950 font-bold shadow-md'
-                  : 'bg-white/5 hover:bg-white/10 text-slate-100 border border-white/10'
-              }`}
-            >
-              <div className={`w-6 h-6 rounded-lg flex items-center justify-center text-xs ${
-                activeSection === 'lacak-berkas' ? 'bg-slate-950 text-amber-400' : 'bg-white/10 text-emerald-300'
-              }`}>
-                <i className="fa-solid fa-magnifying-glass-chart"></i>
-              </div>
-              <span className="text-xs font-semibold">{lang === 'id' ? 'Lacak Berkas' : 'Track Case'}</span>
+              <span className="text-xs font-semibold">{lang === 'id' ? 'Profil' : 'Profile'}</span>
             </button>
 
             <button
               onClick={() => handleLinkClick('kontak')}
-              className={`p-2.5 rounded-xl text-left flex items-center gap-2 transition-all ${
+              className={`p-2.5 rounded-xl text-left flex items-center gap-2 transition-all cursor-pointer ${
                 activeSection === 'kontak'
-                  ? 'bg-amber-400 text-slate-950 font-bold shadow-md'
-                  : 'bg-white/5 hover:bg-white/10 text-slate-100 border border-white/10'
+                  ? 'bg-[#059669] text-white font-bold shadow-sm'
+                  : 'bg-[#ecfdf5] text-[#065f46] border border-[#a7f3d0]'
               }`}
             >
-              <div className={`w-6 h-6 rounded-lg flex items-center justify-center text-xs ${
-                activeSection === 'kontak' ? 'bg-slate-950 text-amber-400' : 'bg-white/10 text-rose-300'
+              <div className={`w-7 h-7 rounded-lg flex items-center justify-center text-xs ${
+                activeSection === 'kontak' ? 'bg-white text-[#059669]' : 'bg-white text-[#059669]'
               }`}>
                 <i className="fa-solid fa-calendar-check"></i>
               </div>
               <span className="text-xs font-semibold">{lang === 'id' ? 'Janji Temu' : 'Appointment'}</span>
             </button>
+
+            <button
+              onClick={() => handleLinkClick('lokasi')}
+              className={`p-2.5 rounded-xl text-left flex items-center gap-2 transition-all cursor-pointer ${
+                activeSection === 'lokasi'
+                  ? 'bg-[#059669] text-white font-bold shadow-sm'
+                  : 'bg-[#ecfdf5] text-[#065f46] border border-[#a7f3d0]'
+              }`}
+            >
+              <div className={`w-7 h-7 rounded-lg flex items-center justify-center text-xs ${
+                activeSection === 'lokasi' ? 'bg-white text-[#059669]' : 'bg-white text-[#059669]'
+              }`}>
+                <i className="fa-solid fa-map-location-dot"></i>
+              </div>
+              <span className="text-xs font-semibold">{lang === 'id' ? 'Lokasi' : 'Location'}</span>
+            </button>
           </div>
 
-          <div className="p-3 rounded-xl bg-gradient-to-r from-emerald-950/80 to-blue-950/80 border border-emerald-500/40 flex items-center justify-between text-xs">
+          <div className="p-3 rounded-xl bg-gradient-to-r from-[#ecfdf5] to-[#f0fdf4] border border-[#a7f3d0] flex items-center justify-between text-xs">
             <div>
-              <div className="font-bold text-emerald-300 flex items-center gap-1.5">
-                <i className="fa-brands fa-whatsapp text-sm text-emerald-400"></i>
-                WhatsApp Resmi Kantor Notaris
+              <div className="font-bold text-[#065f46] flex items-center gap-1.5">
+                <i className="fa-brands fa-whatsapp text-sm text-[#25D366]"></i>
+                WhatsApp Resmi Notaris
               </div>
-              <div className="text-slate-300 text-[11px]">{notaryProfile.whatsappFormatted}</div>
+              <div className="text-[#047857] text-[11px]">{notaryProfile.whatsappFormatted}</div>
             </div>
             <a
               href={`https://wa.me/${notaryProfile.whatsapp}?text=Halo%20Notaris%20Syarifah%20Nurul%20Aziizi,%20saya%20ingin%20konsultasi.`}
               target="_blank"
               rel="noopener noreferrer"
-              className="px-3 py-1.5 bg-emerald-500 hover:bg-emerald-400 text-white font-bold rounded-lg transition-colors shadow"
+              className="px-3.5 py-1.5 bg-[#25D366] hover:bg-[#20bd5a] text-white font-extrabold rounded-lg transition-colors shadow-sm"
             >
               Hubungi
             </a>
@@ -448,4 +323,3 @@ export const Navbar: React.FC<NavbarProps> = ({ lang, setLang, activeSection, on
     </header>
   );
 };
-
