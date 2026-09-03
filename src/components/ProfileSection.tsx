@@ -89,28 +89,6 @@ export const ProfileSection: React.FC<ProfileSectionProps> = ({ lang, onNavigate
               </div>
             </div>
 
-            {/* Guiding Principles */}
-            <div className="bg-white rounded-3xl border border-[#a7f3d0] p-6 sm:p-7 shadow-md">
-              <h4 className="font-serif text-base sm:text-lg font-bold text-[#0f291e] mb-3 flex items-center gap-2.5">
-                <i className="fa-solid fa-shield-halved text-[#059669]"></i>
-                <span>{lang === 'id' ? 'Komitmen Pelayanan Notariat' : 'Service Commitments'}</span>
-              </h4>
-              <ul className="space-y-2.5 text-xs sm:text-sm text-[#1e3a2b]">
-                <li className="flex items-start gap-2.5">
-                  <i className="fa-solid fa-circle-check text-[#16a34a] text-xs mt-1 shrink-0"></i>
-                  <span><strong>Kepastian Hukum:</strong> Setiap akta disusun dengan ketelitian yuridis sesuai peraturan perundang-undangan Republik Indonesia.</span>
-                </li>
-                <li className="flex items-start gap-2.5">
-                  <i className="fa-solid fa-circle-check text-[#16a34a] text-xs mt-1 shrink-0"></i>
-                  <span><strong>Kerahasiaan Dokumen:</strong> Kerahasiaan data penghadap dilindungi secara penuh berdasarkan Kode Etik Ikatan Notaris Indonesia (INI).</span>
-                </li>
-                <li className="flex items-start gap-2.5">
-                  <i className="fa-solid fa-circle-check text-[#16a34a] text-xs mt-1 shrink-0"></i>
-                  <span><strong>Pelayanan Profesional:</strong> Konsultasi tatap muka ramah, transparan, dan terarah untuk mempermudah urusan hukum Anda.</span>
-                </li>
-              </ul>
-            </div>
-
             {/* Action CTA: VIBRANT COLORED BUTTONS ("tombol tombol tetap berwarna") */}
             <div className="pt-2 flex flex-wrap gap-3">
               {/* Vibrant Forest Emerald Button */}
