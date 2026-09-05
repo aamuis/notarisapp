@@ -18,6 +18,8 @@ export const AdminDashboard: React.FC<{ lang: Language }> = ({ lang }) => {
     updateWebsiteSettings,
     notaryProfile,
     updateNotaryProfile,
+    photos,
+    addPhoto,
     legalServices,
     addLegalService,
     updateLegalService,
@@ -66,6 +68,115 @@ export const AdminDashboard: React.FC<{ lang: Language }> = ({ lang }) => {
   // Local Edit States for Forms
   const [webForm, setWebForm] = useState(websiteSettings);
   const [profileForm, setProfileForm] = useState(notaryProfile);
+
+  // Notary Profile Photo States & Handlers
+  const notaryPhotoFileRef = React.useRef<HTMLInputElement>(null);
+  const [isUploadingNotaryPhoto, setIsUploadingNotaryPhoto] = useState(false);
+  const [notaryPhotoProgress, setNotaryPhotoProgress] = useState('');
+  const [isPhotoPickerOpen, setIsPhotoPickerOpen] = useState(false);
+  const [customPhotoUrlInput, setCustomPhotoUrlInput] = useState('');
+
+  // Keep forms synchronized with Context changes
+  React.useEffect(() => {
+    setProfileForm(notaryProfile);
+  }, [notaryProfile]);
+
+  React.useEffect(() => {
+    setWebForm(websiteSettings);
+  }, [websiteSettings]);
+
+  // Handle Notary Profile Photo File Upload (Vercel Blob + Neon Database + Local Storage)
+  const handleNotaryPhotoUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    if (!file.type.startsWith('image/')) {
+      alert('Hanya file gambar (JPG, PNG, WEBP) yang diperbolehkan.');
+      return;
+    }
+
+    if (file.size > 15 * 1024 * 1024) {
+      alert('Ukuran file maksimal adalah 15MB.');
+      return;
+    }
+
+    setIsUploadingNotaryPhoto(true);
+    setNotaryPhotoProgress('Mengunggah foto ke Vercel Blob & Server...');
+
+    try {
+      const formData = new FormData();
+      formData.append('file', file);
+      formData.append('title', `Foto Resmi Notaris - ${profileForm.name}`);
+      formData.append('category', 'Profil Notaris');
+      formData.append('date', new Date().toISOString().split('T')[0]);
+      formData.append('description', `Foto profil utama Notaris Syarifah Nurul Aziizi`);
+
+      const res = await fetch('/api/photos/upload', {
+        method: 'POST',
+        body: formData,
+      });
+
+      if (res.ok) {
+        const result = await res.json();
+        if (result.photo?.url) {
+          const uploadedUrl = result.photo.url;
+          setProfileForm((prev) => ({ ...prev, photoUrl: uploadedUrl }));
+          updateNotaryProfile({ photoUrl: uploadedUrl });
+          if (addPhoto) addPhoto(result.photo);
+          showToast('Foto profil Notaris berhasil diunggah ke Vercel Blob dan disimpan!');
+          setIsUploadingNotaryPhoto(false);
+          setNotaryPhotoProgress('');
+          if (notaryPhotoFileRef.current) notaryPhotoFileRef.current.value = '';
+          return;
+        }
+      }
+
+      // Fallback to local DataURL if server upload endpoint is not reachable
+      const reader = new FileReader();
+      reader.onload = (event) => {
+        if (event.target?.result) {
+          const dataUrl = event.target.result as string;
+          setProfileForm((prev) => ({ ...prev, photoUrl: dataUrl }));
+          updateNotaryProfile({ photoUrl: dataUrl });
+          showToast('Foto profil Notaris berhasil disimpan secara lokal!');
+        }
+        setIsUploadingNotaryPhoto(false);
+        setNotaryPhotoProgress('');
+      };
+      reader.readAsDataURL(file);
+    } catch (err) {
+      console.warn('Upload to server failed, using local storage fallback:', err);
+      const reader = new FileReader();
+      reader.onload = (event) => {
+        if (event.target?.result) {
+          const dataUrl = event.target.result as string;
+          setProfileForm((prev) => ({ ...prev, photoUrl: dataUrl }));
+          updateNotaryProfile({ photoUrl: dataUrl });
+          showToast('Foto profil Notaris berhasil disimpan!');
+        }
+        setIsUploadingNotaryPhoto(false);
+        setNotaryPhotoProgress('');
+      };
+      reader.readAsDataURL(file);
+    }
+    if (notaryPhotoFileRef.current) notaryPhotoFileRef.current.value = '';
+  };
+
+  const handleApplyCustomPhotoUrl = (url: string) => {
+    if (!url.trim()) return;
+    setProfileForm((prev) => ({ ...prev, photoUrl: url.trim() }));
+    updateNotaryProfile({ photoUrl: url.trim() });
+    showToast('Tautan foto profil Notaris berhasil diperbarui!');
+  };
+
+  const handleResetPhotoDefault = () => {
+    if (window.confirm('Kembalikan foto profil Notaris ke foto default sistem?')) {
+      const defaultUrl = '/SYARIFAH NURUL.png';
+      setProfileForm((prev) => ({ ...prev, photoUrl: defaultUrl }));
+      updateNotaryProfile({ photoUrl: defaultUrl });
+      showToast('Foto profil Notaris dikembalikan ke bawaan sistem.');
+    }
+  };
 
   // Service Modal State
   const [editingService, setEditingService] = useState<LegalService | null>(null);
@@ -751,6 +862,146 @@ export const AdminDashboard: React.FC<{ lang: Language }> = ({ lang }) => {
 
             <form onSubmit={handleSaveNotaryProfile} className="space-y-6">
               
+              {/* Foto Profil Resmi Notaris - Upload & Manajemen Khusus Admin */}
+              <div className="bg-gradient-to-br from-emerald-50 via-teal-50/50 to-slate-50 border-2 border-emerald-200 rounded-2xl p-5 sm:p-6 space-y-4">
+                <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 border-b border-emerald-100 pb-3">
+                  <div className="flex items-center gap-2.5">
+                    <div className="w-9 h-9 rounded-xl bg-emerald-600 text-white flex items-center justify-center shadow-xs">
+                      <i className="fa-solid fa-camera-retro text-sm"></i>
+                    </div>
+                    <div>
+                      <h3 className="font-bold text-slate-900 text-sm sm:text-base flex items-center gap-2">
+                        Foto Profil Resmi Notaris
+                        <span className="text-[10px] font-bold bg-emerald-100 text-emerald-800 border border-emerald-300 px-2 py-0.5 rounded-full">
+                          Aktif di Seluruh Website
+                        </span>
+                      </h3>
+                      <p className="text-xs text-slate-600">
+                        Foto yang diunggah di sini otomatis tampil pada Banner Hero, Bagian Profil Lengkap, dan Avatar Bilah Menu (Navbar).
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="flex items-center gap-2">
+                    <button
+                      type="button"
+                      onClick={handleResetPhotoDefault}
+                      className="text-xs text-slate-600 hover:text-slate-900 bg-white hover:bg-slate-100 border border-slate-300 px-3 py-1.5 rounded-lg font-semibold transition-all cursor-pointer flex items-center gap-1.5 shadow-2xs"
+                      title="Kembalikan foto profil ke bawaan sistem"
+                    >
+                      <i className="fa-solid fa-rotate-left text-[10px]"></i>
+                      <span>Reset Bawaan</span>
+                    </button>
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-12 gap-6 items-center">
+                  {/* Visual Avatar Preview */}
+                  <div className="md:col-span-4 flex flex-col items-center justify-center p-4 bg-white rounded-2xl border border-emerald-100 shadow-xs text-center">
+                    <div className="relative group">
+                      <div className="w-28 h-28 sm:w-32 sm:h-32 rounded-2xl overflow-hidden border-4 border-white shadow-md bg-emerald-50 flex items-center justify-center ring-2 ring-emerald-400">
+                        <img
+                          src={profileForm.photoUrl || notaryProfile.photoUrl || '/SYARIFAH NURUL.png'}
+                          alt={profileForm.name}
+                          className="w-full h-full object-cover object-top"
+                          onError={(e) => {
+                            const target = e.currentTarget as HTMLImageElement;
+                            target.src = '/syarifah_portrait.svg';
+                          }}
+                        />
+                      </div>
+                      <span className="absolute -bottom-1 -right-1 w-5 h-5 bg-emerald-500 border-2 border-white rounded-full flex items-center justify-center text-[9px] text-white shadow-xs">
+                        <i className="fa-solid fa-check"></i>
+                      </span>
+                    </div>
+                    <p className="text-xs font-bold text-slate-900 mt-2.5 truncate max-w-full">
+                      {profileForm.name}
+                    </p>
+                    <span className="text-[10px] text-emerald-700 font-semibold bg-emerald-50 px-2 py-0.5 rounded-full mt-1 border border-emerald-200">
+                      Tersimpan & Siap Tampil
+                    </span>
+                  </div>
+
+                  {/* Upload Action Controls */}
+                  <div className="md:col-span-8 space-y-4">
+                    {/* File Upload Trigger */}
+                    <div>
+                      <input
+                        ref={notaryPhotoFileRef}
+                        type="file"
+                        accept="image/png,image/jpeg,image/webp,image/jpg"
+                        onChange={handleNotaryPhotoUpload}
+                        className="hidden"
+                      />
+
+                      <div className="flex flex-wrap gap-2.5">
+                        <button
+                          type="button"
+                          disabled={isUploadingNotaryPhoto}
+                          onClick={() => notaryPhotoFileRef.current?.click()}
+                          className="px-4 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl text-xs font-bold transition-all shadow-sm hover:shadow flex items-center gap-2 cursor-pointer disabled:opacity-50"
+                        >
+                          {isUploadingNotaryPhoto ? (
+                            <>
+                              <i className="fa-solid fa-circle-notch fa-spin text-sm"></i>
+                              <span>{notaryPhotoProgress || 'Mengunggah Foto...'}</span>
+                            </>
+                          ) : (
+                            <>
+                              <i className="fa-solid fa-cloud-arrow-up text-sm"></i>
+                              <span>Unggah Foto Notaris Baru (Vercel Blob)</span>
+                            </>
+                          )}
+                        </button>
+
+                        <button
+                          type="button"
+                          onClick={() => setIsPhotoPickerOpen(true)}
+                          className="px-3.5 py-2.5 bg-white hover:bg-emerald-50 text-emerald-800 border border-emerald-300 rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 cursor-pointer shadow-2xs"
+                        >
+                          <i className="fa-solid fa-images text-emerald-600"></i>
+                          <span>Pilih dari Galeri ({photos?.length || 0})</span>
+                        </button>
+                      </div>
+
+                      <p className="text-[11px] text-slate-500 mt-1.5">
+                        Format file: JPG, PNG, atau WebP (Maks. 15MB). Langsung disimpan ke penyimpanan cloud Vercel Blob & database Neon.
+                      </p>
+                    </div>
+
+                    {/* Manual URL Input Option */}
+                    <div className="pt-2 border-t border-emerald-100">
+                      <label className="block text-[11px] font-bold text-slate-700 uppercase mb-1">
+                        Atau Tempel Tautan URL Foto:
+                      </label>
+                      <div className="flex gap-2">
+                        <input
+                          type="text"
+                          value={customPhotoUrlInput}
+                          onChange={(e) => setCustomPhotoUrlInput(e.target.value)}
+                          placeholder={profileForm.photoUrl || "https://... tempel tautan foto online"}
+                          className="flex-1 px-3 py-2 bg-white border border-slate-300 rounded-xl text-xs text-slate-900 focus:outline-emerald-500 font-mono"
+                        />
+                        <button
+                          type="button"
+                          onClick={() => {
+                            if (customPhotoUrlInput.trim()) {
+                              handleApplyCustomPhotoUrl(customPhotoUrlInput.trim());
+                              setCustomPhotoUrlInput('');
+                            } else {
+                              alert('Silakan ketik atau tempel URL gambar terlebih dahulu.');
+                            }
+                          }}
+                          className="px-3.5 py-2 bg-slate-800 hover:bg-slate-900 text-white rounded-xl text-xs font-bold transition-all cursor-pointer whitespace-nowrap"
+                        >
+                          Terapkan URL
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 
                 {/* Full Name */}
@@ -2072,6 +2323,103 @@ export const AdminDashboard: React.FC<{ lang: Language }> = ({ lang }) => {
               </div>
             </form>
 
+          </div>
+        </div>
+      )}
+
+      {/* MODAL 5: PILIH FOTO DARI GALERI ADMIN */}
+      {isPhotoPickerOpen && (
+        <div className="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-sm flex items-center justify-center p-4">
+          <div className="max-w-2xl w-full bg-white rounded-3xl p-6 shadow-2xl space-y-4 max-h-[90vh] flex flex-col">
+            <div className="flex items-center justify-between border-b border-slate-200 pb-3">
+              <div className="flex items-center gap-2">
+                <div className="w-8 h-8 rounded-lg bg-emerald-100 text-emerald-700 flex items-center justify-center">
+                  <i className="fa-solid fa-images"></i>
+                </div>
+                <div>
+                  <h3 className="font-serif font-bold text-slate-900 text-base">Pilih Foto untuk Profil Notaris</h3>
+                  <p className="text-xs text-slate-500">Klik foto dari galeri untuk dijadikan foto profil resmi website.</p>
+                </div>
+              </div>
+              <button
+                type="button"
+                onClick={() => setIsPhotoPickerOpen(false)}
+                className="w-8 h-8 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-500 flex items-center justify-center cursor-pointer transition-colors"
+              >
+                <i className="fa-solid fa-xmark"></i>
+              </button>
+            </div>
+
+            <div className="flex-1 overflow-y-auto min-h-[260px] p-2">
+              {photos && photos.length > 0 ? (
+                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
+                  {photos.map((photo) => {
+                    const isSelected = profileForm.photoUrl === photo.url;
+                    return (
+                      <div
+                        key={photo.id}
+                        onClick={() => {
+                          setProfileForm((prev) => ({ ...prev, photoUrl: photo.url }));
+                          updateNotaryProfile({ photoUrl: photo.url });
+                          showToast('Foto profil Notaris berhasil diganti dengan foto pilihan!');
+                          setIsPhotoPickerOpen(false);
+                        }}
+                        className={`group relative rounded-2xl overflow-hidden border-2 cursor-pointer transition-all hover:scale-102 hover:shadow-md ${
+                          isSelected ? 'border-emerald-600 ring-2 ring-emerald-500/50' : 'border-slate-200 hover:border-emerald-400'
+                        }`}
+                      >
+                        <div className="aspect-square bg-slate-100 overflow-hidden">
+                          <img
+                            src={photo.url}
+                            alt={photo.title}
+                            className="w-full h-full object-cover group-hover:scale-105 transition-transform"
+                          />
+                        </div>
+                        <div className="p-2 bg-white text-left">
+                          <p className="text-[11px] font-bold text-slate-900 truncate" title={photo.title}>
+                            {photo.title}
+                          </p>
+                          <span className="text-[9px] text-emerald-700 bg-emerald-50 px-1.5 py-0.2 rounded font-medium">
+                            {photo.category}
+                          </span>
+                        </div>
+                        {isSelected && (
+                          <div className="absolute top-2 right-2 w-5 h-5 bg-emerald-600 text-white rounded-full flex items-center justify-center text-[10px] shadow">
+                            <i className="fa-solid fa-check"></i>
+                          </div>
+                        )}
+                      </div>
+                    );
+                  })}
+                </div>
+              ) : (
+                <div className="text-center py-12 text-slate-400 space-y-3">
+                  <i className="fa-regular fa-image text-4xl text-slate-300"></i>
+                  <p className="text-xs">Belum ada foto yang tersimpan di galeri admin.</p>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setIsPhotoPickerOpen(false);
+                      setActiveTab('photos');
+                    }}
+                    className="px-4 py-2 bg-emerald-600 text-white rounded-xl text-xs font-bold hover:bg-emerald-700 transition-colors inline-flex items-center gap-1.5 cursor-pointer"
+                  >
+                    <i className="fa-solid fa-cloud-arrow-up"></i>
+                    Buka Tab Upload Foto Vercel Blob
+                  </button>
+                </div>
+              )}
+            </div>
+
+            <div className="pt-3 border-t border-slate-200 flex justify-end">
+              <button
+                type="button"
+                onClick={() => setIsPhotoPickerOpen(false)}
+                className="px-4 py-2 bg-slate-200 hover:bg-slate-300 text-slate-800 text-xs font-bold rounded-xl transition-colors cursor-pointer"
+              >
+                Tutup
+              </button>
+            </div>
           </div>
         </div>
       )}
