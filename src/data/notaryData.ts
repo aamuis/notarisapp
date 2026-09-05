@@ -18,13 +18,13 @@ export const NOTARY_PROFILE: NotaryProfile = {
     s2: "Magister Kenotariatan (M.Kn.) - Universitas Indonesia (UI)"
   },
   address: {
-    full: "Taman Banten Lestari, Blok F20 No.07, RT. 004, RW 025, Kel. Unyur, Kec. Serang, Kota Serang, Banten 42111",
+    full: "Taman Banten Lestari, Blok F20 No.07, RT. 004, RW 025, Kel. Unyur, Kec. Serang, Banten 42111",
     street: "Taman Banten Lestari, Blok F20 No.07",
     block: "Blok F20 No.07",
     rtRw: "RT. 004, RW 025",
     kelurahan: "Kel. Unyur",
     kecamatan: "Kec. Serang",
-    city: "Kota Serang",
+    city: "",
     province: "Banten",
     postalCode: "42111"
   },
@@ -32,7 +32,7 @@ export const NOTARY_PROFILE: NotaryProfile = {
   whatsapp: "6281519555391",
   whatsappFormatted: "+62 815-1955-5391",
   email: "notaris.syarifahnurulaziizi@gmail.com",
-  jurisdiction: "Kota Serang",
+  jurisdiction: "",
   operatingHours: {
     weekdays: "Senin – Jumat: 08.30 – 17.00 WIB",
     saturday: "Sabtu: 09.00 – 14.00 WIB (Dengan Janji Temu)",
@@ -274,8 +274,8 @@ export const LEGAL_SERVICES: LegalService[] = [
     category: "pertanahan",
     titleId: "Layanan Pertanahan & Akta PPAT Terintegrasi BPN",
     titleEn: "Land Conveyancing & Real Estate Deed Drafting",
-    descriptionId: "Pemberian konsultasi dan koordinasi pembuatan Akta Jual Beli (AJB), Hibah, APHB, SKMHT/APHT Hak Tanggungan Elektronik, pengecekan sertifikat BPN Kota Serang.",
-    descriptionEn: "Conveyancing consultation, Sale & Purchase Deeds, Mortgage Deeds (APHT/HT-el) and BPN Serang title verification.",
+    descriptionId: "Pemberian konsultasi dan koordinasi pembuatan Akta Jual Beli (AJB), Hibah, APHB, SKMHT/APHT Hak Tanggungan Elektronik, pengecekan sertifikat BPN / Kantor Pertanahan.",
+    descriptionEn: "Conveyancing consultation, Sale & Purchase Deeds, Mortgage Deeds (APHT/HT-el) and official BPN title verification.",
     iconClass: "fa-solid fa-house-chimney-window",
     tag: "Pertanahan & Aset",
     duration: "3 - 7 Hari Kerja",

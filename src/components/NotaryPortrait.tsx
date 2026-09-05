@@ -14,7 +14,7 @@ export const NotaryPortrait: React.FC<NotaryPortraitProps> = ({
   imageClassName = '',
   size = 'md',
   showBadge = false,
-  altText = 'Syarifah Nurul Aziizi, S.H., M.Kn. - Notaris Kota Serang',
+  altText = 'Syarifah Nurul Aziizi, S.H., M.Kn. - Notaris & Pejabat Pembuat Akta',
 }) => {
   const { notaryProfile } = useData();
 
@@ -82,7 +82,7 @@ export const NotaryPortrait: React.FC<NotaryPortraitProps> = ({
               {notaryProfile.name}
             </span>
             <span className="text-[10px] text-[#047857] font-semibold text-center mt-0.5">
-              Notaris & PPAT Kota Serang
+              Notaris & Pejabat Pembuat Akta
             </span>
           </div>
         )}

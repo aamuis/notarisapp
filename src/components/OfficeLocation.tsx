@@ -13,7 +13,7 @@ export const OfficeLocation: React.FC<OfficeLocationProps> = ({ lang }) => {
     : (notaryProfile.address as { full: string }).full;
 
   const gmapsSearchUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
-    addressText || 'Taman Banten Lestari, Blok F20 No.07, Unyur, Kota Serang, Banten 42111'
+    addressText || 'Taman Banten Lestari, Blok F20 No.07, Unyur, Banten 42111'
   )}`;
 
   return (
@@ -27,12 +27,12 @@ export const OfficeLocation: React.FC<OfficeLocationProps> = ({ lang }) => {
             {lang === 'id' ? 'LOKASI KANTOR RESMI & AKSESIBILITAS' : 'OFFICE LOCATION & ACCESSIBILITY'}
           </div>
           <h2 className="font-serif text-2xl sm:text-4xl font-extrabold text-[#0f291e] mb-3">
-            {lang === 'id' ? 'Kunjungi Kantor Notaris di Kota Serang' : 'Visit Our Notary Office in Serang'}
+            {lang === 'id' ? 'Kunjungi Kantor Notaris' : 'Visit Our Notary Office'}
           </h2>
           <p className="text-[#166534] text-sm sm:text-base">
             {lang === 'id'
-              ? 'Terletak strategis di Kota Serang, dekat dengan pusat pemerintahan Provinsi Banten dan Pengadilan Negeri Serang dengan fasilitas parkir dan ruang konsultasi privat.'
-              : 'Conveniently situated in Serang City, easily accessible from Banten Provincial Government Center and Serang District Court.'}
+              ? 'Terletak strategis dengan akses mudah, fasilitas parkir memadai, dan ruang konsultasi privat yang aman dan nyaman.'
+              : 'Conveniently situated with easy access, ample parking facilities, and comfortable private legal consultation rooms.'}
           </p>
         </div>
 
@@ -129,7 +129,7 @@ export const OfficeLocation: React.FC<OfficeLocationProps> = ({ lang }) => {
           <div className="lg:col-span-7 bg-white p-2.5 sm:p-3 rounded-3xl border border-[#a7f3d0] shadow-xl flex flex-col min-h-[380px] overflow-hidden">
             <div className="w-full h-full min-h-[360px] rounded-2xl overflow-hidden relative border border-[#d1fae5]">
               <iframe
-                title="Peta Lokasi Kantor Notaris Kota Serang"
+                title="Peta Lokasi Kantor Notaris"
                 src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d15867.702958223455!2d106.1666667!3d-6.1166667!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e418b3df99f1873%3A0x6b8764e5dcfba52f!2sTaman%20Banten%20Lestari!5e0!3m2!1sid!2sid!4v1709300000000!5m2!1sid!2sid"
                 className="w-full h-full border-0 contrast-100 opacity-95 transition-all duration-500 min-h-[380px]"
                 loading="lazy"
@@ -137,7 +137,7 @@ export const OfficeLocation: React.FC<OfficeLocationProps> = ({ lang }) => {
               ></iframe>
               <div className="absolute top-3 left-3 bg-white/95 backdrop-blur-md px-3.5 py-1.5 rounded-xl border border-[#a7f3d0] text-xs text-[#065f46] font-bold flex items-center gap-2 pointer-events-none shadow-sm">
                 <span className="w-2.5 h-2.5 rounded-full bg-[#10b981] animate-pulse"></span>
-                <span>Taman Banten Lestari, Kota Serang</span>
+                <span>Taman Banten Lestari</span>
               </div>
             </div>
           </div>

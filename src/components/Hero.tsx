@@ -30,8 +30,8 @@ export const Hero: React.FC<HeroProps> = ({ lang, onNavigate }) => {
             SK Menkumham RI: {notaryProfile.skMenkumham}
           </span>
           <span className="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full text-xs font-bold bg-white text-[#0369a1] border border-[#7dd3fc] shadow-sm">
-            <i className="fa-solid fa-location-dot text-[#0284c7]"></i>
-            Wilayah Jabatan: {notaryProfile.jurisdiction || 'Kota Serang'}
+            <i className="fa-solid fa-shield-halved text-[#0284c7]"></i>
+            SK NPAK: {notaryProfile.skNpak}
           </span>
         </div>
 
@@ -54,7 +54,7 @@ export const Hero: React.FC<HeroProps> = ({ lang, onNavigate }) => {
 
             {/* Subtitle Under Name */}
             <div className="text-[#166534] font-bold text-sm sm:text-base md:text-lg tracking-wider uppercase font-serif mb-8">
-              {lang === 'id' ? 'Notaris & Pejabat Pembuat Akta Kota Serang' : 'Notary Public & Conveyancer in Serang City'}
+              {lang === 'id' ? 'Notaris & Pejabat Pembuat Akta' : 'Notary Public & Conveyancer'}
             </div>
 
             {/* Action Buttons: VIBRANT COLORED BUTTONS ("tombol tombol tetap berwarna") */}
@@ -112,7 +112,7 @@ export const Hero: React.FC<HeroProps> = ({ lang, onNavigate }) => {
                     {notaryProfile.name}
                   </span>
                   <span className="text-[10px] text-[#166534] font-semibold">
-                    Notaris & Pejabat Pembuat Akta Kota Serang
+                    Notaris & Pejabat Pembuat Akta
                   </span>
                 </div>
               </div>

@@ -59,10 +59,10 @@ export const ProfileSection: React.FC<ProfileSectionProps> = ({ lang, onNavigate
               </div>
 
               <div className="p-3 rounded-2xl bg-[#ecfdf5] border border-[#a7f3d0] flex items-start gap-3">
-                <i className="fa-solid fa-map-location-dot text-[#059669] text-sm mt-0.5"></i>
+                <i className="fa-solid fa-scale-balanced text-[#059669] text-sm mt-0.5"></i>
                 <div>
-                  <span className="text-[10px] text-[#059669] block font-bold">Wilayah Jabatan:</span>
-                  <span className="font-bold text-[#064e3b]">{notaryProfile.jurisdiction || 'Kota Serang, Provinsi Banten'}</span>
+                  <span className="text-[10px] text-[#059669] block font-bold">Pejabat Pembuat Akta Koperasi (NPAK):</span>
+                  <span className="font-bold text-[#064e3b]">{notaryProfile.skNpak}</span>
                 </div>
               </div>
             </div>

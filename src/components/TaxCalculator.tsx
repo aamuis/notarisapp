@@ -191,7 +191,7 @@ export const TaxCalculator: React.FC<TaxCalculatorProps> = ({ lang, onNavigateTo
                 disabled={transactionType === 'waris'}
                 className="w-full bg-white border border-slate-300 rounded-xl px-3 py-2.5 text-xs text-slate-800 focus:outline-none focus:ring-2 focus:ring-amber-500 font-medium"
               >
-                <option value={60000000}>Rp 60.000.000 (Standar Kota Serang / Banten)</option>
+                <option value={60000000}>Rp 60.000.000 (Standar Rumah Tinggal / Umum)</option>
                 <option value={80000000}>Rp 80.000.000 (Rumah Pertama Khusus / Subsidi)</option>
                 <option value={300000000}>Rp 300.000.000 (Perolehan Hak Waris / Hibah Wasiat)</option>
               </select>

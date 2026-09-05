@@ -703,7 +703,7 @@ export const AdminDashboard: React.FC<{ lang: Language }> = ({ lang }) => {
                       type="text"
                       value={webForm.cityTag}
                       onChange={(e) => setWebForm({ ...webForm, cityTag: e.target.value })}
-                      placeholder="KOTA SERANG"
+                      placeholder="Label Kota (opsional / kosongkan)"
                       className="px-3 py-2.5 bg-slate-50 border border-slate-300 rounded-xl text-xs sm:text-sm text-slate-900 font-bold"
                     />
                   </div>

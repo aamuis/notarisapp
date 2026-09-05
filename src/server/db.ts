@@ -17,7 +17,7 @@ const initialPhotos: PhotoRecord[] = [
     id: 'photo-1',
     url: '/SYARIFAH NURUL.png',
     title: 'Potret Resmi Notaris Syarifah Nurul Aziizi, S.H., M.Kn.',
-    description: 'Foto dinas resmi Notaris dan Pejabat Pembuat Akta Kota Serang, Banten.',
+    description: 'Foto dinas resmi Notaris dan Pejabat Pembuat Akta.',
     category: 'Profil & Legalitas',
     date: '2025-01-15'
   },

@@ -130,12 +130,12 @@ export const SAMPLE_CASES: Record<string, ClientCase> = {
   "AJB-SRG-404": {
     id: "AJB-SRG-404",
     clientName: "Bapak R.H. (Pembeli) & Ibu S.M. (Penjual)",
-    serviceType: "Akta Jual Beli (AJB) & Balik Nama Sertifikat SHM Kota Serang",
+    serviceType: "Akta Jual Beli (AJB) & Balik Nama Sertifikat SHM",
     filingDate: "20 Februari 2025",
     estimatedCompletion: "03 Maret 2025",
     currentStageIndex: 1, // Stage 2 (Drafting / Validasi Pajak)
-    statusTextId: "Pengecekan Sertifikat BPN Kota Serang & Validasi Pajak PPh/BPHTB",
-    statusTextEn: "BPN Serang Title Verification & Tax Clearance (PPh / BPHTB)",
+    statusTextId: "Pengecekan Sertifikat BPN & Validasi Pajak PPh/BPHTB",
+    statusTextEn: "BPN Land Title Verification & Tax Clearance (PPh / BPHTB)",
     officialRefNumber: "PPAT-SRG-AJB-883",
     logs: [
       {
@@ -149,8 +149,8 @@ export const SAMPLE_CASES: Record<string, ClientCase> = {
         date: "22 Feb 2025 14:00 WIB",
         stageIndex: 1,
         status: "in_progress",
-        noteId: "Proses plotting dan checking sertifikat elektronik di Kantor Pertanahan Kota Serang.",
-        noteEn: "Electronic certificate checking in progress at BPN Serang Land Office."
+        noteId: "Proses plotting dan checking sertifikat elektronik di Kantor Pertanahan.",
+        noteEn: "Electronic certificate checking in progress at Land Office."
       }
     ]
   }

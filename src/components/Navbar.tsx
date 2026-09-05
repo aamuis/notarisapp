@@ -45,11 +45,15 @@ export const Navbar: React.FC<NavbarProps> = ({
               <i className="fa-solid fa-scale-balanced text-[#059669]"></i>
               SK Menkumham: {notaryProfile.skMenkumham}
             </span>
-            <span className="text-[#a7f3d0]">•</span>
-            <span className="inline-flex items-center gap-1.5 text-[#047857]">
-              <i className="fa-solid fa-location-dot text-[#059669]"></i>
-              {websiteSettings.cityTag || 'Kota Serang, Banten'}
-            </span>
+            {websiteSettings.cityTag && websiteSettings.cityTag.trim() !== '' && (
+              <>
+                <span className="text-[#a7f3d0]">•</span>
+                <span className="inline-flex items-center gap-1.5 text-[#047857]">
+                  <i className="fa-solid fa-stamp text-[#059669]"></i>
+                  {websiteSettings.cityTag}
+                </span>
+              </>
+            )}
           </div>
           
           <div className="flex items-center space-x-4 text-[11px] text-[#047857]">
@@ -102,9 +106,11 @@ export const Navbar: React.FC<NavbarProps> = ({
                 <span className="font-crest font-bold text-[#059669] text-[10px] sm:text-xs tracking-wider uppercase">
                   {websiteSettings.logoText || 'NOTARIS & PEJABAT PEMBUAT AKTA'}
                 </span>
-                <span className="hidden md:inline-block text-[9px] font-bold bg-[#ecfdf5] text-[#065f46] px-1.5 py-0.2 rounded border border-[#86efac]">
-                  {websiteSettings.cityTag || 'KOTA SERANG'}
-                </span>
+                {websiteSettings.cityTag && websiteSettings.cityTag.trim() !== '' && (
+                  <span className="hidden md:inline-block text-[9px] font-bold bg-[#ecfdf5] text-[#065f46] px-1.5 py-0.2 rounded border border-[#86efac]">
+                    {websiteSettings.cityTag}
+                  </span>
+                )}
               </div>
               
               <h1 className="font-serif font-bold text-[#0f291e] text-xs sm:text-base md:text-lg tracking-tight whitespace-nowrap overflow-hidden text-ellipsis drop-shadow-none group-hover:text-[#059669] transition-colors">

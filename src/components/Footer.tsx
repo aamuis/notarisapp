@@ -33,13 +33,13 @@ export const Footer: React.FC<FooterProps> = ({ lang, onNavigate }) => {
 
             <p className="text-[#166534] text-xs leading-relaxed">
               {lang === 'id'
-                ? 'Pejabat Umum berwenang membuat akta otentik, akta pendirian korporasi, perjanjian perdata, dan pendaftaran legalitas di Kota Serang, Banten.'
-                : 'Authorized Notary Public and Conveyancer providing authentic legal deeds and corporate contracts in Serang City, Banten.'}
+                ? 'Pejabat Umum berwenang membuat akta otentik, akta pendirian korporasi, perjanjian perdata, dan pendaftaran legalitas hukum.'
+                : 'Authorized Notary Public and Conveyancer providing authentic legal deeds, corporate incorporation, and legal registrations.'}
             </p>
 
             <div className="space-y-1.5 text-[11px] text-[#0f291e] bg-[#ecfdf5] p-3 rounded-2xl border border-[#a7f3d0]">
               <div><strong className="text-[#059669]">SK Menkumham RI:</strong> {notaryProfile.skMenkumham}</div>
-              <div><strong className="text-[#059669]">Wilayah Jabatan:</strong> {notaryProfile.jurisdiction || 'Kota Serang'}</div>
+              <div><strong className="text-[#059669]">SK NPAK:</strong> {notaryProfile.skNpak}</div>
               <div><strong className="text-[#059669]">BA Sumpah:</strong> {notaryProfile.baSumpah}</div>
             </div>
           </div>
@@ -163,7 +163,7 @@ export const Footer: React.FC<FooterProps> = ({ lang, onNavigate }) => {
           </p>
           
           <div className="flex items-center space-x-2 text-xs text-[#047857]">
-            <span>Wilayah Jabatan Kota Serang, Banten</span>
+            <span>Pelayanan Hukum Notariat & PPAT Profesional</span>
           </div>
         </div>
 

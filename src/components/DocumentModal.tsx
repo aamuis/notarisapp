@@ -24,7 +24,7 @@ export const DocumentModal: React.FC<DocumentModalProps> = ({
   if (!isOpen) return null;
 
   const handleCopy = () => {
-    const textToCopy = `*${title.toUpperCase()}*\nKantor Notaris Syarifah Nurul Aziizi, S.H., M.Kn., C.L.A. (Kota Serang)\n\nDAFTAR PERSYARATAN BERKAS:\n${items
+    const textToCopy = `*${title.toUpperCase()}*\nKantor Notaris Syarifah Nurul Aziizi, S.H., M.Kn.\n\nDAFTAR PERSYARATAN BERKAS:\n${items
       .map((item, idx) => `${idx + 1}. ${item}`)
       .join('\n')}\n\nDASAR HUKUM:\n${legalBasis.map((b) => `- ${b}`).join('\n')}\n\nInfo & Konsultasi WA: ${NOTARY_PROFILE.whatsappFormatted}`;
 
@@ -66,11 +66,10 @@ export const DocumentModal: React.FC<DocumentModalProps> = ({
           {/* Office Header for Print */}
           <div className="p-4 rounded-2xl bg-blue-50/80 border border-blue-200 text-xs text-slate-700 flex items-center justify-between shadow-sm">
             <div>
-              <div className="font-extrabold text-slate-900">KANTOR NOTARIS SYARIFAH NURUL AZIIZI, S.H., M.Kn., C.L.A.</div>
+              <div className="font-extrabold text-slate-900">KANTOR NOTARIS SYARIFAH NURUL AZIIZI, S.H., M.Kn.</div>
               <div className="text-[11px] font-bold text-amber-800">SK Menkumham: {NOTARY_PROFILE.skMenkumham}</div>
             </div>
             <div className="text-right text-[11px] font-semibold">
-              <div>Kota Serang, Banten</div>
               <div className="text-emerald-700 font-bold">WA: {NOTARY_PROFILE.whatsappFormatted}</div>
             </div>
           </div>

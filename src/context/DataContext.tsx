@@ -18,15 +18,15 @@ import { POPULAR_KBLI_LIST as INITIAL_KBLI } from '../data/kbliData';
 import { SAMPLE_CASES as INITIAL_CASES_RECORD } from '../data/trackingData';
 
 export const DEFAULT_WEBSITE_SETTINGS: WebsiteSettings = {
-  siteTitle: "Kantor Notaris Syarifah Nurul Aziizi, S.H., M.Kn. - Kota Serang",
+  siteTitle: "Kantor Notaris Syarifah Nurul Aziizi, S.H., M.Kn.",
   siteSubtitleId: "Notaris & Pejabat Pembuat Akta",
   siteSubtitleEn: "Notary & Conveyancer",
   heroHeadlineId: "Kepastian Hukum Otentik & Cepat untuk Bisnis, Korporasi & Aset Anda",
   heroHeadlineEn: "Authentic & Expeditious Legal Deeds for Your Business, Corporate & Assets",
-  metaDescription: "Website Resmi Kantor Notaris Syarifah Nurul Aziizi, S.H., M.Kn. Kota Serang. Layanan Akta Otentik, Korporasi, Pertanahan dan Konsultasi Hukum.",
+  metaDescription: "Website Resmi Kantor Notaris Syarifah Nurul Aziizi, S.H., M.Kn. Layanan Akta Otentik, Korporasi, Pertanahan dan Konsultasi Hukum.",
   faviconUrl: "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/svgs/solid/scale-balanced.svg",
   logoText: "NOTARIS & PEJABAT PEMBUAT AKTA",
-  cityTag: "KOTA SERANG",
+  cityTag: "",
   bannerNoticeId: "Layanan Akta Notaris & Konsultasi Hukum Resmi Berizin Menkumham RI",
   bannerNoticeEn: "Official Notarial Deeds & Legal Consultation Authorized by Menkumham RI",
   adminPassword: "admin",
@@ -222,6 +222,15 @@ export const DataProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
         if (parsed.logoText?.includes('NPAK')) {
           parsed.logoText = "NOTARIS & PEJABAT PEMBUAT AKTA";
         }
+        if (parsed.siteTitle?.includes('Kota Serang')) {
+          parsed.siteTitle = "Kantor Notaris Syarifah Nurul Aziizi, S.H., M.Kn.";
+        }
+        if (parsed.metaDescription?.includes('Kota Serang')) {
+          parsed.metaDescription = "Website Resmi Kantor Notaris Syarifah Nurul Aziizi, S.H., M.Kn. Layanan Akta Otentik, Korporasi, Pertanahan dan Konsultasi Hukum.";
+        }
+        if (parsed.cityTag === 'KOTA SERANG' || parsed.cityTag?.includes('Kota Serang')) {
+          parsed.cityTag = "";
+        }
         return { ...DEFAULT_WEBSITE_SETTINGS, ...parsed };
       } catch (e) { console.error(e); }
     }
@@ -239,6 +248,9 @@ export const DataProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
         }
         if (parsed.degrees?.includes('C.L.A.')) {
           parsed.degrees = "S.H. (Universitas Sultan Ageng Tirtayasa) | M.Kn. (Universitas Indonesia)";
+        }
+        if (parsed.jurisdiction?.includes('Kota Serang') || parsed.jurisdiction) {
+          parsed.jurisdiction = "";
         }
         // If stored photoUrl is empty or an old local placeholder and INITIAL_PROFILE has a cloud URL, prefer INITIAL_PROFILE
         if (INITIAL_PROFILE.photoUrl && (!parsed.photoUrl || parsed.photoUrl === '/SYARIFAH NURUL.png' || parsed.photoUrl === '/SYARIFAH_NURUL.png')) {
@@ -362,6 +374,9 @@ export const DataProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
           if (data.notaryProfile) {
             setNotaryProfile((prev) => {
               const updated = { ...prev, ...data.notaryProfile };
+              if (updated.jurisdiction?.includes('Kota Serang') || updated.jurisdiction) {
+                updated.jurisdiction = "";
+              }
               try {
                 localStorage.setItem(STORAGE_KEYS.PROFILE, JSON.stringify(updated));
               } catch (e) {}
@@ -371,6 +386,12 @@ export const DataProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
           if (data.websiteSettings) {
             setWebsiteSettings((prev) => {
               const updated = { ...prev, ...data.websiteSettings };
+              if (updated.cityTag?.includes('Kota Serang') || updated.cityTag === 'KOTA SERANG') {
+                updated.cityTag = "";
+              }
+              if (updated.siteTitle?.includes('Kota Serang')) {
+                updated.siteTitle = "Kantor Notaris Syarifah Nurul Aziizi, S.H., M.Kn.";
+              }
               try {
                 localStorage.setItem(STORAGE_KEYS.SETTINGS, JSON.stringify(updated));
               } catch (e) {}
