@@ -3,7 +3,7 @@ import { useData } from '../../context/DataContext';
 import { PhotoItem } from '../../types';
 
 export const AdminPhotoManager: React.FC<{ showToast: (msg: string) => void }> = ({ showToast }) => {
-  const { photos, addPhoto, deletePhoto, refreshPhotos } = useData();
+  const { photos, addPhoto, deletePhoto, refreshPhotos, notaryProfile, updateNotaryProfile } = useData();
 
   // Server health state
   const [serverHealth, setServerHealth] = useState<{
@@ -20,6 +20,7 @@ export const AdminPhotoManager: React.FC<{ showToast: (msg: string) => void }> =
   const [description, setDescription] = useState('');
   const [isUploading, setIsUploading] = useState(false);
   const [uploadProgress, setUploadProgress] = useState('');
+  const [setAsNotaryProfile, setSetAsNotaryProfile] = useState(false);
 
   // Manual URL Form State
   const [manualUrl, setManualUrl] = useState('');
@@ -128,7 +129,12 @@ export const AdminPhotoManager: React.FC<{ showToast: (msg: string) => void }> =
           const result = await response.json();
           if (result.photo) {
             addPhoto(result.photo);
-            showToast('Foto berhasil diunggah ke Vercel Blob & tersimpan di database!');
+            if (setAsNotaryProfile || category === 'Profil Notaris') {
+              updateNotaryProfile({ photoUrl: result.photo.url });
+              showToast('Foto berhasil diunggah dan langsung aktif sebagai Foto Profil Notaris!');
+            } else {
+              showToast('Foto berhasil diunggah ke Vercel Blob & tersimpan di database!');
+            }
             resetForm();
             return;
           }
@@ -149,7 +155,12 @@ export const AdminPhotoManager: React.FC<{ showToast: (msg: string) => void }> =
             created_at: new Date().toISOString(),
           };
           addPhoto(newPhoto);
-          showToast('Foto berhasil disimpan ke galeri!');
+          if (setAsNotaryProfile || category === 'Profil Notaris') {
+            updateNotaryProfile({ photoUrl: base64Url });
+            showToast('Foto disimpan & langsung aktif sebagai Foto Profil Notaris!');
+          } else {
+            showToast('Foto berhasil disimpan ke galeri!');
+          }
           resetForm();
         };
         reader.readAsDataURL(selectedFile);
@@ -171,7 +182,12 @@ export const AdminPhotoManager: React.FC<{ showToast: (msg: string) => void }> =
           const result = await response.json();
           if (result.photo) {
             addPhoto(result.photo);
-            showToast('Foto berhasil ditambahkan ke database!');
+            if (setAsNotaryProfile || category === 'Profil Notaris') {
+              updateNotaryProfile({ photoUrl: result.photo.url });
+              showToast('Foto URL berhasil disimpan dan aktif sebagai Foto Profil Notaris!');
+            } else {
+              showToast('Foto berhasil ditambahkan ke database!');
+            }
             resetForm();
             return;
           }
@@ -443,9 +459,16 @@ export const AdminPhotoManager: React.FC<{ showToast: (msg: string) => void }> =
                   </label>
                   <select
                     value={category}
-                    onChange={(e) => setCategory(e.target.value)}
-                    className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-300 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                    onChange={(e) => {
+                      const newCat = e.target.value;
+                      setCategory(newCat);
+                      if (newCat === 'Profil Notaris') {
+                        setSetAsNotaryProfile(true);
+                      }
+                    }}
+                    className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-300 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 font-medium"
                   >
+                    <option value="Profil Notaris">Profil Notaris (Foto Utama Notaris)</option>
                     <option value="Dokumentasi Kantor">Dokumentasi Kantor</option>
                     <option value="Kegiatan Notaris">Kegiatan Notaris</option>
                     <option value="Klien & Kerjasama">Klien & Kerjasama</option>
@@ -481,6 +504,26 @@ export const AdminPhotoManager: React.FC<{ showToast: (msg: string) => void }> =
                     className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-300 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500"
                   />
                 </div>
+              </div>
+
+              {/* Set as Notary Profile checkbox toggle */}
+              <div className="p-3.5 bg-emerald-50 rounded-2xl border border-emerald-200 flex items-center justify-between">
+                <div className="flex items-center gap-2.5">
+                  <input
+                    type="checkbox"
+                    id="setAsNotaryCheckbox"
+                    checked={setAsNotaryProfile || category === 'Profil Notaris'}
+                    onChange={(e) => setSetAsNotaryProfile(e.target.checked)}
+                    className="w-4 h-4 text-emerald-600 rounded-md focus:ring-emerald-500 cursor-pointer"
+                  />
+                  <label htmlFor="setAsNotaryCheckbox" className="text-xs font-bold text-emerald-950 cursor-pointer flex items-center gap-1.5">
+                    <i className="fa-solid fa-user-check text-emerald-600"></i>
+                    <span>Terapkan langsung sebagai Foto Profil Utama Notaris di Seluruh Website</span>
+                  </label>
+                </div>
+                <span className="text-[10px] text-emerald-700 font-semibold hidden sm:inline-block">
+                  (Hero, Profil, Navbar & Portret)
+                </span>
               </div>
 
               <div className="pt-2 flex flex-wrap items-center gap-3">
@@ -580,6 +623,13 @@ export const AdminPhotoManager: React.FC<{ showToast: (msg: string) => void }> =
                       className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                       referrerPolicy="no-referrer"
                     />
+                    {notaryProfile.photoUrl === photo.url && (
+                      <div className="absolute top-2 left-2 z-10">
+                        <span className="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-amber-400 text-slate-950 shadow-sm flex items-center gap-1 border border-amber-300">
+                          <i className="fa-solid fa-star text-[9px] text-amber-900"></i> Profil Notaris Aktif
+                        </span>
+                      </div>
+                    )}
                     <div className="absolute top-2 right-2">
                       <span className="px-2.5 py-1 rounded-full text-[10px] font-bold bg-white/90 backdrop-blur-xs text-emerald-800 shadow-xs">
                         {photo.category}
@@ -604,6 +654,23 @@ export const AdminPhotoManager: React.FC<{ showToast: (msg: string) => void }> =
                 </div>
 
                 <div className="p-3 bg-white border-t border-slate-200/80 flex items-center justify-between gap-2">
+                  <button
+                    type="button"
+                    onClick={() => {
+                      updateNotaryProfile({ photoUrl: photo.url });
+                      showToast(`Foto "${photo.title}" sekarang aktif sebagai Foto Profil Notaris!`);
+                    }}
+                    className={`px-2.5 py-1.5 rounded-lg text-xs font-bold transition-all flex items-center gap-1 cursor-pointer ${
+                      notaryProfile.photoUrl === photo.url
+                        ? 'bg-amber-100 text-amber-900 border border-amber-300'
+                        : 'bg-slate-100 hover:bg-emerald-50 text-slate-700 hover:text-emerald-700'
+                    }`}
+                    title="Jadikan Foto Profil Utama Notaris"
+                  >
+                    <i className={`fa-solid ${notaryProfile.photoUrl === photo.url ? 'fa-circle-check text-emerald-600' : 'fa-user-tie'} text-[11px]`}></i>
+                    <span>{notaryProfile.photoUrl === photo.url ? 'Profil Aktif' : 'Set Profil'}</span>
+                  </button>
+
                   <button
                     type="button"
                     onClick={() => copyPhotoUrl(photo)}

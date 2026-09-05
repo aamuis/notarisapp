@@ -240,6 +240,10 @@ export const DataProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
         if (parsed.degrees?.includes('C.L.A.')) {
           parsed.degrees = "S.H. (Universitas Sultan Ageng Tirtayasa) | M.Kn. (Universitas Indonesia)";
         }
+        // If stored photoUrl is empty or an old local placeholder and INITIAL_PROFILE has a cloud URL, prefer INITIAL_PROFILE
+        if (INITIAL_PROFILE.photoUrl && (!parsed.photoUrl || parsed.photoUrl === '/SYARIFAH NURUL.png' || parsed.photoUrl === '/SYARIFAH_NURUL.png')) {
+          parsed.photoUrl = INITIAL_PROFILE.photoUrl;
+        }
         return { ...INITIAL_PROFILE, ...parsed };
       } catch (e) { console.error(e); }
     }
@@ -356,10 +360,22 @@ export const DataProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
       .then((data) => {
         if (data) {
           if (data.notaryProfile) {
-            setNotaryProfile((prev) => ({ ...prev, ...data.notaryProfile }));
+            setNotaryProfile((prev) => {
+              const updated = { ...prev, ...data.notaryProfile };
+              try {
+                localStorage.setItem(STORAGE_KEYS.PROFILE, JSON.stringify(updated));
+              } catch (e) {}
+              return updated;
+            });
           }
           if (data.websiteSettings) {
-            setWebsiteSettings((prev) => ({ ...prev, ...data.websiteSettings }));
+            setWebsiteSettings((prev) => {
+              const updated = { ...prev, ...data.websiteSettings };
+              try {
+                localStorage.setItem(STORAGE_KEYS.SETTINGS, JSON.stringify(updated));
+              } catch (e) {}
+              return updated;
+            });
           }
         }
       })

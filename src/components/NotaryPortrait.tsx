@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useData } from '../context/DataContext';
 
 interface NotaryPortraitProps {
@@ -18,17 +18,24 @@ export const NotaryPortrait: React.FC<NotaryPortraitProps> = ({
 }) => {
   const { notaryProfile } = useData();
 
-  // Fallback candidate list
+  // Prefer uploaded photoUrl from profile, with fallback chain
+  const photoTarget = notaryProfile.photoUrl || '/SYARIFAH_NURUL.png';
+
   const candidates = [
-    notaryProfile.photoUrl,
-    '/SYARIFAH NURUL.png',
+    photoTarget,
     '/SYARIFAH_NURUL.png',
+    '/SYARIFAH NURUL.png',
     '/syarifah_portrait.svg',
-    '/syarifah-nurul.png',
   ].filter(Boolean) as string[];
 
   const [currentIndex, setCurrentIndex] = useState<number>(0);
   const [hasError, setHasError] = useState(false);
+
+  // Whenever notaryProfile.photoUrl changes, immediately reset candidate index to 0
+  useEffect(() => {
+    setCurrentIndex(0);
+    setHasError(false);
+  }, [notaryProfile.photoUrl]);
 
   // Handle image load error by cycling through candidates
   const handleError = () => {
@@ -47,7 +54,7 @@ export const NotaryPortrait: React.FC<NotaryPortraitProps> = ({
     hero: 'w-64 h-80 sm:w-72 sm:h-96 md:w-80 md:h-[430px] rounded-3xl',
   };
 
-  const currentSrc = candidates[currentIndex] || '/syarifah_portrait.svg';
+  const currentSrc = candidates[currentIndex] || '/SYARIFAH_NURUL.png';
 
   return (
     <div className={`relative inline-block ${className} group`}>
@@ -57,9 +64,11 @@ export const NotaryPortrait: React.FC<NotaryPortraitProps> = ({
       >
         {!hasError ? (
           <img
+            key={currentSrc}
             src={currentSrc}
             alt={altText}
             onError={handleError}
+            referrerPolicy="no-referrer"
             className={`w-full h-full object-cover object-top transition-transform duration-500 hover:scale-105 ${imageClassName}`}
             loading="eager"
           />
@@ -84,4 +93,5 @@ export const NotaryPortrait: React.FC<NotaryPortraitProps> = ({
     </div>
   );
 };
+
 

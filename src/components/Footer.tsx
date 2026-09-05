@@ -150,24 +150,20 @@ export const Footer: React.FC<FooterProps> = ({ lang, onNavigate }) => {
         {/* Bottom Bar */}
         <div className="border-t border-[#a7f3d0] pt-8 flex flex-col sm:flex-row items-center justify-between text-[11px] text-[#047857] gap-3">
           <p 
+            onClick={(e) => {
+              // Secret trigger: 3 rapid clicks on the copyright notice opens Admin
+              if (e.detail === 3) {
+                setCurrentView('admin');
+              }
+            }}
             onDoubleClick={() => setCurrentView('admin')}
-            title={lang === 'id' ? 'Hak Cipta Kantor Notaris Kota Serang' : 'Copyright'}
             className="cursor-default select-none text-center sm:text-left"
           >
             &copy; {new Date().getFullYear()} Kantor Notaris & Pejabat Pembuat Akta {notaryProfile.name}.
           </p>
           
-          <div className="flex items-center space-x-4 text-xs text-[#047857]">
+          <div className="flex items-center space-x-2 text-xs text-[#047857]">
             <span>Wilayah Jabatan Kota Serang, Banten</span>
-            <span className="text-[#a7f3d0]">•</span>
-            <button
-              onClick={() => setCurrentView('admin')}
-              className="text-[#059669] hover:text-[#047857] font-semibold flex items-center gap-1.5 transition-colors cursor-pointer bg-[#ecfdf5] px-2.5 py-1 rounded-lg border border-[#a7f3d0]"
-              title="Masuk ke Panel Admin"
-            >
-              <i className="fa-solid fa-lock text-[10px]"></i>
-              <span>Panel Admin / Kelola</span>
-            </button>
           </div>
         </div>
 

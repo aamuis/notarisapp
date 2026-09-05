@@ -36,11 +36,12 @@ function AppContent() {
     };
 
     const checkHashOrQuery = () => {
-      if (window.location.hash === '#admin' || window.location.hash === '#kelola') {
+      const hash = window.location.hash.toLowerCase();
+      if (hash === '#admin' || hash === '#kelola' || hash.startsWith('#admin')) {
         setCurrentView('admin');
       }
       const urlParams = new URLSearchParams(window.location.search);
-      if (urlParams.get('admin') === 'true' || urlParams.get('admin') === '1') {
+      if (urlParams.has('admin') || urlParams.get('admin') === 'true' || urlParams.get('admin') === '1') {
         setCurrentView('admin');
       }
     };

@@ -38,7 +38,7 @@ export const NOTARY_PROFILE: NotaryProfile = {
     saturday: "Sabtu: 09.00 – 14.00 WIB (Dengan Janji Temu)",
     sunday: "Minggu & Hari Libur Nasional: Tutup (Konsultasi Darurat via WhatsApp)"
   },
-  photoUrl: "/SYARIFAH_NURUL.png"
+  photoUrl: "https://cry78bnvmcxqxar2.public.blob.vercel-storage.com/notaris-galeri/1788592818641-SYARIFAH_NURUL.png"
 };
 
 export const CLIENT_PORTFOLIO: ClientPortfolio[] = [

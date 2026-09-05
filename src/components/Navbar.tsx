@@ -81,14 +81,14 @@ export const Navbar: React.FC<NavbarProps> = ({
             <div className="relative">
               <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-2xl overflow-hidden bg-[#ecfdf5] border-2 border-[#86efac] flex items-center justify-center shadow-xs shrink-0 group-hover:scale-105 transition-transform">
                 <img 
-                  src={notaryProfile.photoUrl || '/SYARIFAH NURUL.png'} 
+                  key={notaryProfile.photoUrl || '/SYARIFAH_NURUL.png'}
+                  src={notaryProfile.photoUrl || '/SYARIFAH_NURUL.png'} 
                   alt="Syarifah Nurul Aziizi" 
+                  referrerPolicy="no-referrer"
                   className="w-full h-full object-cover object-top"
                   onError={(e) => {
                     const target = e.currentTarget as HTMLImageElement;
-                    if (target.src.includes('SYARIFAH%20NURUL') || target.src.includes('SYARIFAH_NURUL')) {
-                      target.src = '/syarifah_portrait.svg';
-                    }
+                    target.src = '/SYARIFAH_NURUL.png';
                   }}
                 />
               </div>

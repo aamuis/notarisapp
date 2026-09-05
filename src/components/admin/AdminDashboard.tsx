@@ -901,12 +901,14 @@ export const AdminDashboard: React.FC<{ lang: Language }> = ({ lang }) => {
                     <div className="relative group">
                       <div className="w-28 h-28 sm:w-32 sm:h-32 rounded-2xl overflow-hidden border-4 border-white shadow-md bg-emerald-50 flex items-center justify-center ring-2 ring-emerald-400">
                         <img
-                          src={profileForm.photoUrl || notaryProfile.photoUrl || '/SYARIFAH NURUL.png'}
+                          key={profileForm.photoUrl || notaryProfile.photoUrl}
+                          src={profileForm.photoUrl || notaryProfile.photoUrl || '/SYARIFAH_NURUL.png'}
                           alt={profileForm.name}
+                          referrerPolicy="no-referrer"
                           className="w-full h-full object-cover object-top"
                           onError={(e) => {
                             const target = e.currentTarget as HTMLImageElement;
-                            target.src = '/syarifah_portrait.svg';
+                            target.src = '/SYARIFAH_NURUL.png';
                           }}
                         />
                       </div>
