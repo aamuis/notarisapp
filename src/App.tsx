@@ -8,6 +8,7 @@ import { DataProvider, useData } from './context/DataContext';
 import { Navbar } from './components/Navbar';
 import { Hero } from './components/Hero';
 import { ProfileSection } from './components/ProfileSection';
+import { PublicationsSection } from './components/PublicationsSection';
 import { AppointmentSection } from './components/AppointmentSection';
 import { OfficeLocation } from './components/OfficeLocation';
 import { Footer } from './components/Footer';
@@ -97,10 +98,13 @@ function AppContent() {
         {/* Section 2: Profile Section */}
         <ProfileSection lang={lang} onNavigate={handleNavigate} />
 
-        {/* Section 3: Online Appointment Reservation Form to WhatsApp */}
+        {/* Section 3: Publications & Legal Journals */}
+        <PublicationsSection lang={lang} />
+
+        {/* Section 4: Online Appointment Reservation Form to WhatsApp */}
         <AppointmentSection lang={lang} />
 
-        {/* Section 4: Responsive Google Maps Office Location & Hours */}
+        {/* Section 5: Responsive Google Maps Office Location & Hours */}
         <OfficeLocation lang={lang} />
 
       </main>

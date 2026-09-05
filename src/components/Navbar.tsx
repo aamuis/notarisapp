@@ -147,6 +147,19 @@ export const Navbar: React.FC<NavbarProps> = ({
               <span>{lang === 'id' ? 'Profil Notaris' : 'Profile'}</span>
             </button>
 
+            {/* Jurnal Ilmiah */}
+            <button
+              onClick={() => handleLinkClick('jurnal')}
+              className={`px-3.5 py-2 rounded-xl transition-all flex items-center gap-1.5 cursor-pointer ${
+                activeSection === 'jurnal'
+                  ? 'bg-[#059669] text-white font-bold shadow-sm'
+                  : 'text-[#1e3a2b] hover:bg-[#ecfdf5]'
+              }`}
+            >
+              <i className="fa-solid fa-book-bookmark text-xs"></i>
+              <span>{lang === 'id' ? 'Jurnal Hukum' : 'Journals'}</span>
+            </button>
+
             {/* Janji Temu */}
             <button
               onClick={() => handleLinkClick('kontak')}
@@ -259,12 +272,24 @@ export const Navbar: React.FC<NavbarProps> = ({
                   : 'bg-[#ecfdf5] text-[#065f46] border border-[#a7f3d0]'
               }`}
             >
-              <div className={`w-7 h-7 rounded-lg flex items-center justify-center text-xs ${
-                activeSection === 'profil' ? 'bg-white text-[#059669]' : 'bg-white text-[#059669]'
-              }`}>
+              <div className="w-7 h-7 rounded-lg flex items-center justify-center text-xs bg-white text-[#059669]">
                 <i className="fa-solid fa-user-tie"></i>
               </div>
               <span className="text-xs font-semibold">{lang === 'id' ? 'Profil' : 'Profile'}</span>
+            </button>
+
+            <button
+              onClick={() => handleLinkClick('jurnal')}
+              className={`p-2.5 rounded-xl text-left flex items-center gap-2 transition-all cursor-pointer ${
+                activeSection === 'jurnal'
+                  ? 'bg-[#059669] text-white font-bold shadow-sm'
+                  : 'bg-[#ecfdf5] text-[#065f46] border border-[#a7f3d0]'
+              }`}
+            >
+              <div className="w-7 h-7 rounded-lg flex items-center justify-center text-xs bg-white text-[#059669]">
+                <i className="fa-solid fa-book-bookmark"></i>
+              </div>
+              <span className="text-xs font-semibold">{lang === 'id' ? 'Jurnal Hukum' : 'Journals'}</span>
             </button>
 
             <button

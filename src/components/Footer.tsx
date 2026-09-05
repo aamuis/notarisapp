@@ -64,6 +64,12 @@ export const Footer: React.FC<FooterProps> = ({ lang, onNavigate }) => {
                 </button>
               </li>
               <li>
+                <button onClick={() => onNavigate('jurnal')} className="hover:text-[#059669] transition-colors flex items-center gap-2 text-left cursor-pointer text-[#1e3a2b]">
+                  <i className="fa-solid fa-angle-right text-[10px] text-[#059669]"></i>
+                  <span>{lang === 'id' ? 'Karya Tulis & Jurnal' : 'Publications & Journals'}</span>
+                </button>
+              </li>
+              <li>
                 <button onClick={() => onNavigate('kontak')} className="hover:text-[#059669] transition-colors flex items-center gap-2 text-left cursor-pointer text-[#1e3a2b]">
                   <i className="fa-solid fa-angle-right text-[10px] text-[#059669]"></i>
                   <span>{lang === 'id' ? 'Janji Temu Konsultasi' : 'Book Consultation'}</span>
