@@ -9,7 +9,9 @@ import {
   deletePhotoRecord,
   uploadToVercelBlob,
   isNeonConfigured,
-  isBlobConfigured
+  isBlobConfigured,
+  getSiteSettings,
+  saveSiteSetting
 } from './src/server/db.js';
 
 dotenv.config();
@@ -118,6 +120,28 @@ async function startServer() {
       res.json({ success });
     } catch (error: any) {
       res.status(500).json({ error: error.message || 'Failed to delete photo' });
+    }
+  });
+
+  // GET all site settings from Neon DB
+  app.get('/api/settings', async (req, res) => {
+    try {
+      const data = await getSiteSettings();
+      res.json(data);
+    } catch (error: any) {
+      res.status(500).json({ error: error.message || 'Failed to retrieve site settings' });
+    }
+  });
+
+  // POST update specific site setting (e.g. notaryProfile, websiteSettings)
+  app.post('/api/settings/:key', async (req, res) => {
+    try {
+      const { key } = req.params;
+      const { data } = req.body;
+      const success = await saveSiteSetting(key, data);
+      res.json({ success });
+    } catch (error: any) {
+      res.status(500).json({ error: error.message || 'Failed to update site setting' });
     }
   });
 

@@ -205,3 +205,55 @@ export async function deletePhotoRecord(id: string): Promise<boolean> {
   fallbackPhotos = fallbackPhotos.filter((p) => p.id !== id);
   return true;
 }
+
+// Persist general site configurations (Notary profile, sections, settings) in Neon DB
+export async function getSiteSettings(): Promise<Record<string, any>> {
+  const dbUrl = getDatabaseUrl();
+  if (dbUrl) {
+    try {
+      const sql = neon(dbUrl);
+      await sql`
+        CREATE TABLE IF NOT EXISTS site_settings (
+          key VARCHAR(64) PRIMARY KEY,
+          data JSONB NOT NULL,
+          updated_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+        );
+      `;
+      const rows = await sql`SELECT key, data FROM site_settings;`;
+      const result: Record<string, any> = {};
+      for (const row of rows) {
+        result[row.key] = row.data;
+      }
+      return result;
+    } catch (err) {
+      console.warn('Error querying site_settings:', err);
+    }
+  }
+  return {};
+}
+
+export async function saveSiteSetting(key: string, data: any): Promise<boolean> {
+  const dbUrl = getDatabaseUrl();
+  if (dbUrl) {
+    try {
+      const sql = neon(dbUrl);
+      await sql`
+        CREATE TABLE IF NOT EXISTS site_settings (
+          key VARCHAR(64) PRIMARY KEY,
+          data JSONB NOT NULL,
+          updated_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+        );
+      `;
+      await sql`
+        INSERT INTO site_settings (key, data, updated_at)
+        VALUES (${key}, ${JSON.stringify(data)}, CURRENT_TIMESTAMP)
+        ON CONFLICT (key) DO UPDATE SET data = EXCLUDED.data, updated_at = CURRENT_TIMESTAMP;
+      `;
+      return true;
+    } catch (err) {
+      console.warn('Error saving site_setting:', err);
+    }
+  }
+  return false;
+}
+

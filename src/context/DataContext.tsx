@@ -333,9 +333,14 @@ export const DataProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
       const res = await fetch('/api/photos');
       if (res.ok) {
         const data = await res.json();
-        if (Array.isArray(data)) {
-          setPhotos(data);
-          localStorage.setItem(STORAGE_KEYS.PHOTOS, JSON.stringify(data));
+        const photoList: PhotoItem[] = Array.isArray(data)
+          ? data
+          : Array.isArray(data?.photos)
+          ? data.photos
+          : [];
+        if (photoList.length > 0) {
+          setPhotos(photoList);
+          localStorage.setItem(STORAGE_KEYS.PHOTOS, JSON.stringify(photoList));
         }
       }
     } catch (err) {
@@ -345,6 +350,20 @@ export const DataProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
 
   useEffect(() => {
     refreshPhotos();
+    // Sync settings from Neon DB
+    fetch('/api/settings')
+      .then((res) => (res.ok ? res.json() : null))
+      .then((data) => {
+        if (data) {
+          if (data.notaryProfile) {
+            setNotaryProfile((prev) => ({ ...prev, ...data.notaryProfile }));
+          }
+          if (data.websiteSettings) {
+            setWebsiteSettings((prev) => ({ ...prev, ...data.websiteSettings }));
+          }
+        }
+      })
+      .catch(() => {});
   }, []);
 
   // Section management functions
@@ -475,6 +494,11 @@ export const DataProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     setWebsiteSettings((prev) => {
       const updated = { ...prev, ...newSettings };
       localStorage.setItem(STORAGE_KEYS.SETTINGS, JSON.stringify(updated));
+      fetch('/api/settings/websiteSettings', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ data: updated }),
+      }).catch(() => {});
       return updated;
     });
   };
@@ -484,6 +508,11 @@ export const DataProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     setNotaryProfile((prev) => {
       const updated = { ...prev, ...newProfile };
       localStorage.setItem(STORAGE_KEYS.PROFILE, JSON.stringify(updated));
+      fetch('/api/settings/notaryProfile', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ data: updated }),
+      }).catch(() => {});
       return updated;
     });
   };
