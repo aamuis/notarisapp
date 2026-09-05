@@ -153,3 +153,49 @@ export interface TaxCalculationResult {
   };
   totalEstimatedGovernmentTaxes: number;
 }
+
+export interface PhotoItem {
+  id: string;
+  url: string;
+  title: string;
+  description?: string;
+  category: string;
+  date: string;
+  created_at?: string;
+}
+
+export interface CustomSection {
+  id: string;
+  navLabel: string;
+  badge: string;
+  title: string;
+  subtitle: string;
+  content: string;
+  imageUrl?: string;
+  actionText?: string;
+  actionUrl?: string;
+  enabled: boolean;
+  order: number;
+}
+
+export interface SectionSettings {
+  showHero: boolean;
+  showProfile: boolean;
+  showPublications: boolean;
+  showAppointment: boolean;
+  showLocation: boolean;
+}
+
+export interface PublicationItem {
+  id: string;
+  title: string;
+  journal: string;
+  authors: string[];
+  year: string;
+  category: string;
+  summaryId: string;
+  summaryEn: string;
+  url: string;
+  pdfUrl?: string;
+  badgeColor?: string;
+}

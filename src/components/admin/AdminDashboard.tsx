@@ -8,6 +8,9 @@ import {
   AppointmentLog,
   Language,
 } from '../../types';
+import { AdminPhotoManager } from './AdminPhotoManager';
+import { AdminSectionManager } from './AdminSectionManager';
+import { AdminPublicationsManager } from './AdminPublicationsManager';
 
 export const AdminDashboard: React.FC<{ lang: Language }> = ({ lang }) => {
   const {
@@ -45,8 +48,8 @@ export const AdminDashboard: React.FC<{ lang: Language }> = ({ lang }) => {
 
   // Admin Active Tab
   const [activeTab, setActiveTab] = useState<
-    'website' | 'profile' | 'services' | 'tracking' | 'portfolio' | 'kbli' | 'appointments' | 'backup'
-  >('website');
+    'photos' | 'sections' | 'publications' | 'website' | 'profile' | 'services' | 'tracking' | 'portfolio' | 'kbli' | 'appointments' | 'backup'
+  >('photos');
 
   // Password Login State
   const [inputPassword, setInputPassword] = useState('');
@@ -348,6 +351,45 @@ export const AdminDashboard: React.FC<{ lang: Language }> = ({ lang }) => {
         <div className="bg-[#07132a] border-t border-slate-800 px-4">
           <div className="max-w-7xl mx-auto flex items-center gap-1 overflow-x-auto no-scrollbar py-2 text-xs">
             
+            {/* Foto Manager (Requested priority menu) */}
+            <button
+              onClick={() => setActiveTab('photos')}
+              className={`px-3.5 py-2 rounded-xl font-bold whitespace-nowrap flex items-center gap-2 transition-all ${
+                activeTab === 'photos'
+                  ? 'bg-emerald-500 text-slate-950 shadow-md shadow-emerald-500/20 ring-2 ring-emerald-300'
+                  : 'text-emerald-400 hover:bg-slate-800 hover:text-emerald-300'
+              }`}
+            >
+              <i className="fa-solid fa-cloud-arrow-up"></i>
+              <span>★ Upload & Edit Foto (Vercel Blob)</span>
+            </button>
+
+            {/* Atur Bagian & Section Baru (Requested priority menu) */}
+            <button
+              onClick={() => setActiveTab('sections')}
+              className={`px-3.5 py-2 rounded-xl font-bold whitespace-nowrap flex items-center gap-2 transition-all ${
+                activeTab === 'sections'
+                  ? 'bg-emerald-500 text-slate-950 shadow-md shadow-emerald-500/20 ring-2 ring-emerald-300'
+                  : 'text-emerald-400 hover:bg-slate-800 hover:text-emerald-300'
+              }`}
+            >
+              <i className="fa-solid fa-layer-group"></i>
+              <span>★ Atur Bagian & Menu Baru</span>
+            </button>
+
+            {/* Jurnal Notaris */}
+            <button
+              onClick={() => setActiveTab('publications')}
+              className={`px-3.5 py-2 rounded-xl font-bold whitespace-nowrap flex items-center gap-2 transition-all ${
+                activeTab === 'publications'
+                  ? 'bg-amber-500 text-slate-950 shadow-md shadow-amber-500/20'
+                  : 'text-slate-300 hover:bg-slate-800 hover:text-white'
+              }`}
+            >
+              <i className="fa-solid fa-book-bookmark"></i>
+              <span>Jurnal & Karya Tulis</span>
+            </button>
+
             <button
               onClick={() => setActiveTab('website')}
               className={`px-3.5 py-2 rounded-xl font-bold whitespace-nowrap flex items-center gap-2 transition-all ${
@@ -357,7 +399,7 @@ export const AdminDashboard: React.FC<{ lang: Language }> = ({ lang }) => {
               }`}
             >
               <i className="fa-solid fa-sliders"></i>
-              <span>1. Website & Favicon</span>
+              <span>Website & Favicon</span>
             </button>
 
             <button
@@ -369,7 +411,7 @@ export const AdminDashboard: React.FC<{ lang: Language }> = ({ lang }) => {
               }`}
             >
               <i className="fa-solid fa-user-tie"></i>
-              <span>2. Profil & SK Notaris</span>
+              <span>Profil & SK Notaris</span>
             </button>
 
             <button
@@ -381,7 +423,7 @@ export const AdminDashboard: React.FC<{ lang: Language }> = ({ lang }) => {
               }`}
             >
               <i className="fa-solid fa-file-signature"></i>
-              <span>3. Layanan Akta ({legalServices.length})</span>
+              <span>Layanan Akta ({legalServices.length})</span>
             </button>
 
             <button
@@ -393,7 +435,7 @@ export const AdminDashboard: React.FC<{ lang: Language }> = ({ lang }) => {
               }`}
             >
               <i className="fa-solid fa-magnifying-glass-chart"></i>
-              <span>4. Pelacakan Berkas ({Object.keys(clientCases).length})</span>
+              <span>Pelacakan Berkas ({Object.keys(clientCases).length})</span>
             </button>
 
             <button
@@ -405,7 +447,7 @@ export const AdminDashboard: React.FC<{ lang: Language }> = ({ lang }) => {
               }`}
             >
               <i className="fa-solid fa-building"></i>
-              <span>5. Portofolio Klien ({clientPortfolio.length})</span>
+              <span>Portofolio Klien ({clientPortfolio.length})</span>
             </button>
 
             <button
@@ -417,7 +459,7 @@ export const AdminDashboard: React.FC<{ lang: Language }> = ({ lang }) => {
               }`}
             >
               <i className="fa-solid fa-diagram-project"></i>
-              <span>6. Database KBLI ({kbliItems.length})</span>
+              <span>Database KBLI ({kbliItems.length})</span>
             </button>
 
             <button
@@ -429,7 +471,7 @@ export const AdminDashboard: React.FC<{ lang: Language }> = ({ lang }) => {
               }`}
             >
               <i className="fa-solid fa-calendar-check"></i>
-              <span>7. Janji Temu ({appointments.length})</span>
+              <span>Janji Temu ({appointments.length})</span>
             </button>
 
             <button
@@ -441,7 +483,7 @@ export const AdminDashboard: React.FC<{ lang: Language }> = ({ lang }) => {
               }`}
             >
               <i className="fa-solid fa-database"></i>
-              <span>8. Backup & Restore</span>
+              <span>Backup & Restore</span>
             </button>
 
           </div>
@@ -451,6 +493,21 @@ export const AdminDashboard: React.FC<{ lang: Language }> = ({ lang }) => {
       {/* Main Admin Content Container */}
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex-1 w-full">
         
+        {/* TAB: UPLOAD & KELOLA FOTO (VERCEL BLOB & DB NEON) */}
+        {activeTab === 'photos' && (
+          <AdminPhotoManager showToast={showToast} />
+        )}
+
+        {/* TAB: ATUR BAGIAN WEBSITE & MENU BARU */}
+        {activeTab === 'sections' && (
+          <AdminSectionManager showToast={showToast} />
+        )}
+
+        {/* TAB: PUBLIKASI & JURNAL NOTARIS */}
+        {activeTab === 'publications' && (
+          <AdminPublicationsManager showToast={showToast} />
+        )}
+
         {/* TAB 1: WEBSITE & BRANDING */}
         {activeTab === 'website' && (
           <div className="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200 shadow-sm space-y-6">

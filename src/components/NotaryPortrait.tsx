@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState } from 'react';
 import { useData } from '../context/DataContext';
 
 interface NotaryPortraitProps {
@@ -16,8 +16,7 @@ export const NotaryPortrait: React.FC<NotaryPortraitProps> = ({
   showBadge = false,
   altText = 'Syarifah Nurul Aziizi, S.H., M.Kn. - Notaris Kota Serang',
 }) => {
-  const { notaryProfile, updateNotaryProfile } = useData();
-  const fileInputRef = useRef<HTMLInputElement | null>(null);
+  const { notaryProfile } = useData();
 
   // Fallback candidate list
   const candidates = [
@@ -40,23 +39,6 @@ export const NotaryPortrait: React.FC<NotaryPortraitProps> = ({
     }
   };
 
-  // Handle manual photo upload if user clicks to upload or change photo
-  const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onload = (event) => {
-        if (event.target?.result) {
-          const dataUrl = event.target.result as string;
-          updateNotaryProfile({ photoUrl: dataUrl });
-          setHasError(false);
-          setCurrentIndex(0);
-        }
-      };
-      reader.readAsDataURL(file);
-    }
-  };
-
   // Dimensions based on size
   const sizeClasses = {
     sm: 'w-10 h-10 sm:w-12 sm:h-12 rounded-full',
@@ -69,16 +51,6 @@ export const NotaryPortrait: React.FC<NotaryPortraitProps> = ({
 
   return (
     <div className={`relative inline-block ${className} group`}>
-      {/* Hidden file input for photo upload */}
-      <input
-        ref={fileInputRef}
-        type="file"
-        accept="image/*"
-        onChange={handleFileUpload}
-        className="hidden"
-        id={`notary-photo-upload-${size}`}
-      />
-
       {/* Outer frame styling with bright pastel emerald border */}
       <div
         className={`overflow-hidden relative shadow-xl bg-gradient-to-b from-[#f0fdf4] to-[#d1fae5] border-4 border-white ${sizeClasses[size]}`}
@@ -108,19 +80,8 @@ export const NotaryPortrait: React.FC<NotaryPortraitProps> = ({
 
         {/* Soft colorful gradient highlight at the bottom */}
         <div className="absolute inset-0 bg-gradient-to-t from-[#064e3b]/30 via-transparent to-transparent pointer-events-none opacity-50"></div>
-
-        {/* Quick Upload / Change Photo trigger button on hover for hero & lg */}
-        {(size === 'hero' || size === 'lg') && (
-          <button
-            onClick={() => fileInputRef.current?.click()}
-            title="Klik untuk unggah atau ganti foto Notaris"
-            className="absolute top-3 right-3 bg-white/90 hover:bg-white text-[#065f46] p-2 rounded-full shadow-md backdrop-blur-xs transition-all opacity-0 group-hover:opacity-100 hover:scale-110 cursor-pointer text-xs flex items-center gap-1 font-semibold"
-          >
-            <i className="fa-solid fa-camera text-sm text-[#059669]"></i>
-            <span className="hidden sm:inline pr-1 text-[11px]">Unggah Foto</span>
-          </button>
-        )}
       </div>
     </div>
   );
 };
+

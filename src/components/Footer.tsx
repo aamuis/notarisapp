@@ -159,6 +159,15 @@ export const Footer: React.FC<FooterProps> = ({ lang, onNavigate }) => {
           
           <div className="flex items-center space-x-4 text-xs text-[#047857]">
             <span>Wilayah Jabatan Kota Serang, Banten</span>
+            <span className="text-[#a7f3d0]">•</span>
+            <button
+              onClick={() => setCurrentView('admin')}
+              className="text-[#059669] hover:text-[#047857] font-semibold flex items-center gap-1.5 transition-colors cursor-pointer bg-[#ecfdf5] px-2.5 py-1 rounded-lg border border-[#a7f3d0]"
+              title="Masuk ke Panel Admin"
+            >
+              <i className="fa-solid fa-lock text-[10px]"></i>
+              <span>Panel Admin / Kelola</span>
+            </button>
           </div>
         </div>
 

@@ -1,66 +1,14 @@
 import React from 'react';
 import { Language } from '../types';
+import { useData } from '../context/DataContext';
 
 interface PublicationsSectionProps {
   lang: Language;
 }
 
-interface ArticleItem {
-  id: string;
-  title: string;
-  journal: string;
-  authors: string[];
-  year: string;
-  category: string;
-  summary: string;
-  url: string;
-  pdfUrl?: string;
-  badgeColor: string;
-}
-
 export const PublicationsSection: React.FC<PublicationsSectionProps> = ({ lang }) => {
-  const articles: ArticleItem[] = [
-    {
-      id: 'art-1',
-      title: 'Implikasi Hukum Kewajiban Penyampaian Persetujuan Laporan Tahunan Perseroan kepada Menteri Hukum Berdasarkan Peraturan Menteri Hukum Nomor 49 Tahun 2025',
-      journal: 'Legis Nexus: Jurnal Ilmu Hukum',
-      authors: ['Syarifah Nurul Aziizi, S.H., M.Kn.'],
-      year: '2025',
-      category: 'Hukum Perseroan & Korporasi',
-      summary: lang === 'id'
-        ? 'Kajian yuridis mengenai tata kelola perseroan terbatas (PT), kewajiban pelaporan tahunan pasca RUPS kepada Menteri Hukum RI, kepatuhan hukum organ direksi/komisaris, serta kepastian hukum badan usaha di Indonesia.'
-        : 'Juridical study analyzing corporate annual reporting compliance following General Meeting of Shareholders under Minister of Law Regulation No. 49/2025.',
-      url: 'https://jurnal.cakrawalariset.com/index.php/jih/id/article/view/35',
-      badgeColor: 'bg-[#ecfdf5] text-[#065f46] border-[#86efac]'
-    },
-    {
-      id: 'art-2',
-      title: 'Implementasi Klinik Hukum Hak Kekayaan Intelektual (HKI) Dan Pentingnya Legalitas Usaha Bagi UMKM Lokal Dalam Mendukung Legalitas Dan Daya Saing Produk Pada Madrasah Aliyah Darul Irfan',
-      journal: 'JIPMAS: Jurnal Pengabdian kepada Masyarakat (Vol. 2 No. 3)',
-      authors: ['Syarifah Nurul Aziizi, S.H., M.Kn.'],
-      year: '2026',
-      category: 'Pengabdian Masyarakat & HKI UMKM',
-      summary: lang === 'id'
-        ? 'Program pengabdian masyarakat dan advokasi kenotariatan dalam membina pelaku UMKM lokal untuk pendaftaran merek, hak cipta, legalitas Nomor Induk Berusaha (NIB), serta proteksi daya saing produk usaha.'
-        : 'Community legal clinic implementation examining intellectual property rights registration and business legality empowerment for local micro, small and medium enterprises.',
-      url: 'https://malaqbipublisher.com/index.php/JIPMAS/article/view/1323',
-      badgeColor: 'bg-[#f0fdf4] text-[#166534] border-[#a7f3d0]'
-    },
-    {
-      id: 'art-3',
-      title: 'Civil Liability for Losses Due to Autonomous Decisions of Artificial Intelligence (AI) Systems in Electronic Transactions in Indonesia',
-      journal: 'Social Science Academic (SSA)',
-      authors: ['Syarifah Nurul Aziizi', 'Siti Zhahira Ilman'],
-      year: '2026',
-      category: 'Hukum Siber & AI',
-      summary: lang === 'id'
-        ? 'Analisis doktrin pertanggungjawaban hukum perdata atas kerugian akibat keputusan mandiri sistem kecerdasan buatan (Artificial Intelligence) dalam kontrak elektronik, e-commerce, dan perlindungan kepastian hukum di Indonesia.'
-        : 'Doctrinal research on civil tort liability for autonomous AI decision-making errors in electronic commerce contracts and legal certainty under Indonesian civil law.',
-      url: 'https://ejournal.insuriponorogo.ac.id/index.php/ssa/article/view/10630',
-      pdfUrl: 'https://ejournal.insuriponorogo.ac.id/index.php/ssa/article/download/10630/6104/63255',
-      badgeColor: 'bg-[#e0f2fe] text-[#0369a1] border-[#7dd3fc]'
-    }
-  ];
+  const { publications } = useData();
+  const articles = publications || [];
 
   return (
     <section id="jurnal" className="py-16 bg-gradient-to-br from-[#f0fdf4] via-[#f8fafc] to-[#ecfdf5] border-b border-[#a7f3d0]">

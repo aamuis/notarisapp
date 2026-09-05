@@ -8,6 +8,10 @@ import {
   ClientCase,
   AppointmentLog,
   Language,
+  SectionSettings,
+  CustomSection,
+  PublicationItem,
+  PhotoItem,
 } from '../types';
 import { NOTARY_PROFILE as INITIAL_PROFILE, CLIENT_PORTFOLIO as INITIAL_PORTFOLIO, LEGAL_SERVICES as INITIAL_SERVICES } from '../data/notaryData';
 import { POPULAR_KBLI_LIST as INITIAL_KBLI } from '../data/kbliData';
@@ -28,6 +32,54 @@ export const DEFAULT_WEBSITE_SETTINGS: WebsiteSettings = {
   adminPassword: "admin",
   mapEmbedUrl: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3967.142491176082!2d106.18241437474937!3d-6.111516993875153!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e418b32e01dfd6d%3A0xc0c766e4a287c88b!2sTaman%20Banten%20Lestari!5e0!3m2!1sid!2sid!4v1700000000000!5m2!1sid!2sid"
 };
+
+export const DEFAULT_SECTION_SETTINGS: SectionSettings = {
+  showHero: true,
+  showProfile: true,
+  showPublications: true,
+  showAppointment: true,
+  showLocation: true,
+};
+
+export const DEFAULT_PUBLICATIONS: PublicationItem[] = [
+  {
+    id: 'art-1',
+    title: 'Implikasi Hukum Kewajiban Penyampaian Persetujuan Laporan Tahunan Perseroan kepada Menteri Hukum Berdasarkan Peraturan Menteri Hukum Nomor 49 Tahun 2025',
+    journal: 'Legis Nexus: Jurnal Ilmu Hukum',
+    authors: ['Syarifah Nurul Aziizi, S.H., M.Kn.'],
+    year: '2025',
+    category: 'Hukum Perseroan & Korporasi',
+    summaryId: 'Kajian yuridis mengenai tata kelola perseroan terbatas (PT), kewajiban pelaporan tahunan pasca RUPS kepada Menteri Hukum RI, kepatuhan hukum organ direksi/komisaris, serta kepastian hukum badan usaha di Indonesia.',
+    summaryEn: 'Juridical study analyzing corporate annual reporting compliance following General Meeting of Shareholders under Minister of Law Regulation No. 49/2025.',
+    url: 'https://jurnal.cakrawalariset.com/index.php/jih/id/article/view/35',
+    badgeColor: 'bg-[#ecfdf5] text-[#065f46] border-[#86efac]'
+  },
+  {
+    id: 'art-2',
+    title: 'Implementasi Klinik Hukum Hak Kekayaan Intelektual (HKI) Dan Pentingnya Legalitas Usaha Bagi UMKM Lokal Dalam Mendukung Legalitas Dan Daya Saing Produk Pada Madrasah Aliyah Darul Irfan',
+    journal: 'JIPMAS: Jurnal Pengabdian kepada Masyarakat (Vol. 2 No. 3)',
+    authors: ['Syarifah Nurul Aziizi, S.H., M.Kn.'],
+    year: '2026',
+    category: 'Pengabdian Masyarakat & HKI UMKM',
+    summaryId: 'Program pengabdian masyarakat dan advokasi kenotariatan dalam membina pelaku UMKM lokal untuk pendaftaran merek, hak cipta, legalitas Nomor Induk Berusaha (NIB), serta proteksi daya saing produk usaha.',
+    summaryEn: 'Community legal clinic implementation examining intellectual property rights registration and business legality empowerment for local micro, small and medium enterprises.',
+    url: 'https://malaqbipublisher.com/index.php/JIPMAS/article/view/1323',
+    badgeColor: 'bg-[#f0fdf4] text-[#166534] border-[#a7f3d0]'
+  },
+  {
+    id: 'art-3',
+    title: 'Civil Liability for Losses Due to Autonomous Decisions of Artificial Intelligence (AI) Systems in Electronic Transactions in Indonesia',
+    journal: 'Social Science Academic (SSA)',
+    authors: ['Syarifah Nurul Aziizi', 'Siti Zhahira Ilman'],
+    year: '2026',
+    category: 'Hukum Siber & AI',
+    summaryId: 'Analisis doktrin pertanggungjawaban hukum perdata atas kerugian akibat keputusan mandiri sistem kecerdasan buatan (Artificial Intelligence) dalam kontrak elektronik, e-commerce, dan perlindungan kepastian hukum di Indonesia.',
+    summaryEn: 'Doctrinal research on civil tort liability for autonomous AI decision-making errors in electronic commerce contracts and legal certainty under Indonesian civil law.',
+    url: 'https://ejournal.insuriponorogo.ac.id/index.php/ssa/article/view/10630',
+    pdfUrl: 'https://ejournal.insuriponorogo.ac.id/index.php/ssa/article/download/10630/6104/63255',
+    badgeColor: 'bg-[#e0f2fe] text-[#0369a1] border-[#7dd3fc]'
+  }
+];
 
 const INITIAL_APPOINTMENTS: AppointmentLog[] = [
   {
@@ -105,6 +157,27 @@ interface DataContextType {
   updateAppointmentStatus: (id: string, status: AppointmentLog['status']) => void;
   deleteAppointment: (id: string) => void;
 
+  // Section Settings & Custom Sections
+  sectionSettings: SectionSettings;
+  updateSectionSettings: (settings: Partial<SectionSettings>) => void;
+  customSections: CustomSection[];
+  addCustomSection: (section: CustomSection) => void;
+  updateCustomSection: (section: CustomSection) => void;
+  deleteCustomSection: (id: string) => void;
+
+  // Publications
+  publications: PublicationItem[];
+  addPublication: (item: PublicationItem) => void;
+  updatePublication: (item: PublicationItem) => void;
+  deletePublication: (id: string) => void;
+
+  // Photos
+  photos: PhotoItem[];
+  addPhoto: (photo: PhotoItem) => void;
+  updatePhoto: (photo: PhotoItem) => void;
+  deletePhoto: (id: string) => void;
+  refreshPhotos: () => Promise<void>;
+
   // Admin Auth & App View
   isAdminLoggedIn: boolean;
   loginAdmin: (password: string) => boolean;
@@ -128,6 +201,10 @@ const STORAGE_KEYS = {
   CASES: 'notaris_client_cases_v1',
   KBLI: 'notaris_kbli_items_v1',
   APPOINTMENTS: 'notaris_appointments_v1',
+  SECTIONS: 'notaris_section_settings_v1',
+  CUSTOM_SECTIONS: 'notaris_custom_sections_v1',
+  PUBLICATIONS: 'notaris_publications_v1',
+  PHOTOS: 'notaris_uploaded_photos_v1',
   ADMIN_AUTH: 'notaris_admin_session_v1',
 };
 
@@ -213,6 +290,150 @@ export const DataProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     }
     return INITIAL_APPOINTMENTS;
   });
+
+  // Section Settings State
+  const [sectionSettings, setSectionSettings] = useState<SectionSettings>(() => {
+    const saved = localStorage.getItem(STORAGE_KEYS.SECTIONS);
+    if (saved) {
+      try { return { ...DEFAULT_SECTION_SETTINGS, ...JSON.parse(saved) }; } catch (e) { console.error(e); }
+    }
+    return DEFAULT_SECTION_SETTINGS;
+  });
+
+  // Custom Sections State
+  const [customSections, setCustomSections] = useState<CustomSection[]>(() => {
+    const saved = localStorage.getItem(STORAGE_KEYS.CUSTOM_SECTIONS);
+    if (saved) {
+      try { return JSON.parse(saved); } catch (e) { console.error(e); }
+    }
+    return [];
+  });
+
+  // Publications State
+  const [publications, setPublications] = useState<PublicationItem[]>(() => {
+    const saved = localStorage.getItem(STORAGE_KEYS.PUBLICATIONS);
+    if (saved) {
+      try { return JSON.parse(saved); } catch (e) { console.error(e); }
+    }
+    return DEFAULT_PUBLICATIONS;
+  });
+
+  // Photos State
+  const [photos, setPhotos] = useState<PhotoItem[]>(() => {
+    const saved = localStorage.getItem(STORAGE_KEYS.PHOTOS);
+    if (saved) {
+      try { return JSON.parse(saved); } catch (e) { console.error(e); }
+    }
+    return [];
+  });
+
+  // Fetch photos from server/database on load
+  const refreshPhotos = async () => {
+    try {
+      const res = await fetch('/api/photos');
+      if (res.ok) {
+        const data = await res.json();
+        if (Array.isArray(data)) {
+          setPhotos(data);
+          localStorage.setItem(STORAGE_KEYS.PHOTOS, JSON.stringify(data));
+        }
+      }
+    } catch (err) {
+      console.warn('Photos endpoint offline or fallback:', err);
+    }
+  };
+
+  useEffect(() => {
+    refreshPhotos();
+  }, []);
+
+  // Section management functions
+  const updateSectionSettings = (newSettings: Partial<SectionSettings>) => {
+    setSectionSettings((prev) => {
+      const updated = { ...prev, ...newSettings };
+      localStorage.setItem(STORAGE_KEYS.SECTIONS, JSON.stringify(updated));
+      return updated;
+    });
+  };
+
+  const addCustomSection = (section: CustomSection) => {
+    setCustomSections((prev) => {
+      const updated = [...prev, section];
+      localStorage.setItem(STORAGE_KEYS.CUSTOM_SECTIONS, JSON.stringify(updated));
+      return updated;
+    });
+  };
+
+  const updateCustomSection = (section: CustomSection) => {
+    setCustomSections((prev) => {
+      const updated = prev.map((s) => (s.id === section.id ? section : s));
+      localStorage.setItem(STORAGE_KEYS.CUSTOM_SECTIONS, JSON.stringify(updated));
+      return updated;
+    });
+  };
+
+  const deleteCustomSection = (id: string) => {
+    setCustomSections((prev) => {
+      const updated = prev.filter((s) => s.id !== id);
+      localStorage.setItem(STORAGE_KEYS.CUSTOM_SECTIONS, JSON.stringify(updated));
+      return updated;
+    });
+  };
+
+  // Publications management functions
+  const addPublication = (item: PublicationItem) => {
+    setPublications((prev) => {
+      const updated = [item, ...prev];
+      localStorage.setItem(STORAGE_KEYS.PUBLICATIONS, JSON.stringify(updated));
+      return updated;
+    });
+  };
+
+  const updatePublication = (item: PublicationItem) => {
+    setPublications((prev) => {
+      const updated = prev.map((p) => (p.id === item.id ? item : p));
+      localStorage.setItem(STORAGE_KEYS.PUBLICATIONS, JSON.stringify(updated));
+      return updated;
+    });
+  };
+
+  const deletePublication = (id: string) => {
+    setPublications((prev) => {
+      const updated = prev.filter((p) => p.id !== id);
+      localStorage.setItem(STORAGE_KEYS.PUBLICATIONS, JSON.stringify(updated));
+      return updated;
+    });
+  };
+
+  // Photo management functions
+  const addPhoto = (photo: PhotoItem) => {
+    setPhotos((prev) => {
+      const updated = [photo, ...prev.filter((p) => p.id !== photo.id)];
+      localStorage.setItem(STORAGE_KEYS.PHOTOS, JSON.stringify(updated));
+      return updated;
+    });
+  };
+
+  const updatePhoto = (photo: PhotoItem) => {
+    setPhotos((prev) => {
+      const updated = prev.map((p) => (p.id === photo.id ? photo : p));
+      localStorage.setItem(STORAGE_KEYS.PHOTOS, JSON.stringify(updated));
+      return updated;
+    });
+  };
+
+  const deletePhoto = async (id: string) => {
+    try {
+      await fetch(`/api/photos/${id}`, { method: 'DELETE' });
+    } catch (err) {
+      console.warn('API delete photo err:', err);
+    }
+    setPhotos((prev) => {
+      const updated = prev.filter((p) => p.id !== id);
+      localStorage.setItem(STORAGE_KEYS.PHOTOS, JSON.stringify(updated));
+      return updated;
+    });
+  };
 
   // Admin Auth & View
   const [isAdminLoggedIn, setIsAdminLoggedIn] = useState<boolean>(() => {
@@ -453,8 +674,12 @@ export const DataProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
       clientCases,
       kbliItems,
       appointments,
+      sectionSettings,
+      customSections,
+      publications,
+      photos,
       exportedAt: new Date().toISOString(),
-      version: "1.0.0"
+      version: "1.1.0"
     };
     return JSON.stringify(bundle, null, 2);
   };
@@ -490,6 +715,22 @@ export const DataProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
         setAppointments(bundle.appointments);
         localStorage.setItem(STORAGE_KEYS.APPOINTMENTS, JSON.stringify(bundle.appointments));
       }
+      if (bundle.sectionSettings) {
+        setSectionSettings(bundle.sectionSettings);
+        localStorage.setItem(STORAGE_KEYS.SECTIONS, JSON.stringify(bundle.sectionSettings));
+      }
+      if (bundle.customSections) {
+        setCustomSections(bundle.customSections);
+        localStorage.setItem(STORAGE_KEYS.CUSTOM_SECTIONS, JSON.stringify(bundle.customSections));
+      }
+      if (bundle.publications) {
+        setPublications(bundle.publications);
+        localStorage.setItem(STORAGE_KEYS.PUBLICATIONS, JSON.stringify(bundle.publications));
+      }
+      if (bundle.photos) {
+        setPhotos(bundle.photos);
+        localStorage.setItem(STORAGE_KEYS.PHOTOS, JSON.stringify(bundle.photos));
+      }
       return true;
     } catch (err) {
       console.error("Import failed:", err);
@@ -505,6 +746,10 @@ export const DataProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     setClientCases(INITIAL_CASES_RECORD);
     setKbliItems(INITIAL_KBLI);
     setAppointments(INITIAL_APPOINTMENTS);
+    setSectionSettings(DEFAULT_SECTION_SETTINGS);
+    setCustomSections([]);
+    setPublications(DEFAULT_PUBLICATIONS);
+    setPhotos([]);
 
     localStorage.removeItem(STORAGE_KEYS.SETTINGS);
     localStorage.removeItem(STORAGE_KEYS.PROFILE);
@@ -513,6 +758,10 @@ export const DataProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     localStorage.removeItem(STORAGE_KEYS.CASES);
     localStorage.removeItem(STORAGE_KEYS.KBLI);
     localStorage.removeItem(STORAGE_KEYS.APPOINTMENTS);
+    localStorage.removeItem(STORAGE_KEYS.SECTIONS);
+    localStorage.removeItem(STORAGE_KEYS.CUSTOM_SECTIONS);
+    localStorage.removeItem(STORAGE_KEYS.PUBLICATIONS);
+    localStorage.removeItem(STORAGE_KEYS.PHOTOS);
   };
 
   return (
@@ -546,6 +795,21 @@ export const DataProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
         addAppointmentLog,
         updateAppointmentStatus,
         deleteAppointment,
+        sectionSettings,
+        updateSectionSettings,
+        customSections,
+        addCustomSection,
+        updateCustomSection,
+        deleteCustomSection,
+        publications,
+        addPublication,
+        updatePublication,
+        deletePublication,
+        photos,
+        addPhoto,
+        updatePhoto,
+        deletePhoto,
+        refreshPhotos,
         isAdminLoggedIn,
         loginAdmin,
         logoutAdmin,

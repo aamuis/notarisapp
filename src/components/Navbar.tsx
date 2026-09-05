@@ -15,7 +15,7 @@ export const Navbar: React.FC<NavbarProps> = ({
   activeSection,
   onNavigate,
 }) => {
-  const { notaryProfile, websiteSettings, setCurrentView } = useData();
+  const { notaryProfile, websiteSettings, setCurrentView, sectionSettings, customSections } = useData();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [logoClickCount, setLogoClickCount] = useState(0);
 
@@ -118,73 +118,100 @@ export const Navbar: React.FC<NavbarProps> = ({
             </div>
           </button>
 
-          {/* Desktop Navigation Links */}
-          <nav className="hidden lg:flex items-center space-x-1.5 font-semibold text-sm">
+          {/* Desktop Navigation Links - Single Row, Non-Wrapping, Shortened Labels */}
+          <nav className="hidden lg:flex items-center space-x-1 xl:space-x-1.5 font-semibold text-xs xl:text-sm whitespace-nowrap flex-nowrap shrink-0">
             
             {/* Beranda */}
-            <button
-              onClick={() => handleLinkClick('beranda')}
-              className={`px-3.5 py-2 rounded-xl transition-all flex items-center gap-1.5 cursor-pointer ${
-                activeSection === 'beranda'
-                  ? 'bg-[#059669] text-white font-bold shadow-sm'
-                  : 'text-[#1e3a2b] hover:bg-[#ecfdf5]'
-              }`}
-            >
-              <i className="fa-solid fa-house-chimney text-xs"></i>
-              <span>{lang === 'id' ? 'Beranda' : 'Home'}</span>
-            </button>
+            {(!sectionSettings || sectionSettings.showHero !== false) && (
+              <button
+                onClick={() => handleLinkClick('beranda')}
+                className={`px-2.5 xl:px-3 py-1.5 rounded-xl transition-all flex items-center gap-1.5 cursor-pointer whitespace-nowrap shrink-0 ${
+                  activeSection === 'beranda'
+                    ? 'bg-[#059669] text-white font-bold shadow-xs'
+                    : 'text-[#1e3a2b] hover:bg-[#ecfdf5]'
+                }`}
+              >
+                <i className="fa-solid fa-house-chimney text-[11px]"></i>
+                <span>{lang === 'id' ? 'Beranda' : 'Home'}</span>
+              </button>
+            )}
 
-            {/* Profil Notaris */}
-            <button
-              onClick={() => handleLinkClick('profil')}
-              className={`px-3.5 py-2 rounded-xl transition-all flex items-center gap-1.5 cursor-pointer ${
-                activeSection === 'profil'
-                  ? 'bg-[#059669] text-white font-bold shadow-sm'
-                  : 'text-[#1e3a2b] hover:bg-[#ecfdf5]'
-              }`}
-            >
-              <i className="fa-solid fa-user-tie text-xs"></i>
-              <span>{lang === 'id' ? 'Profil Notaris' : 'Profile'}</span>
-            </button>
+            {/* Profil */}
+            {(!sectionSettings || sectionSettings.showProfile !== false) && (
+              <button
+                onClick={() => handleLinkClick('profil')}
+                className={`px-2.5 xl:px-3 py-1.5 rounded-xl transition-all flex items-center gap-1.5 cursor-pointer whitespace-nowrap shrink-0 ${
+                  activeSection === 'profil'
+                    ? 'bg-[#059669] text-white font-bold shadow-xs'
+                    : 'text-[#1e3a2b] hover:bg-[#ecfdf5]'
+                }`}
+              >
+                <i className="fa-solid fa-user-tie text-[11px]"></i>
+                <span>{lang === 'id' ? 'Profil' : 'Profile'}</span>
+              </button>
+            )}
 
-            {/* Jurnal Ilmiah */}
-            <button
-              onClick={() => handleLinkClick('jurnal')}
-              className={`px-3.5 py-2 rounded-xl transition-all flex items-center gap-1.5 cursor-pointer ${
-                activeSection === 'jurnal'
-                  ? 'bg-[#059669] text-white font-bold shadow-sm'
-                  : 'text-[#1e3a2b] hover:bg-[#ecfdf5]'
-              }`}
-            >
-              <i className="fa-solid fa-book-bookmark text-xs"></i>
-              <span>{lang === 'id' ? 'Jurnal Hukum' : 'Journals'}</span>
-            </button>
+            {/* Jurnal */}
+            {(!sectionSettings || sectionSettings.showPublications !== false) && (
+              <button
+                onClick={() => handleLinkClick('jurnal')}
+                className={`px-2.5 xl:px-3 py-1.5 rounded-xl transition-all flex items-center gap-1.5 cursor-pointer whitespace-nowrap shrink-0 ${
+                  activeSection === 'jurnal'
+                    ? 'bg-[#059669] text-white font-bold shadow-xs'
+                    : 'text-[#1e3a2b] hover:bg-[#ecfdf5]'
+                }`}
+              >
+                <i className="fa-solid fa-book-bookmark text-[11px]"></i>
+                <span>{lang === 'id' ? 'Jurnal' : 'Journals'}</span>
+              </button>
+            )}
 
             {/* Janji Temu */}
-            <button
-              onClick={() => handleLinkClick('kontak')}
-              className={`px-3.5 py-2 rounded-xl transition-all flex items-center gap-1.5 cursor-pointer ${
-                activeSection === 'kontak'
-                  ? 'bg-[#059669] text-white font-bold shadow-sm'
-                  : 'text-[#1e3a2b] hover:bg-[#ecfdf5]'
-              }`}
-            >
-              <i className="fa-solid fa-calendar-check text-xs"></i>
-              <span>{lang === 'id' ? 'Janji Temu Konsultasi' : 'Appointment'}</span>
-            </button>
+            {(!sectionSettings || sectionSettings.showAppointment !== false) && (
+              <button
+                onClick={() => handleLinkClick('kontak')}
+                className={`px-2.5 xl:px-3 py-1.5 rounded-xl transition-all flex items-center gap-1.5 cursor-pointer whitespace-nowrap shrink-0 ${
+                  activeSection === 'kontak'
+                    ? 'bg-[#059669] text-white font-bold shadow-xs'
+                    : 'text-[#1e3a2b] hover:bg-[#ecfdf5]'
+                }`}
+              >
+                <i className="fa-solid fa-calendar-check text-[11px]"></i>
+                <span>{lang === 'id' ? 'Janji Temu' : 'Appointment'}</span>
+              </button>
+            )}
 
-            {/* Lokasi Kantor */}
-            <button
-              onClick={() => handleLinkClick('lokasi')}
-              className={`px-3.5 py-2 rounded-xl transition-all flex items-center gap-1.5 cursor-pointer ${
-                activeSection === 'lokasi'
-                  ? 'bg-[#059669] text-white font-bold shadow-sm'
-                  : 'text-[#1e3a2b] hover:bg-[#ecfdf5]'
-              }`}
-            >
-              <i className="fa-solid fa-map-location-dot text-xs"></i>
-              <span>{lang === 'id' ? 'Lokasi Kantor' : 'Location'}</span>
-            </button>
+            {/* Lokasi */}
+            {(!sectionSettings || sectionSettings.showLocation !== false) && (
+              <button
+                onClick={() => handleLinkClick('lokasi')}
+                className={`px-2.5 xl:px-3 py-1.5 rounded-xl transition-all flex items-center gap-1.5 cursor-pointer whitespace-nowrap shrink-0 ${
+                  activeSection === 'lokasi'
+                    ? 'bg-[#059669] text-white font-bold shadow-xs'
+                    : 'text-[#1e3a2b] hover:bg-[#ecfdf5]'
+                }`}
+              >
+                <i className="fa-solid fa-map-location-dot text-[11px]"></i>
+                <span>{lang === 'id' ? 'Lokasi' : 'Location'}</span>
+              </button>
+            )}
+
+            {/* Custom Sections Added By Admin */}
+            {customSections && customSections.filter(s => s.enabled).map((cs) => (
+              <button
+                key={cs.id}
+                onClick={() => handleLinkClick(cs.id)}
+                className={`px-2.5 xl:px-3 py-1.5 rounded-xl transition-all flex items-center gap-1.5 cursor-pointer whitespace-nowrap shrink-0 ${
+                  activeSection === cs.id
+                    ? 'bg-[#059669] text-white font-bold shadow-xs'
+                    : 'text-[#1e3a2b] hover:bg-[#ecfdf5]'
+                }`}
+                title={cs.title}
+              >
+                <i className="fa-solid fa-layer-group text-[11px]"></i>
+                <span>{cs.navLabel}</span>
+              </button>
+            ))}
 
           </nav>
 
@@ -289,7 +316,7 @@ export const Navbar: React.FC<NavbarProps> = ({
               <div className="w-7 h-7 rounded-lg flex items-center justify-center text-xs bg-white text-[#059669]">
                 <i className="fa-solid fa-book-bookmark"></i>
               </div>
-              <span className="text-xs font-semibold">{lang === 'id' ? 'Jurnal Hukum' : 'Journals'}</span>
+              <span className="text-xs font-semibold">{lang === 'id' ? 'Jurnal' : 'Journals'}</span>
             </button>
 
             <button
@@ -323,6 +350,23 @@ export const Navbar: React.FC<NavbarProps> = ({
               </div>
               <span className="text-xs font-semibold">{lang === 'id' ? 'Lokasi' : 'Location'}</span>
             </button>
+
+            {customSections && customSections.filter(s => s.enabled).map((cs) => (
+              <button
+                key={cs.id}
+                onClick={() => handleLinkClick(cs.id)}
+                className={`p-2.5 rounded-xl text-left flex items-center gap-2 transition-all cursor-pointer ${
+                  activeSection === cs.id
+                    ? 'bg-[#059669] text-white font-bold shadow-sm'
+                    : 'bg-[#ecfdf5] text-[#065f46] border border-[#a7f3d0]'
+                }`}
+              >
+                <div className="w-7 h-7 rounded-lg flex items-center justify-center text-xs bg-white text-[#059669]">
+                  <i className="fa-solid fa-layer-group"></i>
+                </div>
+                <span className="text-xs font-semibold">{cs.navLabel}</span>
+              </button>
+            ))}
           </div>
 
           <div className="p-3 rounded-xl bg-gradient-to-r from-[#ecfdf5] to-[#f0fdf4] border border-[#a7f3d0] flex items-center justify-between text-xs">

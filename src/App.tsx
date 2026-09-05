@@ -14,10 +14,11 @@ import { OfficeLocation } from './components/OfficeLocation';
 import { Footer } from './components/Footer';
 import { MobileBottomNav } from './components/MobileBottomNav';
 import { AdminDashboard } from './components/admin/AdminDashboard';
+import { CustomSectionRenderer } from './components/CustomSectionRenderer';
 import { Language } from './types';
 
 function AppContent() {
-  const { currentView, setCurrentView, isAdminLoggedIn, logoutAdmin } = useData();
+  const { currentView, setCurrentView, isAdminLoggedIn, logoutAdmin, sectionSettings, customSections } = useData();
   const [lang, setLang] = useState<Language>('id');
   const [activeSection, setActiveSection] = useState<string>('beranda');
 
@@ -91,21 +92,34 @@ function AppContent() {
       <main className="flex-1 pb-24 md:pb-0">
         
         {/* Section 1: Hero Banner */}
-        <div id="beranda">
-          <Hero lang={lang} onNavigate={handleNavigate} />
-        </div>
+        {(!sectionSettings || sectionSettings.showHero !== false) && (
+          <div id="beranda">
+            <Hero lang={lang} onNavigate={handleNavigate} />
+          </div>
+        )}
 
         {/* Section 2: Profile Section */}
-        <ProfileSection lang={lang} onNavigate={handleNavigate} />
+        {(!sectionSettings || sectionSettings.showProfile !== false) && (
+          <ProfileSection lang={lang} onNavigate={handleNavigate} />
+        )}
 
         {/* Section 3: Publications & Legal Journals */}
-        <PublicationsSection lang={lang} />
+        {(!sectionSettings || sectionSettings.showPublications !== false) && (
+          <PublicationsSection lang={lang} />
+        )}
+
+        {/* Custom Sections Managed from Admin Dashboard */}
+        <CustomSectionRenderer sections={customSections || []} lang={lang} />
 
         {/* Section 4: Online Appointment Reservation Form to WhatsApp */}
-        <AppointmentSection lang={lang} />
+        {(!sectionSettings || sectionSettings.showAppointment !== false) && (
+          <AppointmentSection lang={lang} />
+        )}
 
         {/* Section 5: Responsive Google Maps Office Location & Hours */}
-        <OfficeLocation lang={lang} />
+        {(!sectionSettings || sectionSettings.showLocation !== false) && (
+          <OfficeLocation lang={lang} />
+        )}
 
       </main>
 
